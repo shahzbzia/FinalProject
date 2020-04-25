@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'firstName', 'lastName', 'email', 'password', 'countryCode', 'number', 'image', 'coverImage', 'theme_id', 'role_id', 'address', 'gender_id', 'birthDate', 'profession', 'aboutMe',
     ];
 
     /**
@@ -35,5 +35,22 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birthDate' => 'datetime',
     ];
+
+    public function theme(){
+        return $this->belongsTo(Theme::class, 'theme_id');
+    }
+
+    public function role(){
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function gender(){
+        return $this->belongsTo(Gender::class, 'gender_id');
+    }
+
+    public function checkRole(){
+        return $this->role_id;
+    }
 }

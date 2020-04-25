@@ -2,76 +2,390 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
+    <div class="align-middle mx-auto mt-12 @guest w-3/5 @else w-4/5 @endif ">
 
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+        <h2 class="text-2xl @auth text-{{$user->theme->value}}-500 @else text-black @endauth font-bold tracking-widest uppercase font-mono mb-2 ml-4">{{ isset($user) ? 'Edit Profile' : 'Sign Up' }}</h2>
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+        <form class="bg-white shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4" method="POST" action="{{ isset($user) ? route('user.update', $user->id) : route('register') }}" enctype="multipart/form-data">
 
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+            @csrf
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+            @if(isset($user))
+                @method('PUT')
+            @endif
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+            <div class="flex justify-between">
+                <h5 class="text-base font-bold">Personal Informaton</h5>
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                @guest
+                    <p class="text-sm"><span class="text-red-500">*</span> required fields</p>
+                @endguest
+            </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+            <hr class="mt-2 mb-3">
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+            <div class="flex justify-between">
+                <div class="mb-4 w-2/5">
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="firstName">
+                        First Name @guest <span class="text-red-500">*</span> @endguest
+                    </label>
 
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                    <input id="firstName" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('firstName') bg-red-200 @enderror" name="firstName" value="{{ isset($user) ? $user->firstName : old('firstName') }}" required autocomplete="firstName" placeholder="Ben" autofocus>
 
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
+                    @error('firstName')
+                        <span class="text-red-500 text-xs italic" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                </div>
+
+                <div class="mb-4 w-2/5">
+
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="lastName">
+                        Last Name @guest <span class="text-red-500">*</span> @endguest
+                    </label>
+
+                    <input id="lastName" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('lastName') bg-red-200 @enderror" name="lastName" value="{{ isset($user) ? $user->lastName : old('lastName') }}" required autocomplete="lastName" placeholder="Dover" autofocus>
+
+                    @error('lastName')
+                        <span class="text-red-500 text-xs italic" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+
                 </div>
             </div>
-        </div>
+
+            <div class="mb-4">
+
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="birthDate">
+                    Date of birth @guest <span class="text-red-500">*</span> @endguest
+                </label>
+
+                <input id="birthDate" type="date" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('birthDate') bg-red-200 @enderror" name="birthDate" value="{{ isset($user) ? $user->birthDate : old('birthDate') }}" required autocomplete="birthDate" autofocus>
+
+                @error('birthDate')
+                    <span class="text-red-500 text-xs italic" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="w-full text-gray-700 text-sm font-semibold mb-2" for="gender_id">
+
+                    Gender @guest <span class="text-red-500">*</span> @endguest
+
+                </label>
+
+                <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-3 py-2 pr-8 rounded shadow-md leading-tight focus:outline-none focus:shadow-outline @error('gender_id') bg-red-200 @enderror" name="gender_id" id="gender_id" required autofocus>
+
+                    @foreach ($genders as $g)
+                        <option value="{{ $g->id }}"
+                            
+                            @if (isset($user))
+
+                                @if ($g->id === $user->gender_id)
+
+                                    selected
+
+                                @endif
+
+                            @endif
+
+                            >
+
+                            {{ $g->gender_name }}
+
+                        </option>
+
+                    @endforeach
+
+                </select>
+
+            
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="profession">
+                    Profession
+                </label>
+
+                <input id="profession" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('profession') bg-red-200 @enderror" name="profession" value="{{ isset($user) ? $user->profession : old('profession') }}" autocomplete="profession" placeholder="Artist" autofocus>
+
+                @error('profession')
+                    <span class="text-red-500 text-xs italic" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="block text-gray-700 text-sm font-semibold mb-2" for="aboutMe">
+
+                    About Me
+
+                </label>
+
+                <textarea name="aboutMe" rows="1" cols="50" id="aboutMe" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('aboutMe') bg-red-200 @enderror" > {{ isset ($user) ? $user->aboutMe : old('aboutMe') }} </textarea>
+
+                @error('aboutMe')
+                    <span class="text-red-500 text-xs italic" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+
+            </div>
+
+            <h5 class="text-base font-bold">Contact Details</h5>
+
+            <hr class="mt-2 mb-3">
+            
+            @guest
+                <div class="mb-4">
+
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                        Email  <span class="text-red-500">*</span> 
+                    </label>
+
+                    <input id="email" type="email" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('email') bg-red-200 @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="example@gmail.com" autofocus>
+
+                    @error('email')
+                        <span class="text-red-500 text-xs italic" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+
+                </div>
+            @endguest
+
+            <div class="flex justify-between">
+                <div class="mb-4 w-1/6">
+
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="countryCode">
+                        Country Code @guest <span class="text-red-500">*</span> @endguest
+                    </label>
+
+                    <input id="countryCode" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('countryCode') bg-red-200 @enderror" name="countryCode" value="{{ isset($user) ? $user->countryCode : old('countryCode') }}" required autocomplete="countryCode" placeholder="+32" autofocus>
+
+                    @error('countryCode')
+                        <span class="text-red-500 text-xs italic" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+
+                </div>
+
+                <p class="mt-8">-</p>
+                    
+                <div class="mb-4 w-9/12">
+
+                    <div class="flex">
+
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="number">
+                            Phone Number @guest <span class="text-red-500">*</span> @endguest
+                        </label>
+
+                        <p class="text-gray-500 ml-1 text-xs mt-1">(without the first 0)</p>
+
+                    </div>
+
+                    <input id="number" type="number" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('number') bg-red-200 @enderror" name="number" value="{{ isset($user) ? $user->number : old('number') }}" required autocomplete="number" placeholder="487944118" autofocus>
+
+                    @error('number')
+                        <span class="text-red-500 text-xs italic" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+
+                </div>
+            </div>
+
+            <div class="mb-4">
+
+                <label class="block text-gray-700 text-sm font-semibold mb-2" for="address">
+
+                    Address @guest <span class="text-red-500">*</span> @endguest
+
+                </label>
+
+                <textarea name="address" rows="2" cols="50" id="address" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('address') bg-red-200 @enderror" > {{ isset ($user) ? $user->address : old('address') }} </textarea>
+
+                @error('address')
+                    <span class="text-red-500 text-xs italic" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+
+            </div>
+
+            <h5 class="text-base font-bold">Photos</h5>
+
+            <hr class="mt-2 mb-3">
+
+            @auth
+                <div class="flex">
+
+                    <div>
+                        @if ($user->image)
+                            <img class="mb-3" width="100" height="100" src="{{ asset("storage/".$user->image) }}" alt="">
+                        @else
+                            <img class="mb-3" width="100" height="100" src="{{ asset('/images/blank-profile.png') }}">
+                        @endif
+                    </div>
+                    
+                    <div style="margin-left: 328px">
+                        @if ($user->coverImage)
+                            <img class="mb-3" width="100" height="100" src="{{ asset("storage/".$user->coverImage) }}" alt="">
+                        @else
+                            <img class="mb-3" width="100" height="100" src="{{ asset('/images/plain-cover.jpg') }}">
+                        @endif
+                    </div>
+                </div>
+            @endauth
+
+            <div class="flex justify-between">
+                <div class="mb-4 w-2/5">
+
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="image">
+                        Profile Picture
+                    </label>
+
+                    <input id="image" type="file" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('image') bg-red-200 @enderror" name="image" value="{{ old('image') }}" autocomplete="image" autofocus>
+
+                    @error('image')
+                        <span class="text-red-500 text-xs italic" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+
+                </div>
+
+                <div class="mb-4 w-2/5">
+
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="coverImage">
+                        Cover Picture
+                    </label>
+
+                    <input id="coverImage" type="file" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('coverImage') bg-red-200 @enderror" name="coverImage" value="{{ old('coverImage') }}" autocomplete="coverImage" autofocus>
+
+                    @error('coverImage')
+                        <span class="text-red-500 text-xs italic" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+
+                </div>
+            </div>
+
+            <div class="flex justify-between">
+                <h5 class="text-base font-bold">Theme</h5>
+            </div>
+
+            <hr class="mt-2 mb-3">
+
+            <div class="mb-4">
+
+                <label class="w-full text-gray-700 text-sm font-semibold mb-2" for="theme_id">
+
+                    Select Theme
+
+                </label>
+
+                <select class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-3 py-2 pr-8 rounded shadow-md leading-tight focus:outline-none focus:shadow-outline @error('theme_id') bg-red-200 @enderror" name="theme_id" id="theme_id" required autofocus>
+
+                    @foreach ($themes as $t)
+                        <option value="{{ $t->id }}"
+                            
+                            @if (isset($user))
+
+                                @if ($t->id === $user->theme_id)
+
+                                    selected
+
+                                @endif
+
+                            @endif
+
+                            >
+
+                            {{ $t->name }}
+
+                        </option>
+
+                    @endforeach
+
+                </select>
+
+            
+
+            </div>  
+
+
+            @guest 
+
+
+            <div class="flex justify-between">
+                <h5 class="text-base font-bold">Password</h5>
+            </div>
+
+            <hr class="mt-2 mb-3">
+
+            
+            <div class="flex justify-between">
+                <div class="mb-4 w-2/5">
+
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                        Password <span class="text-red-500">*</span>
+                    </label>
+
+                    <input id="password" type="password" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('password') bg-red-200 @enderror" name="password" value="{{ old('password') }}" required autocomplete="password" placeholder="minimum 8 letters" autofocus>
+
+                    @error('password')
+                        <span class="text-red-500 text-xs italic" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+
+                </div>
+
+                <div class="mb-6 w-2/5">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="password-confirm">
+                        Confirm Password <span class="text-red-500">*</span>
+                    </label>
+
+                    <input id="password-confirm" type="password" class="shadow-md appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline @error('password-confirm ') bg-red-200 @enderror" name="password_confirmation" required autocomplete="new-password" placeholder="minimum 8 letters">
+
+                    @error('password')
+                        <span class="text-red-500 text-xs italic" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+
+                </div>
+            </div>
+            @endguest
+
+            <div class="flex items-center justify-between">
+
+                <button class="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    {{ isset($user) ? 'Save' : 'Lets GO!' }}
+                </button>
+
+            </div>
+
+        </form>
+
     </div>
+
 </div>
 @endsection
