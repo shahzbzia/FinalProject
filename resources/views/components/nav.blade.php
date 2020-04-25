@@ -17,7 +17,7 @@
 
   <div class="flex items-center flex-shrink-0 text-white mr-56 ml-6">
 
-    <a class="font-bold text-2xl tracking-tight hover:no-underline hover:text-white" href="">Task Management System</a>
+    <a class="font-bold text-2xl tracking-tight hover:no-underline hover:text-white" href="">Final Project <span class="text-sm">Real name TBA</span></a>
 
   </div>
 
