@@ -242,7 +242,7 @@
                             @endif
 
                             @if (App::environment('production'))
-                                <img class="mb-3" width="100" height="100" src="{{ asset("storage/app/".$user->image) }}" alt="">
+                                <img class="mb-3" width="100" height="100" src="{{ asset("storage/app/public/".$user->image) }}" alt="">
                             @endif
                         @else
                             <img class="mb-3" width="100" height="100" src="{{ asset('/images/blank-profile.png') }}">
@@ -256,7 +256,7 @@
                             @endif
 
                             @if (App::environment('production'))
-                                <img class="mb-3" width="100" height="100" src="{{ asset("storage/app/".$user->coverImage) }}" alt="">
+                                <img class="mb-3" width="100" height="100" src="{{ asset("storage/app/public/".$user->coverImage) }}" alt="">
                             @endif
                         @else
                             <img class="mb-3" width="100" height="100" src="{{ asset('/images/plain-cover.jpg') }}">
