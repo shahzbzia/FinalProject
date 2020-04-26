@@ -7,7 +7,7 @@
 
         <h2 class="text-2xl @auth text-{{$user->theme->value}}-500 @else text-black @endauth font-bold tracking-widest uppercase font-mono mb-2 ml-4">{{ isset($user) ? 'Edit Profile' : 'Sign Up' }}</h2>
 
-        <form class="bg-white shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4" method="POST" action="{{ isset($user) ? route('user.update', $user->id) : route('register') }}" enctype="multipart/form-data">
+        <form class="bg-white shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4" method="POST" action="{{ isset($user) ? route('user.update', Auth::user()->id) : route('register') }}" enctype="multipart/form-data">
 
             @csrf
 
@@ -65,7 +65,7 @@
                     Date of birth @guest <span class="text-red-500">*</span> @endguest
                 </label>
 
-                <input id="birthDate" type="date" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('birthDate') bg-red-200 @enderror" name="birthDate" value="{{ isset($user) ? $user->birthDate : old('birthDate') }}" required autocomplete="birthDate" autofocus>
+                <input id="birthDate" type="date" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('birthDate') bg-red-200 @enderror" name="birthDate" value="{{ isset($user) ? $user->birthDate->format('Y-m-d') : old('birthDate')->format('Y-m-d') }}"  required autocomplete="birthDate" autofocus>
 
                 @error('birthDate')
                     <span class="text-red-500 text-xs italic" role="alert">

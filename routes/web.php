@@ -20,3 +20,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('/edit/profile', 'UserController@showUserEditForm')->name('user.showUserEditForm');
+
+Route::put('/edit/profile/update/{id}', 'UserController@update')->name('user.update');
