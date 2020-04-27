@@ -34,35 +34,37 @@
   @endphp
   
 
-  <div id="getWidth" class="flex justify-around mr-8">
-    <img class="border-2" id="avatarImage" width="50" height="50" src="{{ $pathImage }}">
-        
-    <div class="ml-3 text-white font-semibold">
-      <h5 class="text-base">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
-      <p class="text-xs text-left">{{ $userProfession }}</p>
+  <div>
+    <div id="getWidth" class="flex justify-around mr-8">
+      <img class="border-2" id="avatarImage" width="50" height="50" src="{{ $pathImage }}">
+          
+      <div class="ml-3 text-white font-semibold">
+        <h5 class="text-base">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
+        <p class="text-xs text-left">{{ $userProfession }}</p>
+      </div>
+
+      <button class="ml-4 focus:outline-none">
+        <img class="dropbtn" width="14" height="14" src="{{ $pathArrow }}" onclick="myFunction()">
+      </button>
     </div>
 
-    <button class="ml-4 focus:outline-none">
-      <img class="dropbtn" width="14" height="14" src="{{ $pathArrow }}" onclick="myFunction()">
-    </button>
-  </div>
+    <div id="myDropdown" class=" text-base dropdown-content rounded-lg py-2">
 
-  <div id="myDropdown" class=" text-base dropdown-content rounded-lg py-2">
+      <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline">Home</a>
 
-    <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline">Home</a>
+      <a href="" class="{{-- @if (Route::currentRouteName() == 'user.index') active @endif --}} block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline">Profile</a>
 
-    <a href="" class="{{-- @if (Route::currentRouteName() == 'user.index') active @endif --}} block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline">Profile</a>
+      <a class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline" href="{{ route('logout') }}"
+         onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+          {{ __('Logout') }}
+      </a>
 
-    <a class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline" href="{{ route('logout') }}"
-       onclick="event.preventDefault();
-          document.getElementById('logout-form').submit();">
-        {{ __('Logout') }}
-    </a>
+      <form id="logout-form" action="{{ route('logout') }}" method="POST">
+          @csrf
+      </form>
 
-    <form id="logout-form" action="{{ route('logout') }}" method="POST">
-        @csrf
-    </form>
-
+    </div>
   </div>
 
 </nav>
@@ -94,6 +96,8 @@ window.onclick = function(e) {
     z-index: 1;
     margin-top: 212px;
     top: -142px;
+    margin-left:auto;
+    margin-right:auto;
   }
 
   .show {

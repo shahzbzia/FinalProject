@@ -75,9 +75,8 @@
                 if(document.getElementById('getWidth')){
                     var width = document.getElementById('getWidth').offsetWidth;
                     document.querySelector("div.dropdown-content").style.width = width+'px';
-
-                    var avatarImage = document.getElementById("avatarImage");
-                    document.querySelector("div.dropdown-content").style.marginLeft = avatarImage.offsetLeft+'px';
+                    // var avatarImage = document.getElementById("avatarImage");
+                    // document.querySelector("div.dropdown-content").style.marginLeft = avatarImage.offsetLeft+'px';
                 }
               }
             }
