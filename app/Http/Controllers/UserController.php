@@ -12,6 +12,14 @@ use App\User;
 
 class UserController extends Controller
 {
+
+	public function ownProfile($id)
+    {
+        $user = User::whereId($id)->firstOrFail();
+        return view('profile')->with('user', $user);
+    }
+
+
     public function showUserEditForm()
     {
 
@@ -101,4 +109,6 @@ class UserController extends Controller
 
         return redirect(route('home'));
     }
+
+
 }

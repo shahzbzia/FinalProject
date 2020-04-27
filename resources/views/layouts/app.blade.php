@@ -23,6 +23,8 @@
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
         <!-- Styles -->
         @if (App::environment('local'))
             <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -63,6 +65,27 @@
             </div>
             
         </div>
+
+        <script>
+            function checkMedia(x) {
+              if (x.matches) { // If media query matches
+                
+              } 
+              else {
+                if(document.getElementById('getWidth')){
+                    var width = document.getElementById('getWidth').offsetWidth;
+                    document.querySelector("div.dropdown-content").style.width = width+'px';
+
+                    var avatarImage = document.getElementById("avatarImage");
+                    document.querySelector("div.dropdown-content").style.marginLeft = avatarImage.offsetLeft+'px';
+                }
+              }
+            }
+
+            var x = window.matchMedia("(max-width: 700px)")
+            checkMedia(x)
+            x.addListener(checkMedia)
+        </script>
         
     </body>
 

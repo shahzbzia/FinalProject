@@ -17,52 +17,88 @@
 
   <div class="flex items-center flex-shrink-0 text-white mr-56 ml-6">
 
-    <a class="font-bold text-2xl tracking-tight hover:no-underline hover:text-white" href="">Final Project <span class="text-sm">Real name TBA</span></a>
+    <a class="font-bold text-2xl tracking-tight hover:no-underline hover:text-white my-3" href="{{ route('home') }}">ARTillary</a>
 
   </div>
 
-  <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+  @php
+    $pathImage = (Auth::user()->image) ? asset("storage/".Auth::user()->image) : asset('/images/blank-profile.png');
 
-    <ul class="list-reset align-middle my-4 font-semibold">
+    if(App::environment('production')) {
+      $pathImage = (Auth::user()->image) ? asset("storage/app/public/".Auth::user()->image) : asset('/public/images/blank-profile.png');
+    }
 
-    <div class="flex">
-      <li>
-        <a href="" class="{{-- @if (Route::currentRouteName() == 'todos.index') active @endif --}} block lg:inline-block lg:mt-0 text-gray-100 hover:underline hover:text-white mr-4">Home</a>
-      </li>
+    $pathArrow = (App::environment('production')) ? asset('/public/images/down-arrow.png') : asset('/images/down_arrow.png');
 
-      <li>
-        <a href="" class="{{-- @if (Route::currentRouteName() == 'todos.create') active @endif --}} block lg:inline-block lg:mt-0 text-gray-100 hover:underline hover:text-white mr-4">Create</a>
-      </li>
+    $userProfession = (Auth::user()->profession) ? Auth::user()->profession : 'Artist';
+  @endphp
+  
 
-      <li>
-        <a href="" class="{{-- @if (Route::currentRouteName() == 'user.index') active @endif --}} block lg:inline-block lg:mt-0 text-gray-100 hover:underline hover:text-white mr-4">Profile</a>
-      </li>
-
-      {{-- <li>
-        <a href="" class="block lg:inline-block lg:mt-0 text-gray-100 hover:underline hover:text-white mr-4">Diary</a>
-      </li> --}}
-
-      <li>
-
-        <a class="block lg:inline-block lg:mt-0 text-gray-100 hover:underline hover:text-white mr-4" href="{{ route('logout') }}"
-           onclick="event.preventDefault();
-                         document.getElementById('logout-form').submit();">
-            {{ __('Logout') }}
-        </a>
-
-        <form id="logout-form" action="{{ route('logout') }}" method="POST">
-            @csrf
-        </form>
-      </li>
+  <div id="getWidth" class="flex justify-around mr-8">
+    <img class="border-2" id="avatarImage" width="50" height="50" src="{{ $pathImage }}">
+        
+    <div class="ml-3 text-white font-semibold">
+      <h5 class="text-base">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
+      <p class="text-xs text-left">{{ $userProfession }}</p>
     </div>
 
-          
-      </ul>
+    <button class="ml-4 focus:outline-none">
+      <img class="dropbtn" width="14" height="14" src="{{ $pathArrow }}" onclick="myFunction()">
+    </button>
+  </div>
 
-    </div>
+  <div id="myDropdown" class=" text-base dropdown-content rounded-lg py-2">
+
+    <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline">Home</a>
+
+    <a href="" class="{{-- @if (Route::currentRouteName() == 'user.index') active @endif --}} block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline">Profile</a>
+
+    <a class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline" href="{{ route('logout') }}"
+       onclick="event.preventDefault();
+          document.getElementById('logout-form').submit();">
+        {{ __('Logout') }}
+    </a>
+
+    <form id="logout-form" action="{{ route('logout') }}" method="POST">
+        @csrf
+    </form>
 
   </div>
 
 </nav>
+
+
+
+<script>
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+  var myDropdown = document.getElementById("myDropdown");
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+}
+
+</script>
+
+<style>
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-top: 212px;
+
+  }
+
+  .show {
+    display: block;
+  }
+</style>
 
 @endauth

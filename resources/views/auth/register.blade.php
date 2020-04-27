@@ -65,7 +65,7 @@
                     Date of birth @guest <span class="text-red-500">*</span> @endguest
                 </label>
 
-                <input id="birthDate" type="date" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('birthDate') bg-red-200 @enderror" name="birthDate" value="{{ isset($user) ? $user->birthDate->format('Y-m-d') : old('birthDate')->format('Y-m-d') }}"  required autocomplete="birthDate" autofocus>
+                <input id="birthDate" type="date" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('birthDate') bg-red-200 @enderror" name="birthDate" value="{{ isset($user) ? $user->birthDate->format('Y-m-d') : old('birthDate') }}"  required autocomplete="birthDate" autofocus>
 
                 @error('birthDate')
                     <span class="text-red-500 text-xs italic" role="alert">
@@ -245,7 +245,13 @@
                                 <img class="mb-3" width="100" height="100" src="{{ asset("storage/app/public/".$user->image) }}" alt="">
                             @endif
                         @else
-                            <img class="mb-3" width="100" height="100" src="{{ asset('/images/blank-profile.png') }}">
+                            @if (App::environment('local'))
+                                <img class="mb-3" width="100" height="100" src="{{ asset('/images/blank-profile.png') }}">
+                            @endif
+
+                            @if (App::environment('production'))
+                                <img class="mb-3" width="100" height="100" src="{{ asset('/public/images/blank-profile.png') }}">
+                            @endif
                         @endif
                     </div>
                     
@@ -259,7 +265,13 @@
                                 <img class="mb-3" width="100" height="100" src="{{ asset("storage/app/public/".$user->coverImage) }}" alt="">
                             @endif
                         @else
-                            <img class="mb-3" width="100" height="100" src="{{ asset('/images/plain-cover.jpg') }}">
+                            @if (App::environment('local'))
+                                <img class="mb-3" width="100" height="100" src="{{ asset('/images/plain-cover.jpg') }}">
+                            @endif
+
+                            @if (App::environment('production'))
+                                <img class="mb-3" width="100" height="100" src="{{ asset('/public/images/plain-cover.jpg') }}">
+                            @endif
                         @endif
                     </div>
                 </div>
