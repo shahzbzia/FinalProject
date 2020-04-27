@@ -93,7 +93,7 @@ window.onclick = function(e) {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     margin-top: 212px;
-    top: 0;
+    top: -142px;
   }
 
   .show {
