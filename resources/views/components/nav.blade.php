@@ -28,7 +28,7 @@
       $pathImage = (Auth::user()->image) ? asset("storage/app/public/".Auth::user()->image) : asset('/public/images/blank-profile.png');
     }
 
-    $pathArrow = (App::environment('production')) ? asset('public/images/down-arrow.png') : asset('/images/down_arrow.png');
+    $pathArrow = (App::environment('production')) ? asset('/public/images/down_arrow.png') : asset('/images/down_arrow.png');
 
     $userProfession = (Auth::user()->profession) ? Auth::user()->profession : 'Artist';
   @endphp
