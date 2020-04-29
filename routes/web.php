@@ -24,5 +24,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/edit/profile', 'UserController@showUserEditForm')->name('user.showUserEditForm');
 	Route::put('/edit/profile/update/{id}', 'UserController@update')->name('user.update');
+	Route::get('/profile/user/{userName}', 'UserController@profile')->name('user.profile');
+	Route::post('/search/name', 'UserController@nameList')->name('nameSearch');
+	Route::get('/search/user/{query}', 'UserController@nameListAllResults')->name('nameListAllResults');
 
 });

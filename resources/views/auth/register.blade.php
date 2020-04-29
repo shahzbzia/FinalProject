@@ -59,6 +59,22 @@
                 </div>
             </div>
 
+            <div class="mb-4 w-2/5">
+
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="userName">
+                        User name @guest <span class="text-red-500">*</span> @endguest
+                    </label>
+
+                    <input id="userName" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('userName') bg-red-200 @enderror" name="userName" value="{{ isset($user) ? $user->userName : old('userName') }}" required autocomplete="userName" placeholder="Dover" autofocus>
+
+                    @error('userName')
+                        <span class="text-red-500 text-xs italic" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+
+                </div>
+
             <div class="mb-4">
 
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="birthDate">
@@ -235,44 +251,30 @@
             @auth
                 <div class="flex">
 
+                    @php
+                        $coverImage = ($user->coverImage) ? asset("storage/".$user->coverImage) : asset('/images/plain-cover.jpg');
+
+                        if(App::environment('production')) {
+                          $coverImage = ($user->coverImage) ? asset("storage/app/public/".$user->coverImage) : asset('/public/images/plain-cover.jpg');
+                        }
+
+                        $userImage = ($user->image) ? asset("storage/".$user->image) : asset('/images/blank-profile.png');
+
+                        if(App::environment('production')) {
+                          $userImage = (Auth::user()->image) ? asset("storage/app/public/".$user->image) : asset('/public/images/blank-profile.png');
+                        }
+                    @endphp
+
                     <div>
-                        @if ($user->image)
-                            @if (App::environment('local'))
-                                <img class="mb-3" width="100" height="100" src="{{ asset("storage/".$user->image) }}" alt="">
-                            @endif
 
-                            @if (App::environment('production'))
-                                <img class="mb-3" width="100" height="100" src="{{ asset("storage/app/public/".$user->image) }}" alt="">
-                            @endif
-                        @else
-                            @if (App::environment('local'))
-                                <img class="mb-3" width="100" height="100" src="{{ asset('/images/blank-profile.png') }}">
-                            @endif
-
-                            @if (App::environment('production'))
-                                <img class="mb-3" width="100" height="100" src="{{ asset('/public/images/blank-profile.png') }}">
-                            @endif
-                        @endif
+                        <img class="mb-3" width="100" height="100" src="{{ $userImage }}" alt="">
+                            
                     </div>
                     
                     <div style="margin-left: 328px">
-                        @if ($user->coverImage)
-                            @if (App::environment('local'))
-                                <img class="mb-3" width="100" height="100" src="{{ asset("storage/".$user->coverImage) }}" alt="">
-                            @endif
 
-                            @if (App::environment('production'))
-                                <img class="mb-3" width="100" height="100" src="{{ asset("storage/app/public/".$user->coverImage) }}" alt="">
-                            @endif
-                        @else
-                            @if (App::environment('local'))
-                                <img class="mb-3" width="100" height="100" src="{{ asset('/images/plain-cover.jpg') }}">
-                            @endif
-
-                            @if (App::environment('production'))
-                                <img class="mb-3" width="100" height="100" src="{{ asset('/public/images/plain-cover.jpg') }}">
-                            @endif
-                        @endif
+                        <img class="mb-3" width="100" height="100" src="{{ $coverImage }}" alt="">
+                           
                     </div>
                 </div>
             @endauth

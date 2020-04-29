@@ -37,6 +37,7 @@ class UpdateProfileRequest extends FormRequest
             'gender_id' => 'required', 
             'birthDate' => 'required|date|before:today', 
             'profession' => 'nullable|string', 
+            //'userName' => 'required|string|unique:users',
             'aboutMe' => 'nullable|string',
         ];
     }

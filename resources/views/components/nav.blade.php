@@ -1,5 +1,5 @@
 @guest
-  <ul class="list-reset">
+<ul class="list-reset">
   <div class="flex justify-end">
     <li>
       <a href="{{ route('login') }}" class=" @if (Route::currentRouteName() == 'login') active @endif block mt-4 lg:inline-block lg:mt-0 text-black hover:underline hover:text-black mr-10 font-semibold">Login</a>
@@ -19,6 +19,14 @@
 
     <a class="font-bold text-2xl tracking-tight hover:no-underline hover:text-white my-3" href="{{ route('home') }}">ARTillary</a>
 
+  </div>
+
+  <div class="max-w-sm ml-192">
+    <div class="flex items-center border-b border-b-2 border-white py-2"> 
+      <input class="searchInput bg-transparent border-none w-4/5 text-white mr-3 py-1 px-2 leading-tight focus:outline-none placeholder-white" name="nameSearch" id="nameSearch" type="text" placeholder="Search Artists by Name or User name">
+    </div>
+    <div id="nameList" class="dropdown-nameSearch text-base rounded-lg py-2"></div>
+    @csrf
   </div>
 
   @php
@@ -52,7 +60,7 @@
 
       <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline">Home</a>
 
-      <a href="" class="{{-- @if (Route::currentRouteName() == 'user.index') active @endif --}} block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline">Profile</a>
+      <a href="{{ route('user.profile', Auth::user()->userName) }}" class="{{-- @if (Route::currentRouteName() == 'user.index') active @endif --}} block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline">Profile</a>
 
       <a class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline" href="{{ route('logout') }}"
          onclick="event.preventDefault();
@@ -85,24 +93,34 @@ window.onclick = function(e) {
   }
 }
 
+$(document).ready(function(){
+
+  $('#nameSearch').keyup(function(){
+
+    var query = $(this).val();
+    if(query != '')
+    {
+      var _token = $('input[name="_token"]').val();
+    }
+    $.ajax({
+      url:"{{ route('nameSearch') }}",
+      method: "POST",
+      data: {query:query, _token:_token},
+      success:function(data){
+        $('#nameList').fadeIn();
+        $('#nameList').html(data);
+        $(document).on('click', function(e) {
+          if ( ! $(e.target).closest('#nameList').length ) {
+            $('#nameList').hide();
+          }
+        })
+      }
+    })
+
+  });
+
+});
+
 </script>
-
-<style>
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    margin-top: 212px;
-    top: -142px;
-    margin-left:auto;
-    margin-right:auto;
-  }
-
-  .show {
-    display: block;
-  }
-</style>
 
 @endauth

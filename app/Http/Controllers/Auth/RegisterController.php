@@ -56,6 +56,7 @@ class RegisterController extends Controller
             'birthDate' => $data['birthDate'], 
             'profession' => $data['profession'], 
             'aboutMe' => $data['aboutMe'],
+            'userName' => $data['userName']
         ]);
 
         if(request()->hasFile('image')) {

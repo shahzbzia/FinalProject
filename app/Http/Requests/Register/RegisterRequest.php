@@ -22,6 +22,7 @@ class RegisterRequest extends FormRequest
         'birthDate' => 'required|date|before:today', 
         'profession' => 'nullable|string', 
         'aboutMe' => 'nullable|string',
+        'userName' => 'required|string|unique:users',
     ];
     
     /**

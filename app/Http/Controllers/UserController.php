@@ -13,12 +13,13 @@ use App\User;
 class UserController extends Controller
 {
 
-	public function ownProfile($id)
+    public $requestQuery = '';
+
+	public function profile($userName)
     {
-        $user = User::whereId($id)->firstOrFail();
+        $user = User::where("userName", $userName)->firstOrFail();
         return view('profile')->with('user', $user);
     }
-
 
     public function showUserEditForm()
     {
@@ -84,6 +85,7 @@ class UserController extends Controller
             'birthDate' => $request->birthDate,
             'profession' => $request->profession,
             'aboutMe' => $request->aboutMe,
+        	'userName' => $request->userName,
 
         ]);
 
@@ -108,6 +110,46 @@ class UserController extends Controller
         session()->flash('success', 'Profile updated successfully.');
 
         return redirect(route('home'));
+    }
+
+    public function nameList(Request $request){
+
+        if($request->get('query')){
+
+            $query = $request->get('query');
+            $data = User::where('firstName', 'LIKE', "%{$query}%")
+                    ->orWhere('lastName', 'LIKE', "%{$query}%")
+                    ->orWhere('userName', 'LIKE', "%{$query}%")
+                    ->orderBy('firstName', 'asc')
+                    ->limit(5)
+                    ->get();
+            $output = '<ul >';
+
+            foreach ($data as $row) {
+                $output .= '<li><a class="block px-4 py-2 text-gray-800 hover:bg-'. Auth::user()->theme->value.'-500 hover:no-underline hover:text-white" href="'.route('user.profile', $row->userName).'">' . $row->firstName . ' ' . $row->lastName .'</a></li>';
+            }
+
+            $output .= '</ul>';
+
+            $output .= '<a href="'.route('nameListAllResults', $query).'" class="block px-4 py-2 text-blue-800 font-semibold hover:underline">See all results for "'.$query.'"</a>';
+            //$requestQuery = $query;
+            echo $output;
+
+        }
+
+    }
+
+    public function nameListAllResults($query){
+
+        $users = User::where('firstName', 'LIKE', "%{$query}%")
+                ->orWhere('lastName', 'LIKE', "%{$query}%")
+                ->orWhere('userName', 'LIKE', "%{$query}%")
+                ->orderBy('firstName', 'asc')
+                ->get();
+
+        return view('nameSearchResults')
+            ->with('users', $users)
+            ->with('query', $query);
     }
 
 
