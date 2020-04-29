@@ -1,4 +1,4 @@
-<aside class="w-1/5 mt-3 leading-none">
+<aside class="w-1/5 mt-3 leading-none hidden md:block lg:block xl:block">
                         
     <section class="mb-8">
         <h5 class="uppercase mb-4 font-bold">Quick Links</h5>

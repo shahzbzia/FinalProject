@@ -11182,9 +11182,9 @@ video {
   }
 }
 
-@media (min-width: 1024px){
+@media (min-width: 1025px){
   .container{
-    max-width: 1024px;
+    max-width: 1025px;
   }
 }
 
@@ -18069,7 +18069,7 @@ video {
 }
 
 .max-w-screen-lg{
-  max-width: 1024px;
+  max-width: 1025px;
 }
 
 .max-w-screen-xl{
@@ -35259,7 +35259,7 @@ video {
   }
 
   .sm\:max-w-screen-lg{
-    max-width: 1024px;
+    max-width: 1025px;
   }
 
   .sm\:max-w-screen-xl{
@@ -52450,7 +52450,7 @@ video {
   }
 
   .md\:max-w-screen-lg{
-    max-width: 1024px;
+    max-width: 1025px;
   }
 
   .md\:max-w-screen-xl{
@@ -62765,7 +62765,7 @@ video {
   }
 }
 
-@media (min-width: 1024px){
+@media (min-width: 1025px){
   .lg\:space-y-0 > :not(template) ~ :not(template){
     --space-y-reverse: 0;
     margin-top: calc(0px * calc(1 - var(--space-y-reverse)));
@@ -69641,7 +69641,7 @@ video {
   }
 
   .lg\:max-w-screen-lg{
-    max-width: 1024px;
+    max-width: 1025px;
   }
 
   .lg\:max-w-screen-xl{
@@ -86832,7 +86832,7 @@ video {
   }
 
   .xl\:max-w-screen-lg{
-    max-width: 1024px;
+    max-width: 1025px;
   }
 
   .xl\:max-w-screen-xl{

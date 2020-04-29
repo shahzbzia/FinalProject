@@ -69,7 +69,12 @@
         <script>
             function checkMedia(x) {
               if (x.matches) { // If media query matches
-                
+                if(document.getElementById('getWidth')){
+                    var width = document.getElementById('getWidth').offsetWidth;
+                    document.querySelector("div.dropdown-content").style.width = width+100+'px';
+                    document.querySelector("div.dropdown-content").classList.add("-ml-20");
+
+                }
               } 
               else {
                 if(document.getElementById('getWidth')){
@@ -79,7 +84,7 @@
               }
             }
 
-            var x = window.matchMedia("(max-width: 700px)")
+            var x = window.matchMedia("(max-width: 640px)")
             checkMedia(x)
             x.addListener(checkMedia)
         </script>

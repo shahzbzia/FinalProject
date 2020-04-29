@@ -23,6 +23,20 @@ module.exports = {
 	        '5/7': '71.4285714%',
 	        '6/7': '85.7142857%',
   		},
+
+      screens: {
+      'sm': '640px',
+      // => @media (min-width: 640px) { ... }
+
+      'md': '768px',
+      // => @media (min-width: 768px) { ... }
+
+      'lg': '1025px',
+      // => @media (min-width: 1024px) { ... }
+
+      'xl': '1280px',
+      // => @media (min-width: 1280px) { ... }
+     },
   	}
   },
   variants: {

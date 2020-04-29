@@ -15,15 +15,15 @@
 @auth
 <nav class="flex items-center justify-between flex-wrap bg-{{Auth::user()->theme->value}}-500 shadow-xl">
 
-  <div class="flex items-center flex-shrink-0 text-white mr-56 ml-6">
+  <div class="flex items-center flex-shrink-0 text-white ml-6">
 
-    <a class="font-bold text-2xl tracking-tight hover:no-underline hover:text-white my-3" href="{{ route('home') }}">ARTillary</a>
+    <a class="font-bold text-lg md:text-xl lg:text-2xl xl:text-2xl tracking-tight hover:no-underline hover:text-white my-3" href="{{ route('home') }}">ARTillary</a>
 
   </div>
 
-  <div class="max-w-sm ml-192">
+  <div class="lg:ml-192">
     <div class="flex items-center border-b border-b-2 border-white py-2"> 
-      <input class="searchInput bg-transparent border-none w-4/5 text-white mr-3 py-1 px-2 leading-tight focus:outline-none placeholder-white" name="nameSearch" id="nameSearch" type="text" placeholder="Search Artists by Name or User name">
+      <input class="searchInput bg-transparent border-none w-2/6 md:w-11/12 lg:w-11/12 xl:w-11/12 text-white mr-3 py-1 px-2 leading-tight focus:outline-none placeholder-white" name="nameSearch" id="nameSearch" type="text" placeholder="Search Artists by Name">
     </div>
     <div id="nameList" class="dropdown-nameSearch text-base rounded-lg py-2"></div>
     @csrf
@@ -43,20 +43,20 @@
   
 
   <div>
-    <div id="getWidth" class="flex justify-around mr-8">
-      <img class="border-2" id="avatarImage" width="50" height="50" src="{{ $pathImage }}">
+    <div id="getWidth" class="flex justify-around mr-6">
+      <img class="border-2 rounded-full md:rounded-none lg:rounded-none xl:rounded-none dropbtn" id="avatarImage" onclick="myFunction()" width="50" height="50" src="{{ $pathImage }}">
           
-      <div class="ml-3 text-white font-semibold">
+      <div class="ml-3 text-white font-semibold hidden md:block lg:block xl:block">
         <h5 class="text-base">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
         <p class="text-xs text-left">{{ $userProfession }}</p>
       </div>
 
-      <button class="ml-4 focus:outline-none">
+      <button class="ml-4 focus:outline-none hidden md:block lg:block xl:block">
         <img class="dropbtn" width="14" height="14" src="{{ $pathArrow }}" onclick="myFunction()">
       </button>
     </div>
 
-    <div id="myDropdown" class=" text-base dropdown-content rounded-lg py-2">
+    <div id="myDropdown" class=" text-base dropdown-content rounded-lg py-2 ml640media">
 
       <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline">Home</a>
 
