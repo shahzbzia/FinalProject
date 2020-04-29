@@ -23,7 +23,7 @@
 
   <div class="lg:ml-192">
     <div class="flex items-center border-b border-b-2 border-white py-2"> 
-      <input class="searchInput bg-transparent border-none w-2/6 md:w-11/12 lg:w-11/12 xl:w-11/12 text-white mr-3 py-1 px-2 leading-tight focus:outline-none placeholder-white" name="nameSearch" id="nameSearch" type="text" placeholder="Search Artists by Name">
+      <input class="searchInput bg-transparent border-none w-full md:w-11/12 lg:w-11/12 xl:w-11/12 text-white mr-3 py-1 px-2 leading-tight focus:outline-none placeholder-white text-xs" name="nameSearch" id="nameSearch" type="text" placeholder="Search Artists by Name">
     </div>
     <div id="nameList" class="dropdown-nameSearch text-base rounded-lg py-2"></div>
     @csrf
@@ -44,7 +44,7 @@
 
   <div>
     <div id="getWidth" class="flex justify-around mr-6">
-      <img class="border-2 rounded-full md:rounded-none lg:rounded-none xl:rounded-none dropbtn" id="avatarImage" onclick="myFunction()" width="50" height="50" src="{{ $pathImage }}">
+      <img class="border-2 rounded-full md:rounded-none lg:rounded-none xl:rounded-none mobile" id="avatarImage" onclick="myFunction()" width="50" height="50" src="{{ $pathImage }}">
           
       <div class="ml-3 text-white font-semibold hidden md:block lg:block xl:block">
         <h5 class="text-base">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
@@ -56,7 +56,7 @@
       </button>
     </div>
 
-    <div id="myDropdown" class=" text-base dropdown-content rounded-lg py-2 ml640media">
+    <div id="myDropdown" class=" text-base dropdown-content rounded-lg py-2">
 
       <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline">Home</a>
 

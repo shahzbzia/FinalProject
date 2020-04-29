@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Search results for {{ $query }}</div>
+                <div class="card-header">Search results for <strong>"{{ $query }}"</strong></div>
                 @if (!$users->isEmpty())
                     @foreach ($users as $user)
                         @php

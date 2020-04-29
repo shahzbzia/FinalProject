@@ -73,7 +73,7 @@
                     var width = document.getElementById('getWidth').offsetWidth;
                     document.querySelector("div.dropdown-content").style.width = width+100+'px';
                     document.querySelector("div.dropdown-content").classList.add("-ml-20");
-
+                    document.querySelector("img.mobile").classList.add("dropbtn");     
                 }
               } 
               else {
