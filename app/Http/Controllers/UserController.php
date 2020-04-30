@@ -9,6 +9,7 @@ use App\Gender;
 use App\Http\Requests\Profile\UpdateProfileRequest;
 use Illuminate\Support\Facades\Storage;
 use App\User;
+use App;
 
 class UserController extends Controller
 {
@@ -85,8 +86,6 @@ class UserController extends Controller
             'birthDate' => $request->birthDate,
             'profession' => $request->profession,
             'aboutMe' => $request->aboutMe,
-        	'userName' => $request->userName,
-
         ]);
 
         if ($hasImage) 
@@ -123,10 +122,18 @@ class UserController extends Controller
                     ->orderBy('firstName', 'asc')
                     ->limit(5)
                     ->get();
-            $output = '<ul >';
+
+            $output = '<ul>';
 
             foreach ($data as $row) {
-                $output .= '<li><a class="block px-4 py-2 text-gray-800 hover:bg-'. Auth::user()->theme->value.'-500 hover:no-underline hover:text-white" href="'.route('user.profile', $row->userName).'">' . $row->firstName . ' ' . $row->lastName .'</a></li>';
+                $userImage = ($row->image) ? asset("storage/".$row->image) : asset('/images/blank-profile.png');
+
+                if(App::environment('production')) {
+                  $userImage = ($row->image) ? asset("storage/app/public/".$row->image) : asset('/public/images/blank-profile.png');
+                }
+
+                $output .= '';
+                $output .= '<li> <a class="block px-4 py-2 text-gray-800 hover:bg-'. Auth::user()->theme->value.'-500 hover:no-underline hover:text-white text-sm" href="'.route('user.profile', $row->userName).'"> <div class="flex justify-start"> <img src="'.$userImage.'" class="rounded-full mr-1 border border-black border-1" width="25" height="3">' . $row->firstName . ' ' . $row->lastName .' </div> </a></li>';
             }
 
             $output .= '</ul>';

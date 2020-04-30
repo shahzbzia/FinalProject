@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
 
-    <div class="align-middle mx-auto mt-12 @guest w-3/5 @else w-4/5 @endif ">
+    <div class="align-middle mx-auto mt-4 @guest w-full lg:w-3/5 xl:w-3/5 @else w-full lg:w-4/5 xl:w-4/5 @endif">
 
         <h2 class="text-2xl @auth text-{{$user->theme->value}}-500 @else text-black @endauth font-bold tracking-widest uppercase font-mono mb-2 ml-4">{{ isset($user) ? 'Edit Profile' : 'Sign Up' }}</h2>
 
@@ -19,14 +19,14 @@
                 <h5 class="text-base font-bold">Personal Informaton</h5>
 
                 @guest
-                    <p class="text-sm"><span class="text-red-500">*</span> required fields</p>
+                    <p class="text-sm"><span class="text-red-500">*</span> required</p>
                 @endguest
             </div>
 
             <hr class="mt-2 mb-3">
 
-            <div class="flex justify-between">
-                <div class="mb-4 w-2/5">
+            <div class="flex flex-col md:flex-row lg:flex-row xl:flex-row justify-between">
+                <div class="mb-4 w-full md:w-2/5 lg:w-2/5 xl:w-2/5">
 
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="firstName">
                         First Name @guest <span class="text-red-500">*</span> @endguest
@@ -42,7 +42,7 @@
 
                 </div>
 
-                <div class="mb-4 w-2/5">
+                <div class="mb-4 w-full md:w-2/5 lg:w-2/5 xl:w-2/5">
 
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="lastName">
                         Last Name @guest <span class="text-red-500">*</span> @endguest
@@ -59,13 +59,15 @@
                 </div>
             </div>
 
-            <div class="mb-4 w-2/5">
+            @guest
+
+                <div class="mb-4 w-full">
 
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="userName">
                         User name @guest <span class="text-red-500">*</span> @endguest
                     </label>
 
-                    <input id="userName" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('userName') bg-red-200 @enderror" name="userName" value="{{ isset($user) ? $user->userName : old('userName') }}" required autocomplete="userName" placeholder="Dover" autofocus>
+                    <input id="userName" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('userName') bg-red-200 @enderror" name="userName" value="{{ isset($user) ? $user->userName : old('userName') }}" required autocomplete="userName" placeholder="doverben98" autofocus>
 
                     @error('userName')
                         <span class="text-red-500 text-xs italic" role="alert">
@@ -74,6 +76,8 @@
                     @enderror
 
                 </div>
+
+            @endguest
 
             <div class="mb-4">
 
@@ -152,7 +156,7 @@
 
                 </label>
 
-                <textarea name="aboutMe" rows="1" cols="50" id="aboutMe" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('aboutMe') bg-red-200 @enderror" > {{ isset ($user) ? $user->aboutMe : old('aboutMe') }} </textarea>
+                <textarea name="aboutMe" rows="2" cols="50" id="aboutMe" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('aboutMe') bg-red-200 @enderror" >{{ isset ($user) ? $user->aboutMe : old('aboutMe') }} </textarea>
 
                 @error('aboutMe')
                     <span class="text-red-500 text-xs italic" role="alert">
@@ -184,8 +188,8 @@
                 </div>
             @endguest
 
-            <div class="flex justify-between">
-                <div class="mb-4 w-1/6">
+            <div class="flex flex-col md:flex-row lg:flex-row xl:flex-row justify-between">
+                <div class="mb-4 w-full md:w-1/6 lg:w-1/6 xl:w-1/6">
 
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="countryCode">
                         Country Code @guest <span class="text-red-500">*</span> @endguest
@@ -201,9 +205,9 @@
 
                 </div>
 
-                <p class="mt-8">-</p>
+                <p class="mt-8 hidden md:block lg:block xl:block">-</p>
                     
-                <div class="mb-4 w-9/12">
+                <div class="mb-4 w-full md:w-9/12 lg:w-9/12 xl:w-9/12">
 
                     <div class="flex">
 
@@ -249,7 +253,7 @@
             <hr class="mt-2 mb-3">
 
             @auth
-                <div class="flex">
+                <div class="hidden md:flex lg:flex xl:flex">
 
                     @php
                         $coverImage = ($user->coverImage) ? asset("storage/".$user->coverImage) : asset('/images/plain-cover.jpg');
@@ -271,7 +275,7 @@
                             
                     </div>
                     
-                    <div style="margin-left: 328px">
+                    <div class="md:ml-49 lg:ml-83 xl:ml-83">
 
                         <img class="mb-3" width="100" height="100" src="{{ $coverImage }}" alt="">
                            
@@ -279,8 +283,16 @@
                 </div>
             @endauth
 
-            <div class="flex justify-between">
-                <div class="mb-4 w-2/5">
+            <div class="flex flex-col md:flex-row lg:flex-row xl:flex-row justify-between">
+                <div class="mb-4 w-full md:w-2/5 lg:w-2/5 xl:w-2/5">
+
+                    @auth
+                        
+                        <div class="block md:hidden lg:hidden xl:hidden">
+                            <img class="mb-3" width="50" height="50" src="{{ $userImage }}">
+                        </div>
+
+                    @endauth
 
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="image">
                         Profile Picture
@@ -296,7 +308,15 @@
 
                 </div>
 
-                <div class="mb-4 w-2/5">
+                <div class="mb-4 w-full md:w-2/5 lg:w-2/5 xl:w-2/5">
+
+                    @auth
+
+                        <div class="block md:hidden lg:hidden xl:hidden">
+                            <img class="mb-3" width="50" height="50" src="{{ $coverImage }}">
+                        </div>
+
+                    @endauth
 
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="coverImage">
                         Cover Picture
@@ -367,8 +387,8 @@
             <hr class="mt-2 mb-3">
 
             
-            <div class="flex justify-between">
-                <div class="mb-4 w-2/5">
+            <div class="flex flex-col md:flex-row lg:flex-row xl:flex-row justify-between">
+                <div class="mb-4 w-full md:w-2/5 lg:w-2/5 xl:w-2/5">
 
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
                         Password <span class="text-red-500">*</span>
@@ -384,7 +404,7 @@
 
                 </div>
 
-                <div class="mb-6 w-2/5">
+                <div class="mb-6 w-full md:w-2/5 lg:w-2/5 xl:w-2/5">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="password-confirm">
                         Confirm Password <span class="text-red-500">*</span>
                     </label>
@@ -403,7 +423,7 @@
 
             <div class="flex items-center justify-between">
 
-                <button class="bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                <button class="@auth bg-{{$user->theme->value}}-500 hover:bg-{{$user->theme->value}}-700 @else bg-black hover:bg-gray-700 @endauth text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                     {{ isset($user) ? 'Save' : 'Lets GO!' }}
                 </button>
 

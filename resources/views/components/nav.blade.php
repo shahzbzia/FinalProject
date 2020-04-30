@@ -41,7 +41,6 @@
     $userProfession = (Auth::user()->profession) ? Auth::user()->profession : 'Artist';
   @endphp
   
-
   <div>
     <div id="getWidth" class="flex justify-around mr-6">
       <img class="border-2 rounded-full md:rounded-none lg:rounded-none xl:rounded-none mobile" id="avatarImage" onclick="myFunction()" width="50" height="50" src="{{ $pathImage }}">
@@ -61,6 +60,20 @@
       <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline">Home</a>
 
       <a href="{{ route('user.profile', Auth::user()->userName) }}" class="{{-- @if (Route::currentRouteName() == 'user.index') active @endif --}} block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline">Profile</a>
+
+      <div class="block md:hidden lg:hidden xl:hidden px-4 py-2 font-semibold">
+        <h5>Quick Links</h5>
+        <hr>
+      </div>
+
+      <a class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('user.showUserEditForm') }}">All posts</a>
+
+      <div class="block md:hidden lg:hidden xl:hidden px-4 py-2 font-semibold">
+        <h5>Settings</h5>
+        <hr>
+      </div>
+
+      <a class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('user.showUserEditForm') }}">Edit Profile</a>
 
       <a class="block px-4 py-2 text-gray-800 hover:bg-{{ Auth::user()->theme->value }}-500 hover:text-white hover:no-underline" href="{{ route('logout') }}"
          onclick="event.preventDefault();

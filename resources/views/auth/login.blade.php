@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
 
-    <div class="align-middle mx-auto mt-12 w-3/5">
+    <div class="align-middle mx-auto mt-12 w-full lg:w-3/5 xl:w-3/5">
 
         <h2 class="text-2xl text-black font-bold tracking-widest uppercase font-mono mb-2 ml-4">Login</h2>
 
