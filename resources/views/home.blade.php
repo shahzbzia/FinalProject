@@ -19,20 +19,20 @@
                 {{-- upVoteS DownVoteS POSTS FOR LARGE SCREENS --}}
                 <div class="sm:hidden lg:flex flex-col justify-around mr-2">
                     <div class="hidden lg:flex flex-col">
-                        <a href="#"><svg id="iconmonstr" class="up-vote sm:mr-1 lg:mr-0 fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                        <a href="#"><svg id="iconmonstr" class="{{ ($post->checkIfUserHasVoted(1)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} up-vote sm:mr-1 lg:mr-0 fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
                             <path id="arrow-48" class="cls-1" d="M2.975,14l4-.013L11.95,5.946l5.026,8.006,4-.013L11.931-.031Zm8.987-4.029L21.007,23.94,3.007,24Z"/>
                         </svg>
                         </a>
 
                         <p id="{{ $post->id.'vote-counts' }}" class="vote-count text-center text-xs sm:mr-1 lg:mr-0">{{ $post->getTotalVoteCount() }}</p>
 
-                        <a href="#"><svg id="iconmonstr" class="down-vote fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                        <a href="#"><svg id="iconmonstr" class="{{ ($post->checkIfUserHasVoted(0)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} down-vote fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
                             <path id="arrow-48" d="M20.994,9.971l-4,.013-4.974,8.038L6.994,10.016l-4,.013L12.038,24ZM12.006,14L2.962,0.029l18-.057Z"/>
                         </svg></a>
                     </div>
 
                     <div class="hidden lg:flex flex-col">
-                        <a class="sm:mr-2 lg:mr-0" href=""><svg class="fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 1v16.981h4v5.019l7-5.019h13v-16.981h-24zm13 12h-8v-1h8v1zm6-3h-14v-1h14v1zm0-3h-14v-1h14v1z"/></svg></a>
+                        <a class="sm:mr-2 lg:mr-0" href=""><svg class=" fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 1v16.981h4v5.019l7-5.019h13v-16.981h-24zm13 12h-8v-1h8v1zm6-3h-14v-1h14v1zm0-3h-14v-1h14v1z"/></svg></a>
 
                         <p class="text-sm">245</p>
                     </div>
@@ -75,14 +75,14 @@
                 <div class="flex lg:hidden flex-row justify-between my-1 ml-2 mr-2">
 
                     <div class="flex lg:hide flex-row">
-                        <a href="#"><svg id="iconmonstr" class="up-vote mr-1 fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                        <a href="#"><svg id="iconmonstr" class="{{ ($post->checkIfUserHasVoted(1)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} up-vote mr-1 fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
                             <path id="arrow-48" class="cls-1" d="M2.975,14l4-.013L11.95,5.946l5.026,8.006,4-.013L11.931-.031Zm8.987-4.029L21.007,23.94,3.007,24Z"/>
                         </svg>
                         </a>
 
                         <p id="{{ $post->id.'vote-counts-small' }}" class="vote-count text-sm mr-1">{{ $post->getTotalVoteCount() }}</p>
 
-                        <a href="#"><svg id="iconmonstr" class="down-vote fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                        <a href="#"><svg id="iconmonstr" class="{{ ($post->checkIfUserHasVoted(0)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} down-vote fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
                             <path id="arrow-48" d="M20.994,9.971l-4,.013-4.974,8.038L6.994,10.016l-4,.013L12.038,24ZM12.006,14L2.962,0.029l18-.057Z"/>
                         </svg></a>
                     </div>
@@ -106,7 +106,6 @@
             var upPostId = $(this).attr("post-id");
             
             $(this).toggleClass("text-{{ Auth::user()->theme->value }}-500");
-            //localStorage.setItem("bgColor", "text-{{ Auth::user()->theme->value }}-500");
             if($(this).hasClass("text-{{ Auth::user()->theme->value }}-500"))
             {
                 $('.down-vote').removeClass("text-{{ Auth::user()->theme->value }}-500");

@@ -8,6 +8,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Auth;
 
 class Post extends Model implements HasMedia
 {
@@ -43,6 +44,19 @@ class Post extends Model implements HasMedia
     {
     	return Vote::where('post_id', $this->id)->where('vote', 0)->count();
     }
+
+    public function checkIfUserHasVoted($voteType): bool
+    {
+    	$user = Auth::user();
+    	$vote = Vote::where('post_id', $this->id)->where('user_id', $user->id)->where('vote', $voteType)->count();
+
+    	if ($vote > 0) {
+    		return true;    	
+    	}
+
+    	return false;
+    }
+
 
     public function checkAndCreatePostUpVoteForUser($userId): bool
     {
