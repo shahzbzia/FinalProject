@@ -53,4 +53,13 @@ class User extends Authenticatable
     public function checkRole(){
         return $this->role_id;
     }
+
+    public function post(){
+        return $this->hasMany(Post::class);
+    }
+
+    public function votes()
+    {
+        return $this->hasMany('App\Vote');
+    }
 }

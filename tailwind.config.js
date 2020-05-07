@@ -1,3 +1,5 @@
+const { colors } = require('tailwindcss/defaultTheme')
+
 module.exports = {
   theme: {
     extend: {
@@ -29,6 +31,15 @@ module.exports = {
 
       height:{
         '2/100': '2.0000000%',
+      },
+
+      colors: {
+        green: {
+          ...colors.green,
+          '500': '#00d1b2',
+          '700': '#00c6a9',
+          '300': '#84ffec',
+        }
       },
 
       screens: {

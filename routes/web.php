@@ -27,5 +27,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/profile/user/{userName}', 'UserController@profile')->name('user.profile');
 	Route::post('/search/name', 'UserController@nameList')->name('nameSearch');
 	Route::get('/search/user/{query}', 'UserController@nameListAllResults')->name('nameListAllResults');
+	Route::get('/create/post', 'HomeController@createPost')->name('createPost');
+	Route::post('/post/create', 'PostController@imagePost')->name('image.createPost');
+	Route::get('/post/checkSlug', 'PostController@checkSlug')->name('posts.checkSlug');
+	Route::get('/post/download/{download_id}', 'PostController@downloadable')->name('posts.downloadable');
+	Route::post('/post/upVote', 'PostController@upVotePost')->name('upVotePost');
+	Route::post('/post/downVote', 'PostController@downVotePost')->name('downVotePost');
 
 });

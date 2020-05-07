@@ -5,7 +5,7 @@
 
         <ul class="list-none">
             <li class="text-sm pb-4">
-                <a class="{{-- @if (Route::currentRouteName() == 'todos.index') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif --}} hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="">All Tasks</a>
+                <a class="@if (Route::currentRouteName() == 'createPost') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('createPost') }}">Create a Post</a>
             </li>
 
             

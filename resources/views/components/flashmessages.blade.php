@@ -9,7 +9,7 @@
 @endif
 
 @if(session()->has('success'))
-    <div role="alert" class="bg-green-300 text-white p-4 mt-8 font-bold rounded">
+    <div role="alert" class="bg-green-400 text-white p-4 mt-8 font-bold rounded">
         <p class="text-green-800">{{session()->get('success')}}</p>
     </div>
 @endif

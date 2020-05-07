@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('firstName');
             $table->string('lastName');
+            $table->string('userName')->unique();
             $table->date('birthDate');
             $table->text('aboutMe')->nullable();
             $table->string('email')->unique();
@@ -31,6 +32,7 @@ class CreateUsersTable extends Migration
             $table->foreignId('gender_id');
             $table->foreignId('role_id')->default(1);
             $table->timestamp('email_verified_at')->nullable();
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });
