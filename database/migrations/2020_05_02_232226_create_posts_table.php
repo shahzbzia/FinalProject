@@ -15,12 +15,12 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->string('type');
-            $table->string('status');
+            $table->string('title')->nullable();
+            $table->string('slug')->unique()->nullable();
+            $table->string('type')->nullable();
+            $table->string('status')->nullable();
             $table->text('description')->nullable();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->uns;
             $table->foreignId('updated_by')->nullable();
             $table->string('url')->nullable();
             $table->boolean('sellable')->nullable();
@@ -44,6 +44,12 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+        Schema::table('posts', function(Blueprint $table){
+            $table->dropForeign(['user_id']);
+        });
+
         Schema::dropIfExists('posts');
+        Schema::enableForeignKeyConstraints();
     }
 }

@@ -6,9 +6,14 @@ use App\Post;
 use App\Vote;
 use Illuminate\Http\Request;
 use App\Http\Requests\Post\Image\CreateImagePostRequest;
+use App\Http\Requests\Post\Video\CreateVideoPostRequest;
+//use App\Http\Requests\Post\Video\UploadVideoRequest;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Auth;
 use Illuminate\Support\Str;
+use Validator;
+use Session;
+use DB;
 
 class PostController extends Controller
 {
@@ -122,10 +127,129 @@ class PostController extends Controller
         }
 
         if (request()->hasFile('mainImage')) {
-            $post->addMediaFromRequest('mainImage')->toMediaCollection('posts');
+            $post->addMediaFromRequest('mainImage')->toMediaCollection('images');
         }
 
-        return 'The post was created successfully';
+        session()->flash('success', 'Image posted successfully');
+
+        return redirect(route('home'));
+    }
+
+    public function uploadVideo(Request $request)
+    {
+        $rules = array(
+            'mainVideo' => 'required|mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:256000',        );
+
+        $error = Validator::make($request->all(), $rules);
+
+        if($error->fails())
+        {
+            return response()->json(['errors' => $error->errors()->all()]);
+        }
+
+        $user = Auth::user();
+
+        $post = Post::create([
+
+            'user_id' => $user->id,
+            'type' => 'video',
+
+        ]);
+
+        if (request()->hasFile('mainVideo')) {
+            $post->addMediaFromRequest('mainVideo')->toMediaCollection('video');
+        }
+
+        $output = array(
+            'success' => 'Video uploaded successfully',
+            'postId' => $post->id,
+            'video' => '<div class="flex">
+                            <video width="400" height="240" controls>
+                                <source src="'.asset($post->getMedia('video')->first()->getUrl()).'" type="'.$post->mime_type.'">
+                            </video>
+
+                            <button type="button" id="del-video" class="align-middle mx-auto my-auto">Delete</button>
+
+                            <script>
+                                $(document).ready(function(){
+
+                                    $("#del-video").click(function() {
+                                        $("#success").empty();
+                                        $("#uploadVid").toggleClass("hidden");
+                                        $(".progress-bar").text("0%");
+                                        $(".progress-bar").css("width", "0%");
+                                        $("#formVidInfo").hide();
+                                        $("#formVidInfo :input").attr("disabled", true);
+                                        var _token = "'. Session::token() . '";
+                                        $.ajax(
+                                        {
+                                            url: "'.route('deleteUploadedVideo', $post->id).'",
+                                            type: "DELETE",
+                                            dataType: "JSON",
+                                            data: {
+                                                "_method": "DELETE",
+                                                "_token": _token,
+                                            },
+                                            success: function ()
+                                            {
+                                                console.log("Post Deleted SuccessFully");
+                                            }
+                                        });
+
+                                    });
+                                    
+                                });
+                            </script>
+                        </div>',
+        );
+
+        return response()->json($output);
+    }
+
+    public function deleteUploadedVideo($id)
+    {
+        $post = Post::whereId($id)->firstOrFail();
+        $post->clearMediaCollection();
+        DB::table('media')->delete($id);
+        $post->forceDelete();
+        return response()->json();
+    }
+
+    public function videoPost(CreateVideoPostRequest $request)
+    {
+
+        $id = $request->id;
+
+        $post = Post::whereId($id);
+
+        $post->update([
+
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'status' => 'published',
+            'description'  => $request->description,
+
+        ]);
+
+        if (request()->has('sellable')) {
+
+            $uuid = Str::uuid()->toString();
+            
+            $post->update([
+                'sellable' => 1,
+                'royaltyFee' => $request->royaltyFee,
+                'price' => $request->price,
+                'download_id' => $uuid,
+            ]);
+
+            if (request()->hasFile('dContent')) {
+                $post->addMediaFromRequest('dContent')->toMediaCollection('downloads');
+            }   
+        }
+
+        session()->flash('success', 'Video posted successfully');
+
+        return redirect(route('home'));
     }
 
     public function checkSlug(Request $request)

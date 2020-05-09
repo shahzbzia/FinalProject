@@ -39,36 +39,59 @@
                 </div>
 
 
-                <div class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style="background-image: url('{{ $post->getMedia('posts')->first()->getUrl('watermarked') }}')" title="Woman holding a mug">
-                </div>
-
-                <div class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal w-full">
-                    <div class="mb-8">
-                        <input type="hidden" class="post-id" value="{{ $post->id }}">
-                        <div class="text-gray-900 font-bold text-xl mb-2">{{ $post->title }}</div>
-                        <p class="text-gray-700 text-base">{{ $post->description }}</p>
+                @if ($post->getMedia('images')->first())
+                    <div class="h-48 lg:h-48 lg:w-72 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style="background-image: url('{{ $post->getMedia('images')->first()->getUrl('watermarked') }}')">
                     </div>
-                    <div class="flex justify-between">
+                @endif
+
+                 @if ($post->getMedia('video')->first())
+                    <div class="sm:h-32 md:h-48 lg:h-auto lg:w-72 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden">
+                        <video controls controlsList="nodownload">
+                            <source src="{{asset($post->getMedia('video')->first()->getUrl())}}" type="video/mp4">
+                        </video>
+                    </div>
+                @endif
+
+                <div class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-3 flex flex-col justify-between leading-normal w-full min-h-64">
+                    <div class="mb-3 ml-2">
+                        <input type="hidden" class="post-id" value="{{ $post->id }}">
+                        <div class="text-gray-900 font-bold text-base mb-2">{{ $post->title }}</div>
+                        <div class="flex">
+                            <p class="text-gray-700 text-sm">{{ \Illuminate\Support\Str::limit(strip_tags($post->description), 50) }}</p>
+                            @if (strlen(strip_tags($post->description)) > 50)
+                                <a href="" class="text-xs ml-3">Read More</a>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="flex justify-between ml-2">
                         <div class="flex items-center">
-                            <img class="w-10 h-10 rounded-full mr-4" src="{{ $pathImage }}" alt="Avatar of Jonathan Reinink">
-                            <div class="text-sm">
-                                <p class="text-gray-900 leading-none">{{ $post->user->userName }}</p>
-                                <p class="text-gray-600">{{ ($post->created_at)->diffForhumans() }}</p>
+                            <img class="w-10 h-10 rounded-full mr-4" src="{{ $pathImage }}">
+                            <div class="text-xs">
+                                <p class="text-gray-900 font-semibold leading-none">{{ $post->user->userName }}</p>
+                                <p class="text-gray-600 text-xs">{{ ($post->created_at)->diffForhumans() }}</p>
                             </div>
                         </div>
 
-                        <div class="flex flex-col">
+                        <div class="">
                             <button class="bg-{{ Auth::user()->theme->value }}-500 hover:bg-{{ Auth::user()->theme->value }}-700 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center">
                                 <span>Follow</span>
                             </button> 
-
-                            <a class="mt-1" href="">See more</a>  
                         </div>
                     </div>
 
                     
                 </div>
             </div>
+
+            {{-- @if ($post->getMedia('video')->first())
+                <div class="flex">
+                    <video width="400" height="240" controls>
+                        <source src="{{asset($post->getMedia('video')->first()->getUrl())}}" type="video/mp4">
+                    </video>
+
+                    <a class="align-middle mx-auto my-auto" href="">Delete</a>
+                </div>
+            @endif --}}
 
             {{-- upVoteS DIS-upVoteS POSTS FOR SMALL SCREENS --}}
             <div class="block lg:hidden bg-white py-1 rounded-lg border border-black">

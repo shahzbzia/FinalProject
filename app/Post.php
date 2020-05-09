@@ -17,6 +17,8 @@ class Post extends Model implements HasMedia
 	use HasMediaTrait;
 	use Sluggable;
 
+    public $registerMediaConversionsUsingModelInstance = true;
+
     protected $fillable = [
         'title', 'slug', 'type', 'description', 'status', 'user_id', 'mainImage', 'subImages', 'url', 'sellable', 'royaltyFee', 'price', 'dContent', 'updated_by', 'download_id',
     ];
@@ -104,13 +106,14 @@ class Post extends Model implements HasMedia
         return true;
     }
 
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(Media $media = null): void
     {
         // Watermark conversion
         $this->addMediaConversion('watermarked')
             ->watermark(public_path('/images/watermark.png'))
             ->watermarkOpacity(50)
-            ->nonQueued();
+            ->nonQueued()
+            ->performOnCollections('images', 'others');
     }
 
     public function user(){
