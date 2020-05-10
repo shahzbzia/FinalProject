@@ -24,8 +24,9 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-        <script src="http://malsup.github.com/jquery.form.js"></script>
+        {{-- <script src="http://malsup.github.com/jquery.form.js"></script>--}}
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
         <!-- Styles -->
         @if (App::environment('local'))
             <link href="{{ asset('css/app.css') }}" rel="stylesheet">
