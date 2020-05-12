@@ -138,7 +138,7 @@ class PostController extends Controller
     public function uploadVideo(Request $request)
     {
         $rules = array(
-            'mainVideo' => 'required|mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:256000',        );
+            'mainVideo' => 'required|mimetypes:video/x-ms-asf,video/x-flv,video/mp4,application/x-mpegURL,video/MP2T,video/3gpp,video/quicktime,video/x-msvideo,video/x-ms-wmv,video/avi|max:256000',);
 
         $error = Validator::make($request->all(), $rules);
 
@@ -163,12 +163,15 @@ class PostController extends Controller
         $output = array(
             'success' => 'Video uploaded successfully',
             'postId' => $post->id,
-            'video' => '<div class="flex">
+            'video' => '<div class="flex flex-col lg:flex-row">
                             <video width="400" height="240" controls>
                                 <source src="'.asset($post->getMedia('video')->first()->getUrl()).'" type="'.$post->mime_type.'">
                             </video>
 
-                            <button type="button" id="del-video" class="align-middle mx-auto my-auto">Delete</button>
+                            <button type="button" id="del-video" class="align-middle mx-auto my-auto text-red-700 flex">
+                                <svg class="text-red-700 mr-2 mt-1" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path class="text-red-700" d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.151 17.943l-4.143-4.102-4.117 4.159-1.833-1.833 4.104-4.157-4.162-4.119 1.833-1.833 4.155 4.102 4.106-4.16 1.849 1.849-4.1 4.141 4.157 4.104-1.849 1.849z"/></svg>
+                                <p>Delete / Change File</p>
+                            </button>
 
                             <script>
                                 $(document).ready(function(){
