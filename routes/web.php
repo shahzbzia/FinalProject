@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/post/downVote', 'PostController@downVotePost')->name('downVotePost');
 	Route::post('/post/video/upload', 'PostController@uploadVideo')->name('uploadVideo');
 	Route::delete('/post/video/delete/{id}', 'PostController@deleteUploadedVideo')->name('deleteUploadedVideo');
+
+	// Route::get('/test', function () {
+	//     $post = Post::first();
+	//     dd($post->getMedia('video')->first()->getPath());
+	// });
 
 });
