@@ -102,17 +102,5 @@
     });
 </script>
 
-<script>
-    // Copy to clipboard
-    // function copyToClipboard(element1, element2) {
-    //   var $temp = $("<input>");
-    //   $("body").append($temp);
-    //   $temp.val($(element1).text()).select();
-    //   document.execCommand("copy");
-    //   $temp.remove();
-    // }
-
-</script>
-
 
 @endsection

@@ -37,10 +37,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/post/downVote', 'PostController@downVotePost')->name('downVotePost');
 	Route::post('/post/video/upload', 'PostController@uploadVideo')->name('uploadVideo');
 	Route::delete('/post/video/delete/{id}', 'PostController@deleteUploadedVideo')->name('deleteUploadedVideo');
+	Route::post('toggle/follow', 'UserController@toggleFollow')->name('toggleFollow');
 
-	// Route::get('/test', function () {
-	//     $post = Post::first();
-	//     dd($post->getMedia('video')->first()->getPath());
+
+	// Route::get('make/users', function () {
+	//     $users = factory(App\User::class, 3)->make();
+	//     return $users;
 	// });
 
 });

@@ -10,6 +10,7 @@ use App\Http\Requests\Profile\UpdateProfileRequest;
 use Illuminate\Support\Facades\Storage;
 use App\User;
 use App;
+use DB;
 
 class UserController extends Controller
 {
@@ -111,7 +112,8 @@ class UserController extends Controller
         return redirect(route('home'));
     }
 
-    public function nameList(Request $request){
+    public function nameList(Request $request)
+    {
 
         if($request->get('query')){
 
@@ -146,7 +148,8 @@ class UserController extends Controller
 
     }
 
-    public function nameListAllResults($query){
+    public function nameListAllResults($query)
+    {
 
         $users = User::where('firstName', 'LIKE', "%{$query}%")
                 ->orWhere('lastName', 'LIKE', "%{$query}%")
@@ -157,6 +160,27 @@ class UserController extends Controller
         return view('nameSearchResults')
             ->with('users', $users)
             ->with('query', $query);
+    }
+
+    public function toggleFollow(Request $request)
+    {
+
+        $user = User::find($request->user_id);
+        $auth = Auth::user();
+        $auth->toggleFollow($user);
+
+        $response = DB::table('user_follower')->where('following_id', $request->user_id)->where('follower_id', $auth->id)->count();
+        //dd($response);
+
+        if ($response == 0) {
+            $res = 'unfollowed';
+        }else{
+            $res = 'followed';
+        }
+
+
+        return response()->json(['response'=>$res]);
+
     }
 
 

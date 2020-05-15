@@ -17,153 +17,233 @@
     }
   @endphp
 
-  <!-- Profile Card -->
-  <div class="shadow-lg bg-gray-600 flex p-3 antialiased" style="
-    background-image: url({{ $coverImage }});
-    background-repeat: no-repat;
-    background-size: cover;
-    background-blend-mode: multiply;
-  ">
-    <div class="md:w-1/4 w-full">
-      <img class="rounded-lg antialiased border-2" src="{{ $userImage }}" alt="">
+  <div class="rounded rounded-t-lg overflow-hidden shadow w-full my-3 bg-white">
+      <img src="{{ $coverImage }}" class="w-full h-96" />
+
+      <div class="flex justify-center -mt-20" >
+          <img src="{{ $userImage }}" class="w-auto md:w-1/5 rounded-full border-solid border-white border-2 -mt-2 h-47">
+      </div>
+
+      <div class="flex flex-row md:flex-col justify-center md:flex-row md:justify-end md:justify-end mx-2 md:-mt-24 md:mb-20">
+
+        @if ($user->id == Auth::user()->id)
+              
+              {{-- <a class="h-6 bg-green-600 hover:bg-green-800 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg ml-64 md:ml-5" href="">Edit Profile</a> --}}
+
+              <a class="h-6 bg-green-600 hover:bg-green-800 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg md:ml-5" href="">Edit Profile</a>
+
+            @else
+
+              <button class="action-follow h-6 bg-green-600 hover:bg-green-800 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg mr-2">
+                  <span class="shadow-lg">{{ ($user->isFollowedBy(Auth::user()) ? 'UnFollow' : 'Follow') }}</span>
+              </button>
+
+              <button class="h-6 bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg mr-2">
+                  <span class="shadow-lg">Block</span>
+              </button>
+
+            @endif
+
+      </div>
+    <div class="text-center px-3 pb-6 pt-2">
+      <h3 id="user-id" data-id="{{ $user->id }}" class="text-black text-xl bold font-sans font-semibold">{{ $user->firstName }} {{ $user->lastName }}</h3>
+      <h3 class="text-black text-lg font-light font-sans mt-2 text-grey-dark">{{ $user->userName }}</h3>
+      <h3 class="text-black text-lg font-light font-sans mt-2 text-grey-dark">{{ $user->gender->gender_name }}, {{ \Carbon\Carbon::parse($user->birthDate)->age }} years old</h3>
+      <h3 class="text-black text-lg font-light font-sans mt-2 text-grey-dark">{{ ($user->profession) ? $user->profession : 'Artist' }}</h3>
+      <h3 class="text-black text-lg font-light font-sans mt-2 text-grey-dark">Joined {{ $user->created_at->diffForHumans() }}</h3>
+      <h3 class="text-black text-lg font-light font-sans mt-2 text-grey-dark">{{ $user->countryCode }} {{ $user->number }}</h3>
+      <h3 class="text-black text-lg font-light font-sans mt-2 text-grey-dark">{{ $user->email }}</h3>
+      @if ($user->aboutMe)
+        <p class="mt-2 font-sans text-lg font-light text-grey-dark"><span> {{ $user->aboutMe }} </span></p>
+      @endif
+
     </div>
+      <div class="flex justify-center pb-3 text-grey-dark text-lg mt-2">
+        <div class="text-center mr-3 border-r pr-3">
+          <button id="profile-tab-default-open" onclick="openProfileTabs(event, 'posts')" class="profile-tab-links hover:text-{{ Auth::user()->theme->value }}-500 hover:no-underline outline-none focus:outline-none">
+            <h2>34</h2>
+            <span>Posts</span>
+          </button>
+        </div>
+        <div class="text-center mr-3 border-r pr-3">
+          <button onclick="openProfileTabs(event, 'followers')" class="profile-tab-links hover:text-{{ Auth::user()->theme->value }}-500 hover:no-underline outline-none focus:outline-none">
+            <h2 class="followers-count">{{ $user->followers()->count() }}</h2>
+            <span>Followers</span>
+          </button>
+        </div>
+        <div class="text-center" >
+          <button onclick="openProfileTabs(event, 'following')" class="profile-tab-links hover:text-{{ Auth::user()->theme->value }}-500 hover:no-underline outline-none focus:outline-none">
+            <h2>{{ $user->followings()->count() }}</h2>
+            <span>Following</span>
+          </button>
+        </div>
+      </div>
   </div>
-  <!-- End Profile Card -->
 
-  <div class="bg-white border border-t-0 border-red-400 bg-white px-4 py-3 text-black mb-5 shadow-lg">
+
+  <div>
+
+    <div id="posts" class="profile-tab-content mb-8">
+      <div class="max-w-md mx-auto xl:max-w-5xl lg:max-w-5xl md:max-w-2xl bg-white max-h-screen shadow-lg flex-row rounded relative">
+        <div class="p-3 bg-gray-900 text-gray-900 rounded-t">
+            <h5 class="text-white text-sm text-center">List of all posts by this user</h5>
+        </div>
+        <div class="p-3 w-full h-full overflow-y-auto ">
+            <p class="text-justify">
+               Posts themselves
+            </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="followers" class="profile-tab-content mb-8">
+      <div class="max-w-md mx-auto xl:max-w-5xl lg:max-w-5xl md:max-w-2xl bg-white max-h-screen shadow-lg flex-row rounded relative ">
+        <div class="p-3 bg-gray-900 text-gray-900 rounded-t">
+            <h5 class="text-white text-sm text-center">Artists following {{ $user->userName }}</h5>
+        </div>
+        <div class="p-3 w-full h-full overflow-y-auto ">
+            <div class="flex flex-col align-middle mx-auto md:flex-row flex-wrap justify-start">
+              @if ($user->followers()->count() > 0)
+                
+                @foreach ($user->followers->take(4) as $u)
+                  <a href="{{ route('user.profile', $u->userName) }}" class="w-full md:w-1/2" >
+                    <div class="flex md:flex-1 my-1 mt-3">
+                      <div>
+                        @php
+                          $uImage = ($u->image) ? asset("storage/".$u->image) : asset('/images/blank-profile.png');
+                        @endphp
+                        <img class="rounded-lg antialiased" width="50" src="{{ $uImage }}">
+                      </div>
+                      <div class="ml-2 text-xs">
+                        <h3 class="font-bold text-md text-tial-400">{{ $u->userName }}</h3>
+                        <span class="font-light text-sm">{{ $user->gender->gender_name }} | {{ ($user->profession) ? $user->profession : 'Artist' }} | Joined {{ $user->created_at->diffForHumans() }}</span>
+                      </div>
+                    </div>
+                  </a>
+                @endforeach
+
+              @else 
+            
+                <div class="align-middle mx-auto mt-3 mb-3 font-sans text-lg font-sans font-normal">{{ $user->userName }} isn't following anyone yet! </div>
+
+              @endif
+            </div> 
+        </div>
+
+        <div class="bg-gray-200 p-2 flex justify-center">
+          <a href="#" class="text-xs text-tial-800 font-bold p-2 hover:no-underline hover:font-tial-600">SHOW ALL</a>
+        </div>
+      </div>
+      
+    </div>
+
+    <div id="following" class="profile-tab-content mb-8">
+      <div class="max-w-md mx-auto xl:max-w-5xl lg:max-w-5xl md:max-w-2xl bg-white max-h-screen shadow-lg flex-row rounded relative ">
+        <div class="p-3 bg-gray-900 text-gray-900 rounded-t">
+            <h5 class="text-white text-sm text-center">Artists following {{ $user->userName }}</h5>
+        </div>
+        <div class="p-3 w-full h-full overflow-y-auto ">
+            <div class="flex flex-col align-middle mx-auto md:flex-row flex-wrap justify-start">
+              @if ($user->followings()->count() > 0)
+                
+                @foreach ($user->followings->take(4) as $u)
+                  <a href="{{ route('user.profile', $u->userName) }}" class="w-full md:w-1/2" >
+                    <div class="flex md:flex-1 my-1 mt-3">
+                      <div>
+                        @php
+                          $uImage = ($u->image) ? asset("storage/".$u->image) : asset('/images/blank-profile.png');
+                        @endphp
+                        <img class="rounded-lg antialiased" width="50" src="{{ $uImage }}">
+                      </div>
+                      <div class="ml-2 text-xs">
+                        <h3 class="font-bold text-md text-tial-400">{{ $u->userName }}</h3>
+                        <span class="font-light text-sm">{{ $user->gender->gender_name }} | {{ ($user->profession) ? $user->profession : 'Artist' }} | Joined {{ $user->created_at->diffForHumans() }}</span>
+                      </div>
+                    </div>
+                  </a>
+                @endforeach
+
+              @else 
+            
+                <div class="align-middle mx-auto mt-3 mb-3 font-sans text-lg font-sans font-normal">{{ $user->userName }} isn't following anyone yet! </div>
+
+              @endif
+            </div> 
+        </div>
+
+        <div class="bg-gray-200 p-2 flex justify-center">
+          <a href="#" class="text-xs text-tial-800 font-bold p-2 hover:no-underline hover:font-tial-600">SHOW ALL</a>
+        </div>
+      </div>
+      
+    </div>
   
-    <div class="mt-3">
-      <span class="uppercase text-base font-semibold">Personal Information</span>
-      <hr>
-    </div>
+  </div>
 
-    <div class="text-base mt-2">
+</div>
 
-      <div>
-        <strong>First Name:</strong><span> {{ $user->firstName }}</span>
-      </div>
-      
-      <div class="mt-3">
-        <strong>Last Name:</strong><span> {{ $user->lastName }}</span>
-      </div>
-
-      <div class="mt-3">
-        <strong>User Name:</strong><span> {{ $user->userName }}</span>
-      </div>
-      
-      <div class="mt-3">
-        <strong>Gender:</strong><span> {{ $user->gender->gender_name }}</span>
-      </div>
-
-      <div class="mt-3">
-        <strong>Date of birth:</strong><span> {{ $user->birthDate->format('d-m-Y') }} ({{ \Carbon\Carbon::parse($user->birthDate)->age }} years old) </span>
-      </div>
-
-      <div class="mt-3">
-        <strong>Profession:</strong><span> {{ $user->profession }} </span>
-      </div>
-
-      <div class="mt-3">
-        <strong>About Me:</strong><span> {{ $user->aboutMe }} </span>
-      </div>
-
-    </div>
-
-    <div class="mt-3">
-      <span class="uppercase text-base font-semibold">Contact Information</span>
-      <hr>
-    </div>
-
-    <div class="mt-3">
-      <strong>Email:</strong><span> {{ $user->email }}</span>
-    </div>
-
-    <div class="mt-3">
-      <strong>Phone Number:</strong><span> {{ $user->countryCode }} {{ $user->number }}</span>
-    </div>
-
-    <div class="mt-3">
-      <span class="uppercase text-base font-semibold">Followers</span>
-      <hr>
-    </div>
-
-    <div>
-      <div>
-        <div class="flex flex-wrap justify-start">
-          @for ($i = 0; $i < 4; $i++)
-            <div class="flex md:flex-1 my-1 mt-3">
-              <div>
-                <img class="rounded-lg antialiased" width="50" src="{{ $userImage }}" alt="">
-              </div>
-              <div class="ml-2 text-xs">
-                <p>{{ $user->userName }}</p>
-                <p>{{ $user->profession }}</p>
-              </div>
-            </div>
-          @endfor
-        </div>
-
-        <div class="flex justify-center mt-3">
-          <button href="" class="items-center bg-{{ $user->theme->value }}-500 rounded p-2 text-xs text-white text-center">
-            See All
-          </button>
-        </div>
-    </div>
-
-
-    <div class="mt-3">
-      <span class="uppercase text-base font-semibold">Following</span>
-      <hr>
-    </div>
-
-    <div>
-      <div>
-        <div class="flex flex-wrap justify-start">
-          @for ($i = 0; $i < 4; $i++)
-            <div class="flex md:flex-1 my-1 mt-3">
-              <div>
-                <img class="rounded-lg antialiased" width="50" src="{{ $userImage }}">
-              </div>
-              <div class="ml-2 text-xs">
-                <p>{{ $user->userName }}</p>
-                <p>{{ $user->profession }}</p>
-              </div>
-            </div>
-          @endfor
-        </div>
-
-        <div class="flex justify-center mt-3">
-          <button href="" class="items-center bg-{{ $user->theme->value }}-500 rounded p-2 text-xs text-white text-center">
-            See All
-          </button>
-        </div>
-    </div>
     
 
-    <div class="mt-3">
-      <span class="uppercase text-base font-semibold">Themes</span>
-      <hr>
-    </div>
 
-    <div class="text-base mt-2">
-      <div>
-        <strong>Theme:</strong><span class="uppercase"> {{ $user->theme->name }}</span>
-      </div>
-    </div>
+      
 
-    <div class="mt-4 flex justify-between">
-      <a class="hover:no-underline bg-{{ $user->theme->value }}-500 hover:bg-{{ $user->theme->value }}-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" href="{{ route('user.showUserEditForm') }}">
-          Edit Profile
-      </a>
+<script>
 
-      <a href="{{ route('home') }}" class="bg-{{ $user->theme->value }}-500 hover:bg-{{ $user->theme->value }}-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:no-underline">
-          Home
-      </a>
-    </div>
+  document.getElementById("profile-tab-default-open").click();
 
-  </div>
+  function openProfileTabs(evt, tabName) {
+    // Declare all variables
+    var i, profiletabcontent, profiletablinks;
 
-</div>
+    // Get all elements with class="profiletabcontent" and hide them
+    profiletabcontent = document.getElementsByClassName("profile-tab-content");
+    for (i = 0; i < profiletabcontent.length; i++) {
+      profiletabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="profiletablinks" and remove the class "active"
+    profiletablinks = document.getElementsByClassName("profile-tab-links");
+    for (i = 0; i < profiletablinks.length; i++) {
+      profiletablinks[i].className = profiletablinks[i].className.replace(" text-{{ Auth::user()->theme->value }}-500", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " text-{{ Auth::user()->theme->value }}-500";
+  }
+
+</script>
+
+<script>
   
-</div>
+  $(document).ready(function() {     
+
+    $('.action-follow').click(function(){
+        var _token = '{{ Session::token() }}';  
+        var user_id = $("#user-id").data('id');
+        var that = $(this);
+        var c = $(".followers-count").text();
+
+        //console.log(c);
+
+        $.ajax({
+           type:'POST',
+           url:'{{ route('toggleFollow') }}',
+           data:{user_id:user_id, _token:_token},
+           success:function(data){
+              console.log(data.response);
+              if(data.response == 'unfollowed'){
+                that.text("Follow");
+                $(".followers-count").text(parseInt(c)-1);
+              }else{
+                that.text("UnFollow");
+                $(".followers-count").text(parseInt(c)+1);
+              }
+           }
+        });
+    });      
+
+  }); 
+
+</script>
 @endsection

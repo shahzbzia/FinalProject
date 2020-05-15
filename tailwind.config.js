@@ -5,7 +5,11 @@ module.exports = {
     extend: {
     	spacing: {
           '37': '9rem',
+          '44': '11rem',
+          '47': '12rem',
           '49': '12.5rem',
+          '62': '14.75rem',
+          '68': '17rem',
 	        '72': '18rem',
           '83': '20.5rem',
 	        '84': '21rem',
@@ -42,6 +46,10 @@ module.exports = {
           '300': '#84ffec',
         }
       },
+
+      // margin: {
+      //   '27': '-10rem',
+      // },
 
       screens: {
       'sm': '640px',
