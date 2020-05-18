@@ -15,6 +15,14 @@
     if(App::environment('production')) {
       $userImage = (Auth::user()->image) ? asset("storage/app/public/".$user->image) : asset('/public/images/blank-profile.png');
     }
+
+    $themeText = (Auth::check()) ? 'text-'.Auth::user()->theme->value.'-500' : 'text-gray-600';
+
+    $themeTextHover = (Auth::check()) ? 'text-'.Auth::user()->theme->value.'-700' : 'text-black';
+
+    $themeBg = (Auth::check()) ? 'bg-'.Auth::user()->theme->value.'-500' : 'bg-black';
+
+    $themeBgHover = (Auth::check()) ? 'bg-'.Auth::user()->theme->value.'-700' : 'bg-black';
   @endphp
 
   <div class="rounded rounded-t-lg overflow-hidden shadow w-full my-3 bg-white">
@@ -24,27 +32,29 @@
           <img src="{{ $userImage }}" class="w-auto md:w-1/5 rounded-full border-solid border-white border-2 -mt-2 h-47">
       </div>
 
-      <div class="flex flex-row md:flex-col justify-center md:flex-row md:justify-end md:justify-end mx-2 md:-mt-24 md:mb-20">
+      @auth
+        <div class="flex flex-row md:flex-col justify-center md:flex-row md:justify-end md:justify-end mx-2 md:-mt-24 md:mb-20">
 
-        @if ($user->id == Auth::user()->id)
-              
-              {{-- <a class="h-6 bg-green-600 hover:bg-green-800 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg ml-64 md:ml-5" href="">Edit Profile</a> --}}
+          @if ($user->id == Auth::user()->id)
+                
+            {{-- <a class="h-6 bg-green-600 hover:bg-green-800 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg ml-64 md:ml-5" href="">Edit Profile</a> --}}
 
-              <a class="h-6 bg-green-600 hover:bg-green-800 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg md:ml-5" href="">Edit Profile</a>
+            <a class="h-6 bg-green-600 hover:bg-green-800 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg md:ml-5" href="{{ route('user.showUserEditForm') }}">Edit Profile</a>
 
-            @else
+          @else
 
-              <button class="action-follow h-6 bg-green-600 hover:bg-green-800 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg mr-2">
-                  <span class="shadow-lg">{{ ($user->isFollowedBy(Auth::user()) ? 'UnFollow' : 'Follow') }}</span>
-              </button>
+            <button class="action-follow h-6 bg-green-600 hover:bg-green-800 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg mr-2">
+                <span class="shadow-lg">{{ ($user->isFollowedBy(Auth::user()) ? 'UnFollow' : 'Follow') }}</span>
+            </button>
 
-              <button class="h-6 bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg mr-2">
-                  <span class="shadow-lg">Block</span>
-              </button>
+            <button class="h-6 bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg mr-2">
+                <span class="shadow-lg">Block</span>
+            </button>
 
-            @endif
+          @endif
 
-      </div>
+        </div>
+      @endauth
     <div class="text-center px-3 pb-6 pt-2">
       <h3 id="user-id" data-id="{{ $user->id }}" class="text-black text-xl bold font-sans font-semibold">{{ $user->firstName }} {{ $user->lastName }}</h3>
       <h3 class="text-black text-lg font-light font-sans mt-2 text-grey-dark">{{ $user->userName }}</h3>
@@ -60,19 +70,19 @@
     </div>
       <div class="flex justify-center pb-3 text-grey-dark text-lg mt-2">
         <div class="text-center mr-3 border-r pr-3">
-          <button id="profile-tab-default-open" onclick="openProfileTabs(event, 'posts')" class="profile-tab-links hover:text-{{ Auth::user()->theme->value }}-500 hover:no-underline outline-none focus:outline-none">
+          <button id="profile-tab-default-open" onclick="openProfileTabs(event, 'posts')" class="profile-tab-links hover:{{ $themeTextHover }} hover:no-underline outline-none focus:outline-none">
             <h2>34</h2>
             <span>Posts</span>
           </button>
         </div>
         <div class="text-center mr-3 border-r pr-3">
-          <button onclick="openProfileTabs(event, 'followers')" class="profile-tab-links hover:text-{{ Auth::user()->theme->value }}-500 hover:no-underline outline-none focus:outline-none">
+          <button onclick="openProfileTabs(event, 'followers')" class="profile-tab-links hover:{{ $themeTextHover }} hover:no-underline outline-none focus:outline-none">
             <h2 class="followers-count">{{ $user->followers()->count() }}</h2>
             <span>Followers</span>
           </button>
         </div>
         <div class="text-center" >
-          <button onclick="openProfileTabs(event, 'following')" class="profile-tab-links hover:text-{{ Auth::user()->theme->value }}-500 hover:no-underline outline-none focus:outline-none">
+          <button onclick="openProfileTabs(event, 'following')" class="profile-tab-links hover:{{ $themeTextHover }} hover:no-underline outline-none focus:outline-none">
             <h2>{{ $user->followings()->count() }}</h2>
             <span>Following</span>
           </button>
@@ -81,10 +91,10 @@
   </div>
 
 
-  <div>
+  <div class="">
 
     <div id="posts" class="profile-tab-content mb-8">
-      <div class="max-w-md mx-auto xl:max-w-5xl lg:max-w-5xl md:max-w-2xl bg-white max-h-screen shadow-lg flex-row rounded relative">
+      <div class="max-w-md mx-auto xl:max-w-full lg:max-w-full md:max-w-2xl bg-white max-h-screen shadow-lg flex-row rounded relative">
         <div class="p-3 bg-gray-900 text-gray-900 rounded-t">
             <h5 class="text-white text-sm text-center">List of all posts by this user</h5>
         </div>
@@ -97,7 +107,7 @@
     </div>
 
     <div id="followers" class="profile-tab-content mb-8">
-      <div class="max-w-md mx-auto xl:max-w-5xl lg:max-w-5xl md:max-w-2xl bg-white max-h-screen shadow-lg flex-row rounded relative ">
+      <div class="max-w-md mx-auto xl:max-w-full lg:max-w-full md:max-w-2xl bg-white max-h-screen shadow-lg flex-row rounded relative ">
         <div class="p-3 bg-gray-900 text-gray-900 rounded-t">
             <h5 class="text-white text-sm text-center">Artists following {{ $user->userName }}</h5>
         </div>
@@ -138,9 +148,9 @@
     </div>
 
     <div id="following" class="profile-tab-content mb-8">
-      <div class="max-w-md mx-auto xl:max-w-5xl lg:max-w-5xl md:max-w-2xl bg-white max-h-screen shadow-lg flex-row rounded relative ">
+      <div class="max-w-md mx-auto xl:max-w-full lg:max-w-full md:max-w-2xl bg-white max-h-screen shadow-lg flex-row rounded relative ">
         <div class="p-3 bg-gray-900 text-gray-900 rounded-t">
-            <h5 class="text-white text-sm text-center">Artists following {{ $user->userName }}</h5>
+            <h5 class="text-white text-sm text-center">{{ $user->userName }} followong other artists</h5>
         </div>
         <div class="p-3 w-full h-full overflow-y-auto ">
             <div class="flex flex-col align-middle mx-auto md:flex-row flex-wrap justify-start">
@@ -204,12 +214,12 @@
     // Get all elements with class="profiletablinks" and remove the class "active"
     profiletablinks = document.getElementsByClassName("profile-tab-links");
     for (i = 0; i < profiletablinks.length; i++) {
-      profiletablinks[i].className = profiletablinks[i].className.replace(" text-{{ Auth::user()->theme->value }}-500", "");
+      profiletablinks[i].className = profiletablinks[i].className.replace(" {{ $themeText }}", "");
     }
 
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " text-{{ Auth::user()->theme->value }}-500";
+    evt.currentTarget.className += " {{ $themeText }}";
   }
 
 </script>

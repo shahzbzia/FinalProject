@@ -5,7 +5,7 @@
 
     <div class="align-middle mx-auto mt-4 @guest w-full lg:w-3/5 xl:w-3/5 @else w-full lg:w-4/5 xl:w-4/5 @endif">
 
-        <h2 class="text-2xl @auth text-{{$user->theme->value}}-500 @else text-black @endauth font-bold tracking-widest uppercase font-mono mb-2 ml-4">{{ isset($user) ? 'Edit Profile' : 'Sign Up' }}</h2>
+        <h2 class="text-2xl @auth text-{{$user->theme->value}}-500 @else text-black @endauth font-bold tracking-widest uppercase font-mono mb-2 ml-4">{{ isset($user) ? 'Edit Profile' : 'Join the ARTillary' }}</h2>
 
         <form class="bg-white shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4" method="POST" action="{{ isset($user) ? route('user.update', Auth::user()->id) : route('register') }}" enctype="multipart/form-data">
 
