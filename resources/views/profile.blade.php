@@ -13,7 +13,7 @@
     $userImage = ($user->image) ? asset("storage/".$user->image) : asset('/images/blank-profile.png');
 
     if(App::environment('production')) {
-      $userImage = (Auth::user()->image) ? asset("storage/app/public/".$user->image) : asset('/public/images/blank-profile.png');
+      $userImage = ($user->image) ? asset("storage/app/public/".$user->image) : asset('/public/images/blank-profile.png');
     }
 
     $themeText = (Auth::check()) ? 'text-'.Auth::user()->theme->value.'-500' : 'text-gray-600';
