@@ -15,7 +15,7 @@ use App\Post;
 */
 
 Route::get('/', function () {
-    return redirect('home');
+    return redirect()->route('home');
 });
 
 Auth::routes();
