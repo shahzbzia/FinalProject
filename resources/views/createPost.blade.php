@@ -21,9 +21,7 @@
                         <p>Video</p>
                 </button>
                 </li>
-                {{-- <li class="flex-1 mt-1">
-                    <button class="tablinks px-24 md:px-16 lg:px-24 xl:px-24 text-center block border border-black rounded text-black py-2 focus:outline-none " onclick="openForm(event, 'audio')" >Audio</button>
-                </li> --}}
+
             </ul>
             
             <div id="image" class="row justify-content-center mt-4 tabcontent items-center">
@@ -37,20 +35,6 @@
                 <x-videoform/>
 
             </div>
-
-
-            {{-- <div id="audio" class="row justify-content-center mt-4 tabcontent">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">Audio</div>
-
-                        <div class="card-body text-red-500">
-                            THIS IS THE AUDIO FORM
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-
 
         </div>
     </div>

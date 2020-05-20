@@ -53,6 +53,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::post('toggle/follow', 'UserController@toggleFollow')->name('toggleFollow');
 
+	Route::post('post/comment/add', 'CommentController@create')->name('comment.create');
+	Route::delete('post/comment/delete', 'CommentController@destroy')->name('comment.destroy');
+	Route::put('post/comment/update', 'CommentController@update')->name('comment.update');
+
+
+
 
 
 	// Route::get('make/users', function () {

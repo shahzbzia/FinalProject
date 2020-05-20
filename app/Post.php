@@ -124,4 +124,11 @@ class Post extends Model implements HasMedia
     {
     	return $this->hasMany('App\Vote');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+    
+
 }

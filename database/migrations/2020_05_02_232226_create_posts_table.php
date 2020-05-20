@@ -20,7 +20,7 @@ class CreatePostsTable extends Migration
             $table->string('type')->nullable();
             $table->string('status')->nullable();
             $table->text('description')->nullable();
-            $table->foreignId('user_id')->uns;
+            $table->foreignId('user_id');
             $table->foreignId('updated_by')->nullable();
             $table->string('url')->nullable();
             $table->boolean('sellable')->nullable();

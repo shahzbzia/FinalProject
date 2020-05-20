@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Validator;
 use Session;
 use DB;
+use Comment;
 
 class PostController extends Controller
 {
@@ -291,4 +292,5 @@ class PostController extends Controller
 
         return response()->json(['votesCount' => $post->getTotalVoteCount()]);
     }
+
 }
