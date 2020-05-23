@@ -29,6 +29,8 @@ Route::get('/search/user/{query}', 'UserController@nameListAllResults')->name('n
 
 Route::get('/marketplace', 'MarketController@index')->name('marketPlace.index');
 
+Route::get('/{slug}', 'PostController@show')->name('post.show');
+
 Route::group(['middleware' => 'auth'], function () {
     
     Route::get('/edit/profile', 'UserController@showUserEditForm')->name('user.showUserEditForm');
@@ -40,7 +42,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/post/video/create', 'PostController@videoPost')->name('video.createPost');
 	Route::get('/post/checkSlug', 'PostController@checkSlug')->name('posts.checkSlug');
 	Route::get('/post/download/{download_id}', 'PostController@downloadable')->name('posts.downloadable');
-	Route::get('/{slug}', 'PostController@show')->name('post.show');
 
 
 	Route::post('/post/upVote', 'PostController@upVotePost')->name('upVotePost');
@@ -56,6 +57,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('post/comment/add', 'CommentController@create')->name('comment.create');
 	Route::delete('post/comment/delete', 'CommentController@destroy')->name('comment.destroy');
 	Route::put('post/comment/update', 'CommentController@update')->name('comment.update');
+
+	Route::get('/my/cart', 'CartController@index')->name('cart.index');
+	Route::post('/my/cart/add', 'CartController@add')->name('cart.add');
+	Route::get('/my/cart/{id}/remove', 'CartController@remove')->name('cart.remove');
 
 
 

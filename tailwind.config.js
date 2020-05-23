@@ -11,6 +11,7 @@ module.exports = {
           '62': '14.75rem',
           '68': '17rem',
 	        '72': '18rem',
+          '76': '19rem',
           '83': '20.5rem',
 	        '84': '21rem',
           '96': '24rem',
@@ -70,6 +71,8 @@ module.exports = {
   	backgroundColor: ['responsive', 'hover', 'focus', 'active'],
   	textColor: ['responsive', 'hover', 'focus', 'active'],
   	rotate: ['responsive', 'hover', 'focus', 'active'],
+    margin: ['responsive', 'hover', 'focus'],
+    tableLayout: ['responsive', 'hover', 'focus'],
   },
   plugins: [],
 }

@@ -3,6 +3,18 @@
 @section('content')
 	<div class="container mt-2">
 
+        @php
+
+            $themeText = (Auth::check()) ? 'text-'.Auth::user()->theme->value.'-500' : 'text-gray-800';
+
+            $themeTextHover = (Auth::check()) ? 'text-'.Auth::user()->theme->value.'-700' : 'text-black';
+
+            $themeBg = (Auth::check()) ? 'bg-'.Auth::user()->theme->value.'-500' : 'bg-gray-800';
+
+            $themeBgHover = (Auth::check()) ? 'bg-'.Auth::user()->theme->value.'-700' : 'bg-black';
+
+        @endphp
+
 		<div class="p-3 bg-black rounded-t block md:flex md:justify-between">
             <h5 class="text-white text-sm">{{ $post->title }}</h5>
             <p class="text-xs font-light text-gray-600">posted by <a href="{{ route('user.profile', $post->user->userName) }}">{{ $post->user->userName }}</a> {{ $post->created_at->diffForHumans() }}</p>
@@ -22,20 +34,20 @@
             <div class="flex flex-row justify-between my-1 ml-2 mr-2">
 
                 <div class="flex flex-row">
-                    <a href="#"><svg id="iconmonstr" class="{{ ($post->checkIfUserHasVoted(1)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} up-vote mr-1 fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                    <a href="#"><svg id="iconmonstr" class=" @auth {{ ($post->checkIfUserHasVoted(1)) ? 'text-' . $themeText . '-500' : '' }} @endauth up-vote mr-1 fill-current hover:text-{{ $themeTextHover }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
                         <path id="arrow-48" class="cls-1" d="M2.975,14l4-.013L11.95,5.946l5.026,8.006,4-.013L11.931-.031Zm8.987-4.029L21.007,23.94,3.007,24Z"/>
                     </svg>
                     </a>
 
                     <p id="{{ $post->id.'vote-counts-small' }}" class="vote-count text-sm mr-1">{{ $post->getTotalVoteCount() }}</p>
 
-                    <a href="#"><svg id="iconmonstr" class="{{ ($post->checkIfUserHasVoted(0)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} down-vote fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                    <a href="#"><svg id="iconmonstr" class=" @auth {{ ($post->checkIfUserHasVoted(0)) ? 'text-' . $themeText . '-500' : '' }} @endauth down-vote fill-current hover:text-{{ $themeTextHover }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
                         <path id="arrow-48" d="M20.994,9.971l-4,.013-4.974,8.038L6.994,10.016l-4,.013L12.038,24ZM12.006,14L2.962,0.029l18-.057Z"/>
                     </svg></a>
                 </div>
 
                 <div class="flex flex-row">
-                    <a class="mr-2" href=""><svg class="fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 1v16.981h4v5.019l7-5.019h13v-16.981h-24zm13 12h-8v-1h8v1zm6-3h-14v-1h14v1zm0-3h-14v-1h14v1z"/></svg></a>
+                    <a class="mr-2" href=""><svg class="fill-current hover:text-{{ $themeTextHover }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 1v16.981h4v5.019l7-5.019h13v-16.981h-24zm13 12h-8v-1h8v1zm6-3h-14v-1h14v1zm0-3h-14v-1h14v1z"/></svg></a>
 
                     <p class="text-sm">{{ $post->comments()->count() }}</p>
                 </div>
@@ -66,7 +78,7 @@
 
 	        @else
 
-	        	<p><a href="">Signup</a> or <a href="">Login</a> to write a comment.</p>
+	        	<p class="text-center mt-2"><a href="{{ route('register') }}"><strong>Signup</strong></a> or <a href="{{ route('login') }}"><strong>Login</strong></a> to write a comment.</p>
 
         	@endauth
 			
@@ -83,18 +95,24 @@
                                     <p id="{{ $comment->id.'comment-val' }}" class="text-base">{{ $comment->body }}</p>
                                 </div>
 
-                                <div class="flex ml-16">
-                                    <span><button type="button" edit-id="{{ $comment->id }}" class="edit text-sm text-blue-500">Edit</button> </span>
+                                @auth
+                                    @if (Auth::user()->id == $comment->user->id)
+                                        <div class="flex ml-16">
+                                            <span><button type="button" edit-id="{{ $comment->id }}" class="edit text-sm text-blue-500">Edit</button> </span>
 
-                                    <span class="ml-2"><button type="button" class="delete text-sm text-red-500" delete-id="{{ $comment->id }}">Delete</button> </span>
-                                </div>
+                                            <span class="ml-2"><button type="button" class="delete text-sm text-red-500" delete-id="{{ $comment->id }}">Delete</button> </span>
+                                        </div>
+                                    @endif
+                                @endauth
                             </div>
                         </div>
                     @endforeach
 
                 @else
 
-                    <h1 class="text-center zero-comments">Oops, seems like this comment section is a wasteland! Why dont you populate it by saying something nice?</h1>
+                    @auth
+                        <h1 class="text-center zero-comments">Oops, seems like this comment section is a wasteland! Why dont you populate it by saying something nice?</h1>
+                    @endauth
 
                 @endif
 
@@ -138,10 +156,10 @@
             var _token = '{{ Session::token() }}';
             var upPostId = $(this).attr("post-id");
             
-            $(this).toggleClass("text-{{ Auth::user()->theme->value }}-500");
-            if($(this).hasClass("text-{{ Auth::user()->theme->value }}-500"))
+            $(this).toggleClass("text-{{ $themeText }}-500");
+            if($(this).hasClass("text-{{ $themeText }}-500"))
             {
-                $('.down-vote').removeClass("text-{{ Auth::user()->theme->value }}-500");
+                $('.down-vote').removeClass("text-{{ $themeText }}-500");
             }
             $.ajax({
                 method: 'POST',
@@ -158,10 +176,10 @@
             event.preventDefault();
             var _token = '{{ Session::token() }}';
             var downPostId = $(this).attr("post-id");
-            $(this).toggleClass("text-{{ Auth::user()->theme->value }}-500");
-            if($(this).hasClass("text-{{ Auth::user()->theme->value }}-500"))
+            $(this).toggleClass("text-{{ $themeTextHover }}-500");
+            if($(this).hasClass("text-{{ $themeTextHover }}-500"))
             {
-                $('.up-vote').removeClass("text-{{ Auth::user()->theme->value }}-500");
+                $('.up-vote').removeClass("text-{{ $themeTextHover }}-500");
             }
             $.ajax({
                 method: 'POST',
@@ -177,33 +195,35 @@
 
 </script>
 
-<script>
-    //add comment
-    $('#form-comment').on('submit', function(e) {
-        e.preventDefault();
-        var comment = $('#comment-textarea').val();
-        var postId = $("#post-id").val();
-        var _token = '{{ Session::token() }}';
-        
-        if ('{{ Auth::user()->image }}') 
-        {
-            var img = '{{ asset('storage/'.Auth::user()->image) }}'
-        }else 
-        {
-            var img = '{{ asset('/images/blank-profile.png') }}'
-        }
-        $.ajax({
-            type: "POST",
-            url: '{{ route('comment.create') }}',
-            data: {comment:comment, postId:postId, _token:_token},
-            success: function(msg) {
-                $('.zero-comments').empty();
-                $(".comment-section").prepend(msg.comment);
+@auth
+    <script>
+        //add comment
+        $('#form-comment').on('submit', function(e) {
+            e.preventDefault();
+            var comment = $('#comment-textarea').val();
+            var postId = $("#post-id").val();
+            var _token = '{{ Session::token() }}';
+            
+            if ('{{ Auth::user()->image }}') 
+            {
+                var img = '{{ asset('storage/'.Auth::user()->image) }}'
+            }else 
+            {
+                var img = '{{ asset('/images/blank-profile.png') }}'
             }
+            $.ajax({
+                type: "POST",
+                url: '{{ route('comment.create') }}',
+                data: {comment:comment, postId:postId, _token:_token},
+                success: function(msg) {
+                    $('.zero-comments').empty();
+                    $(".comment-section").prepend(msg.comment);
+                }
+            });
         });
-    });
-    
-</script>
+        
+    </script>
+@endauth
 
 <script>
     //remove comment

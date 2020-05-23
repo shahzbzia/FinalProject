@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="hidden lg:flex flex-col">
-                            <a class="sm:mr-2 lg:mr-0" href=""><svg class=" fill-current hover:{{ $themeText }}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 1v16.981h4v5.019l7-5.019h13v-16.981h-24zm13 12h-8v-1h8v1zm6-3h-14v-1h14v1zm0-3h-14v-1h14v1z"/></svg></a>
+                            <a class="sm:mr-2 lg:mr-0" href="{{ route('post.show', $post->slug) }}"><svg class=" fill-current hover:{{ $themeText }}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 1v16.981h4v5.019l7-5.019h13v-16.981h-24zm13 12h-8v-1h8v1zm6-3h-14v-1h14v1zm0-3h-14v-1h14v1z"/></svg></a>
 
                             <p class="text-sm text-center">{{ $post->comments()->count() }}</p>
                         </div>

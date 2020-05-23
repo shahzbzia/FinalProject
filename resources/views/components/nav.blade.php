@@ -38,53 +38,82 @@
 
       $userProfession = (Auth::user()->profession) ? Auth::user()->profession : 'Artist';
     @endphp
-  
-  <div>
-    <div id="getWidth" class="flex justify-around mr-6">
-      <img class="border-2 rounded-full md:rounded-none lg:rounded-none xl:rounded-none mobile" id="avatarImage" onclick="myFunction()" width="50" height="50" src="{{ $pathImage }}">
-          
-      <div class="ml-3 text-white font-semibold hidden md:block lg:block xl:block">
-        <h5 class="text-base">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
-        <p class="text-xs text-left">{{ $userProfession }}</p>
+
+    <div class="flex">
+      <div class="align-middle my-auto mx-6 hidden md:block">
+        <a class="hover:no-underline" href="{{ route('cart.index') }}">
+          <p class="uppercase font-semibold text-white border border-white p-2 px-4">
+
+          Cart
+
+          <div class="flex flex-row-reverse w-full">
+              <div slot="icon" class="relative">
+                  <div class="cart-total-products absolute text-xs rounded-full -mt-10 ml px-1 font-bold top-0 right-0 text-white">{{ \Cart::session(Auth::user()->id)->getContent()->count() }}</div>  
+              </div>
+          </div>
+
+        </p></a>
       </div>
+      
+      <div>
+        <div id="getWidth" class="flex justify-around mr-6">
+          <img class="border-2 rounded-full md:rounded-none lg:rounded-none xl:rounded-none mobile" id="avatarImage" onclick="myFunction()" width="50" height="50" src="{{ $pathImage }}">
+              
+          <div class="ml-3 text-white font-semibold hidden md:block lg:block xl:block">
+            <h5 class="text-base">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
+            <p class="text-xs text-left">{{ $userProfession }}</p>
+          </div>
 
-      <button class="ml-4 focus:outline-none hidden md:block lg:block xl:block">
-        <img class="dropbtn" width="14" height="14" src="{{ $pathArrow }}" onclick="myFunction()">
-      </button>
-    </div>
+          <button class="ml-4 focus:outline-none hidden md:block lg:block xl:block">
+            <img class="dropbtn" width="14" height="14" src="{{ $pathArrow }}" onclick="myFunction()">
+          </button>
+        </div>
 
-    <div id="myDropdown" class=" text-base dropdown-content rounded-lg py-2">
+        <div id="myDropdown" class=" text-base dropdown-content rounded-lg py-2">
 
-      <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline">Home</a>
+          <a href="{{ route('home') }}" class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline">Home</a>
 
-      <a href="{{ route('user.profile', Auth::user()->userName) }}" class="{{-- @if (Route::currentRouteName() == 'user.index') active @endif --}} block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline">Profile</a>
+          <a href="{{ route('user.profile', Auth::user()->userName) }}" class="{{-- @if (Route::currentRouteName() == 'user.index') active @endif --}} block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline">Profile</a>
 
-      <div class="block md:hidden lg:hidden xl:hidden px-4 py-2 font-semibold">
-        <h5>Quick Links</h5>
-        <hr>
-      </div>
+          <div class="block md:hidden lg:hidden xl:hidden px-4 py-2 font-semibold">
+            <h5>Quick Links</h5>
+            <hr>
+          </div>
 
-      <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('user.showUserEditForm') }}">All posts</a>
+          <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('user.showUserEditForm') }}">All posts</a>
 
-      <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('marketPlace.index') }}">Market Place</a>
+          <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('marketPlace.index') }}">Market Place</a>
 
-      <div class="block md:hidden lg:hidden xl:hidden px-4 py-2 font-semibold">
-        <h5>Settings</h5>
-        <hr>
-      </div>
+          <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('cart.index') }}"><p>
 
-      <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('user.showUserEditForm') }}">Edit Profile</a>
+          Cart
 
-      <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline" href="{{ route('logout') }}"
-         onclick="event.preventDefault();
-            document.getElementById('logout-form').submit();">
-          {{ __('Logout') }}
-      </a>
+          <div class="flex flex-row w-full">
+              <div slot="icon" class="relative">
+                  <div class="cart-total-products absolute text-xs rounded-full -mt-8 ml-8 font-bold top-0 text-black">{{ \Cart::session(Auth::user()->id)->getContent()->count() }}</div>  
+              </div>
+          </div>
 
-      <form id="logout-form" action="{{ route('logout') }}" method="POST">
-          @csrf
-      </form>
+          </p></a>
 
+          <div class="block md:hidden lg:hidden xl:hidden px-4 py-2 font-semibold">
+            <h5>Settings</h5>
+            <hr>
+          </div>
+
+          <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('user.showUserEditForm') }}">Edit Profile</a>
+
+          <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline" href="{{ route('logout') }}"
+             onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();">
+              {{ __('Logout') }}
+          </a>
+
+          <form id="logout-form" action="{{ route('logout') }}" method="POST">
+              @csrf
+          </form>
+
+        </div>
     </div>
 
     @else
