@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Post\Video;
+namespace App\Http\Requests\HireMe;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateVideoPostRequest extends FormRequest
+class HireMeFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,9 @@ class CreateVideoPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'titleVid' => 'required|string', 
-            'descriptionVid'  => 'nullable|string', 
-            'sellable' => 'nullable|string',
-            'royaltyFeeVid' => 'nullable|numeric',
-            'dContentVid' => 'nullable|string'
+            'email' => 'required|email',
+            'subject' => 'required',
+            'description' => 'required',
         ];
     }
 }

@@ -15,6 +15,8 @@ use Validator;
 use Session;
 use DB;
 use Comment;
+use App\Http\Requests\Post\EditPostRequest;
+
 
 class PostController extends Controller
 {
@@ -70,9 +72,11 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
-        //
+        $post = Post::where('id', $id)->firstOrFail();
+
+        return view('editPost')->with('post', $post);
     }
 
     /**
@@ -82,9 +86,31 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(EditPostRequest $request, $id)
     {
-        //
+        $post = Post::where('id', $id)->firstOrFail();
+
+        if ($post->type == 'video') {
+
+            $post->update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'royaltyFee' => $request->royaltyFee,
+                'dVidContent' => $request->url
+            ]);
+
+        } else {
+
+            $post->update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'royaltyFee' => $request->royaltyFee,
+            ]);     
+        }
+
+        session()->flash('success', 'Post added/updated successfully');
+
+        return redirect(route('home'));
     }
 
     /**
@@ -120,7 +146,6 @@ class PostController extends Controller
             $post->update([
                 'sellable' => 1,
                 'royaltyFee' => $request->royaltyFee,
-                'price' => $request->price,
                 'download_id' => $uuid,
             ]);
 
@@ -161,6 +186,7 @@ class PostController extends Controller
 
         if (request()->hasFile('mainVideo')) {
             $post->addMediaFromRequest('mainVideo')->toMediaCollection('video');
+            $post->addMediaFromUrl(config('app.url') . '/images/placeholder.png')->toMediaCollection('downloads');
         }
 
         $output = array(
@@ -221,19 +247,35 @@ class PostController extends Controller
         return response()->json();
     }
 
-    public function videoPost(CreateVideoPostRequest $request)
+    public function videoPost(Request $request)
     {
 
         $id = $request->id;
 
-        $post = Post::whereId($id);
+        $post = Post::whereId($id)->firstOrFail();
+
+        $regex = '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/';
+
+        $validator = Validator::make($request->all(), [
+            'titleVid' => 'required|string', 
+            'descriptionVid'  => 'nullable|string', 
+            'sellable' => 'nullable|string',
+            'royaltyFeeVid' => 'nullable|numeric',
+            'dContentVid' => 'required|regex:'.$regex,
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('editPost', $post->id))
+                        ->withErrors($validator)
+                        ->withInput();
+        }
 
         $post->update([
 
-            'title' => $request->title,
-            'slug' => $request->slug,
+            'title' => $request->titleVid,
+            'slug' => $request->slugVid,
             'status' => 'published',
-            'description'  => $request->description,
+            'description'  => $request->descriptionVid,
 
         ]);
 
@@ -243,14 +285,10 @@ class PostController extends Controller
             
             $post->update([
                 'sellable' => 1,
-                'royaltyFee' => $request->royaltyFee,
-                'price' => $request->price,
+                'royaltyFee' => $request->royaltyFeeVid,
+                'url' => $request->dContentVid,
                 'download_id' => $uuid,
-            ]);
-
-            if (request()->hasFile('dContent')) {
-                $post->addMediaFromRequest('dContent')->toMediaCollection('downloads');
-            }   
+            ]);   
         }
 
         session()->flash('success', 'Video posted successfully');

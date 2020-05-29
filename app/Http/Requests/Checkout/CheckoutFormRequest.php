@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Post\Video;
+namespace App\Http\Requests\Checkout;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateVideoPostRequest extends FormRequest
+class CheckoutFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,9 @@ class CreateVideoPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'titleVid' => 'required|string', 
-            'descriptionVid'  => 'nullable|string', 
-            'sellable' => 'nullable|string',
-            'royaltyFeeVid' => 'nullable|numeric',
-            'dContentVid' => 'nullable|string'
+            'billing_email' => 'required|email',
+            'billing_address' => 'required',
+            'name_on_card' => 'required',
         ];
     }
 }

@@ -14,7 +14,7 @@
             <div class="flex">
                 <svg class="mt-1 ml-1 mr-2" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"><path d="M6.188 8.719c.439-.439.926-.801 1.444-1.087 2.887-1.591 6.589-.745 8.445 2.069l-2.246 2.245c-.644-1.469-2.243-2.305-3.834-1.949-.599.134-1.168.433-1.633.898l-4.304 4.306c-1.307 1.307-1.307 3.433 0 4.74 1.307 1.307 3.433 1.307 4.74 0l1.327-1.327c1.207.479 2.501.67 3.779.575l-2.929 2.929c-2.511 2.511-6.582 2.511-9.093 0s-2.511-6.582 0-9.093l4.304-4.306zm6.836-6.836l-2.929 2.929c1.277-.096 2.572.096 3.779.574l1.326-1.326c1.307-1.307 3.433-1.307 4.74 0 1.307 1.307 1.307 3.433 0 4.74l-4.305 4.305c-1.311 1.311-3.44 1.3-4.74 0-.303-.303-.564-.68-.727-1.051l-2.246 2.245c.236.358.481.667.796.982.812.812 1.846 1.417 3.036 1.704 1.542.371 3.194.166 4.613-.617.518-.286 1.005-.648 1.444-1.087l4.304-4.305c2.512-2.511 2.512-6.582.001-9.093-2.511-2.51-6.581-2.51-9.092 0z"/></svg>
 
-                <div id="slugText" class="slugText">https://www.artillary.net/<span id="slugLink" class="slugLink"></span></div>
+                <div id="slugText" class="slugText">{{ config('app.url') }}/<span id="slugLink" class="slugLink"></span></div>
             </div>
             
             <button type="button" class="text-{{ Auth::user()->theme->value }}-500" onclick="copyToClipboard('.slugText', '.slugLink')">Copy</button>
@@ -107,22 +107,6 @@
 
         </div>
 
-        <div class="mb-4">
-
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="price">
-                Price
-            </label>
-
-            <input id="price" type="number" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('price') bg-red-200 @enderror" name="price" value="{{ old('price') }}" required autocomplete="price" autofocus>
-
-            @error('price')
-                <span class="text-red-500 text-xs italic" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
-
-        </div>
-
         <div class="mb-4 w-full">
 
             <div class="flex">
@@ -133,7 +117,7 @@
                 <span data-toggle="tooltip" title="This is the place where you can put the downloadable content for the paying customers."><span class="bg-black rounded-full py-0 px-2 ml-2 text-white">?</span></span>
             </div>
 
-            <input id="dContent" type="file" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('dContent') bg-red-200 @enderror" name="dContent" value="{{ old('dContent') }}" autofocus>
+            <input id="dContent" type="file" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('dContent') bg-red-200 @enderror" name="dContent" value="{{ old('dContent') }}" autofocus required>
 
             @error('dContent')
                 <span class="text-red-500 text-xs italic" role="alert">

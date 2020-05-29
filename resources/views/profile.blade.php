@@ -47,9 +47,9 @@
                 <span class="shadow-lg">{{ ($user->isFollowedBy(Auth::user()) ? 'UnFollow' : 'Follow') }}</span>
             </button>
 
-            <button class="h-6 bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg mr-2">
-                <span class="shadow-lg">Block</span>
-            </button>
+            <a href="{{ route('hireMe.index', $user->userName) }}" class="hover:no-underline h-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg mr-2">
+                <span class="shadow-lg">Hire Me</span>
+            </a>
 
           @endif
 

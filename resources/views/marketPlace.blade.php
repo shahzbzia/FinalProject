@@ -55,6 +55,7 @@
                     $('#' + postId + 'add-to-cart-button').text('✔ Added to cart');
                     $('#' + postId + 'add-to-cart-button').addClass('bg-green-400');
                     $('#' + postId + 'add-to-cart-button').addClass('text-white');
+                    $('#' + postId + 'add-to-cart-button').attr('disabled', true);
                     $('.cart-total-products').text(data.numOfItems);
 
                 }

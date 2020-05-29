@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Post;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,9 +11,18 @@ use App\Post;
 |
 */
 
+use Illuminate\Support\Facades\Route;
+use App\Post;
+use App\Mail\HireMeMail;
+use Illuminate\Support\Facades\Mail;
+
 Route::get('/', function () {
     return redirect()->route('home');
 });
+
+// Route::get('/email', function (){
+// 	return new HireMeMail();
+// });
 
 Auth::routes();
 
@@ -43,6 +49,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/post/checkSlug', 'PostController@checkSlug')->name('posts.checkSlug');
 	Route::get('/post/download/{download_id}', 'PostController@downloadable')->name('posts.downloadable');
 
+	Route::get('/edit/post/{id}', 'PostController@edit')->name('editPost');
+	Route::put('/edit/post/{id}/update', 'PostController@update')->name('updatePost');
+
+
 
 	Route::post('/post/upVote', 'PostController@upVotePost')->name('upVotePost');
 	Route::post('/post/downVote', 'PostController@downVotePost')->name('downVotePost');
@@ -54,13 +64,26 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::post('toggle/follow', 'UserController@toggleFollow')->name('toggleFollow');
 
+
 	Route::post('post/comment/add', 'CommentController@create')->name('comment.create');
 	Route::delete('post/comment/delete', 'CommentController@destroy')->name('comment.destroy');
 	Route::put('post/comment/update', 'CommentController@update')->name('comment.update');
 
+
 	Route::get('/my/cart', 'CartController@index')->name('cart.index');
 	Route::post('/my/cart/add', 'CartController@add')->name('cart.add');
 	Route::get('/my/cart/{id}/remove', 'CartController@remove')->name('cart.remove');
+
+
+	Route::get('/my/cart/checkout', 'CheckoutController@index')->name('checkout.index');
+	Route::post('/my/cart/checkout/charge', 'CheckoutController@store')->name('checkout.store');
+
+
+	Route::get('/my/orders', 'OrderController@index')->name('order.index');
+
+
+	Route::get('/hire/{userName}', 'HireMeController@index')->name('hireMe.index');
+	Route::post('/hire/{userName}/send/mail', 'HireMeController@sendHireMeEmail')->name('hireMe.sendHireMeEmail');
 
 
 

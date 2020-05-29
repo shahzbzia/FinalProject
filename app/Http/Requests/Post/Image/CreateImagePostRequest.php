@@ -29,7 +29,6 @@ class CreateImagePostRequest extends FormRequest
             'mainImage' => 'required|image', 
             'sellable' => 'nullable|string',
             'royaltyFee' => 'nullable|numeric',
-            'price' => 'nullable|numeric',
             'dContent' => 'nullable|file|mimes:zip', 
         ];
     }

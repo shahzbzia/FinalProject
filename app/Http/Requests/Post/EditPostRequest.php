@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Post\Video;
+namespace App\Http\Requests\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateVideoPostRequest extends FormRequest
+class EditPostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,10 @@ class CreateVideoPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'titleVid' => 'required|string', 
-            'descriptionVid'  => 'nullable|string', 
-            'sellable' => 'nullable|string',
-            'royaltyFeeVid' => 'nullable|numeric',
-            'dContentVid' => 'nullable|string'
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+            'royaltyFee' => 'nullable',
+            'dContentVid' => 'nullable|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'
         ];
     }
 }

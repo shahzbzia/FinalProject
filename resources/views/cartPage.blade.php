@@ -108,7 +108,7 @@
         </div>
         
         <div class="flex justify-center">
-            <a class="uppercase py-3 px-10 text-center text-white font-semibold bg-{{ Auth::user()->theme->value }}-500" href="">Checkout</a>
+            <a class="@if (Cart::session(Auth::user()->id)->getContent()->count() == 0) disabled opacity-75 @endif  uppercase py-3 px-10 text-center text-white font-semibold hover:no-underline bg-{{ Auth::user()->theme->value }}-500" href="{{ route('checkout.index') }}">Checkout</a>
         </div>
         
     </div>

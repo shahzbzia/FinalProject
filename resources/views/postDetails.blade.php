@@ -18,7 +18,14 @@
 		<div class="p-3 bg-black rounded-t block md:flex md:justify-between">
             <h5 class="text-white text-sm">{{ $post->title }}</h5>
             <p class="text-xs font-light text-gray-600">posted by <a href="{{ route('user.profile', $post->user->userName) }}">{{ $post->user->userName }}</a> {{ $post->created_at->diffForHumans() }}</p>
+
+            <div class="text-white">
+                <a class="mr-2 hover:no-underline hover:text-white" href="{{ route('editPost', $post->id) }}">Edit</a>
+                <a class="hover:no-underline hover:text-white" href="">Delete</a>
+            </div>
         </div>
+
+
 
 		@if ($post->getMedia('images')->first())
             <img class="h-full w-full object-cover" src="{{ $post->getMedia('images')->first()->getUrl('watermarked') }}">
