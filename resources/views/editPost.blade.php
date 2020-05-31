@@ -17,7 +17,7 @@
                 Title
             </label>
 
-            <input id="title" type="text" class="title shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('title') bg-red-200 @enderror" name="title" value="@error('title') {{ old('title') }} @enderror {{ $post->title }}" required autocomplete="title" autofocus>
+            <input id="title" type="text" class="title shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('title') bg-red-200 @enderror" name="title" value="@if($errors->any()) {{ old('title') }} @endif {{ $post->title }}" required autocomplete="title" autofocus>
 
             <div class="flex flex-col md:flex-row justify-between">
                 <div class="flex">
@@ -43,7 +43,7 @@
                 Slug
             </label>
 
-            <input id="slug" type="text" class="slug shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('slug') bg-red-200 @enderror" name="slug" value="@error('slug') {{ old('slug') }} @enderror {{ $post->slug }}" required autocomplete="slug" readonly autofocus>
+            <input id="slug" type="text" class="slug shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('slug') bg-red-200 @enderror" name="slug" value="@if($errors->any()) {{ old('slug') }} @endif {{ $post->slug }}" required autocomplete="slug" readonly autofocus>
 
             @error('slug')
                 <span class="text-red-500 text-xs italic" role="alert">
@@ -61,7 +61,7 @@
 
             </label>
 
-            <textarea name="description" rows="2" cols="50" id="description" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('description') bg-red-200 @enderror" >@error('description') {{ old('description') }} @enderror {{ $post->description }} </textarea>
+            <textarea name="description" rows="10" cols="50" id="description" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('description') bg-red-200 @enderror" >@if($errors->any()) {{ old('description') }} @endif {{ $post->description }} </textarea>
 
             @error('description')
                 <span class="text-red-500 text-xs italic" role="alert">
@@ -77,7 +77,7 @@
                 Market Place
             </label>
             
-            <input type="checkbox" id="sellable" name="sellable">
+            <input type="checkbox" id="sellable" name="sellable" @if ($post->sellable == 1) checked @endif>
             <label for="sellable"> Would you like this post to be available on the market place?</label><br>
 
         </div>
@@ -90,7 +90,7 @@
                     Royalty Fee
                 </label>
 
-                <input id="royaltyFee" type="number" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('royaltyFee') bg-red-200 @enderror" name="royaltyFee" value="@error('royaltyFee') {{ old('royaltyFee') }} @enderror {{ $post->royaltyFee }}" required autocomplete="royaltyFee" autofocus>
+                <input id="royaltyFee" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('royaltyFee') bg-red-200 @enderror" name="royaltyFee" value="@if($errors->any()) {{ old('royaltyFee') }} @else {{ $post->royaltyFee }} @endif" required autocomplete="royaltyFee" autofocus>
 
                 @error('royaltyFee')
                     <span class="text-red-500 text-xs italic" role="alert">
@@ -111,7 +111,7 @@
                     <span data-toggle="tooltip" title="This is the place where you can put the downloadable content for the paying customers."><span class="bg-black rounded-full py-0 px-2 ml-2 text-white">?</span></span>
                 </div>
 
-                <input id="dContentVid" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('dContentVid') bg-red-200 @enderror" name="dContentVid" value="{{ old('dContentVid') }}" autofocus required>
+                <input id="dContentVid" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('dContentVid') bg-red-200 @enderror" name="dContentVid" value="@if($errors->any()) {{ old('dContentVid') }} @else {{ $post->url }} @endif" autofocus required>
 
                 @error('dContentVid')
                     <span class="text-red-500 text-xs italic" role="alert">
@@ -169,18 +169,40 @@
         $('[data-toggle="tooltip"]').tooltip(); 
 
         //hide/show sellable details images
-        $("#sellable_details").hide();
-        $("#sellable_details :input").attr("disabled", true);
+        var sellable = '{{ $post->sellable }}'
+        //console.log('sellable = ' + sellable);
+        
+        if (sellable == 1) 
+        {
+            $("#sellable_details").show();
+            $("#sellable_details :input").attr("disabled", false);
+            
+            $('#sellable').change(function() {
+                if(this.checked) {
+                    $("#sellable_details").show();
+                    $("#sellable_details :input").attr("disabled", false);
+                }else{
+                    $("#sellable_details").hide();
+                    $("#sellable_details :input").attr("disabled", true);
+                }
+            });
+        }
 
-        $('#sellable').change(function() {
-            if(this.checked) {
-                $("#sellable_details").show();
-                $("#sellable_details :input").attr("disabled", false);
-            }else{
-                $("#sellable_details").hide();
-                $("#sellable_details :input").attr("disabled", true);
-            }
-        });
+        else{
+
+            $("#sellable_details").hide();
+            $("#sellable_details :input").attr("disabled", true);
+
+            $('#sellable').change(function() {
+                if(this.checked) {
+                    $("#sellable_details").show();
+                    $("#sellable_details :input").attr("disabled", false);
+                }else{
+                    $("#sellable_details").hide();
+                    $("#sellable_details :input").attr("disabled", true);
+                }
+            });
+        }
     });
 </script>
 @endsection

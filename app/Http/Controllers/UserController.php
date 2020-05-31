@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use App\User;
 use App;
 use DB;
+use App\Post;
 
 class UserController extends Controller
 {
@@ -178,9 +179,40 @@ class UserController extends Controller
             $res = 'followed';
         }
 
-
         return response()->json(['response'=>$res]);
 
+    }
+
+    public function myPosts($userName)
+    {
+        $user = User::where('userName', $userName)->firstOrFail();
+
+        $posts = Post::where('user_id', $user->id)->whereNotNull('title')->whereNotNull('slug')->get();
+
+        return view('home')->with('posts', $posts);
+    }
+
+    public function myEmptyPosts($userName)
+    {
+        $user = User::where('userName', $userName)->firstOrFail();
+
+        $posts = Post::where('user_id', $user->id)->whereNull('title')->whereNull('slug')->get();
+
+        return view('home')->with('posts', $posts);
+    }
+
+    public function followers($userName)
+    {
+        $user = User::where('userName', $userName)->firstOrFail();
+
+        return view('followers')->with('user', $user);
+    }
+
+    public function followings($userName)
+    {
+        $user = User::where('userName', $userName)->firstOrFail();
+
+        return view('followings')->with('user', $user);
     }
 
 

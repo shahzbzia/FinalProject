@@ -26,7 +26,7 @@ class HomeController extends Controller
     public function index()
     {
         $users = User::all();
-        $posts = Post::all();
+        $posts = Post::whereNotNull('title')->whereNotNull('slug')->get();
 
         return view('home')->with('users', $users)->with('posts', $posts);
     }

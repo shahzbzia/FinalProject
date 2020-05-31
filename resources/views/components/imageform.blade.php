@@ -130,8 +130,6 @@
 
     </div>
 
-    
-
     <div class="flex items-center justify-between">
 
         <button class="hover:bg-gray-700 bg-black hover:text-gray-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">

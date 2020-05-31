@@ -71,7 +71,7 @@
       <div class="flex justify-center pb-3 text-grey-dark text-lg mt-2">
         <div class="text-center mr-3 border-r pr-3">
           <button id="profile-tab-default-open" onclick="openProfileTabs(event, 'posts')" class="profile-tab-links hover:{{ $themeTextHover }} hover:no-underline outline-none focus:outline-none">
-            <h2>34</h2>
+            <h2>{{ $user->posts()->count() }}</h2>
             <span>Posts</span>
           </button>
         </div>
@@ -96,14 +96,76 @@
     <div id="posts" class="profile-tab-content mb-8">
       <div class="max-w-md mx-auto xl:max-w-full lg:max-w-full md:max-w-2xl bg-white max-h-screen shadow-lg flex-row rounded relative">
         <div class="p-3 bg-gray-900 text-gray-900 rounded-t">
-            <h5 class="text-white text-sm text-center">List of all posts by this user</h5>
+            <h5 class="text-white text-sm text-center">Posts by {{ $user->userName }}</h5>
         </div>
-        <div class="p-3 w-full h-full overflow-y-auto ">
-            <p class="text-justify">
-               Posts themselves
-            </p>
+
+        
+        <div class="p-3 w-full h-full overflow-y-auto">
+          @if ($user->posts()->count() > 0)
+            @foreach ($user->posts->take(2) as $post)
+              
+                @if ($post->title && $post->slug)
+                  @php
+                      $pathImage = ($post->user->image) ? asset("storage/".$post->user->image) : asset('/images/blank-profile.png');
+                  @endphp
+          
+                    <div class="w-full md:w-4/5 align-middle mx-auto mb-4 mt-4" >
+                        <div class="max-w-sm w-full md:max-w-full lg:flex">
+
+
+                            @if ($post->getMedia('images')->first())
+                                <div class="h-48 lg:h-48 lg:w-72 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style="background-image: url('{{ $post->getMedia('images')->first()->getUrl('watermarked') }}')">
+                                </div>
+                            @endif
+
+                             @if ($post->getMedia('video')->first())
+                                <div class="sm:h-32 md:h-48 lg:h-auto lg:w-72 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden">
+                                    <video controls controlsList="nodownload">
+                                        <source src="{{asset($post->getMedia('video')->first()->getUrl())}}" type="{{ $post->getMedia('video')->first()->mime_type }}">
+                                    </video>
+                                </div>
+                            @endif
+
+                            <a class="hover:no-underline" href="{{ route('post.show', $post->slug) }}">
+                                <div class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-3 flex flex-col justify-between leading-normal w-full min-h-64">
+                                    <div class="mb-3 ml-2">
+                                        <input type="hidden" class="post-id" value="{{ $post->id }}">
+                                        <div class="text-gray-900 font-bold text-base mb-2">{{ $post->title }}</div>
+                                        <div class="flex">
+                                            <p class="text-gray-700 text-sm">{{ \Illuminate\Support\Str::limit(strip_tags($post->description), 50) }}</p>
+                                            @if (strlen(strip_tags($post->description)) > 50)
+                                                <a href="{{ route('post.show', $post->slug) }}" class="text-xs ml-3">Read More</a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-start ml-2">
+                                        <a href="{{ route('user.profile', $post->user->userName) }}" class="hover:no-underline">
+                                            <div class="flex items-center">
+                                                <img class="w-10 h-10 rounded-full mr-2" src="{{ $pathImage }}">
+                                                <div class="text-xs">
+                                                    <p class="text-gray-900 font-semibold leading-none">{{ $post->user->userName }}</p>
+                                                    <p class="text-gray-600 text-xs">{{ ($post->created_at)->diffForhumans() }}</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>         
+              @endif
+            @endforeach
+        
+
+        @else
+          <div class="align-middle mx-auto mt-3 mb-3 font-sans text-lg font-sans font-normal text-center">{{ $user->userName }} hasn't made any posts yet! </div>
+        @endif
+        </div>
+        <div class="bg-gray-200 p-2 flex justify-center">
+          <a href="{{ route('my.posts', $user->userName) }}" class="text-xs text-tial-800 font-bold p-2 hover:no-underline hover:font-tial-600">SHOW ALL</a>
         </div>
       </div>
+      
     </div>
 
     <div id="followers" class="profile-tab-content mb-8">
@@ -134,14 +196,14 @@
 
               @else 
             
-                <div class="align-middle mx-auto mt-3 mb-3 font-sans text-lg font-sans font-normal">{{ $user->userName }} isn't following anyone yet! </div>
+                <div class="align-middle mx-auto mt-3 mb-3 font-sans text-lg font-sans font-normal">{{ $user->userName }} isn't followed by anyone yet! </div>
 
               @endif
-            </div> 
+            </div>
         </div>
 
         <div class="bg-gray-200 p-2 flex justify-center">
-          <a href="#" class="text-xs text-tial-800 font-bold p-2 hover:no-underline hover:font-tial-600">SHOW ALL</a>
+          <a href="{{ route('user.followers', $user->userName) }}" class="text-xs text-tial-800 font-bold p-2 hover:no-underline hover:font-tial-600">SHOW ALL</a>
         </div>
       </div>
       
@@ -150,7 +212,7 @@
     <div id="following" class="profile-tab-content mb-8">
       <div class="max-w-md mx-auto xl:max-w-full lg:max-w-full md:max-w-2xl bg-white max-h-screen shadow-lg flex-row rounded relative ">
         <div class="p-3 bg-gray-900 text-gray-900 rounded-t">
-            <h5 class="text-white text-sm text-center">{{ $user->userName }} followong other artists</h5>
+            <h5 class="text-white text-sm text-center">{{ $user->userName }} following other artists</h5>
         </div>
         <div class="p-3 w-full h-full overflow-y-auto ">
             <div class="flex flex-col align-middle mx-auto md:flex-row flex-wrap justify-start">
@@ -182,7 +244,7 @@
         </div>
 
         <div class="bg-gray-200 p-2 flex justify-center">
-          <a href="#" class="text-xs text-tial-800 font-bold p-2 hover:no-underline hover:font-tial-600">SHOW ALL</a>
+          <a href="{{ route('user.followings', $user->userName) }}" class="text-xs text-tial-800 font-bold p-2 hover:no-underline hover:font-tial-600">SHOW ALL</a>
         </div>
       </div>
       

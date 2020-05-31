@@ -29,6 +29,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/profile/user/{userName}', 'UserController@profile')->name('user.profile');
+Route::get('/followers/of/{userName}', 'UserController@followers')->name('user.followers');
+Route::get('/followed/by/{userName}', 'UserController@followings')->name('user.followings');
 
 Route::post('/search/name', 'UserController@nameList')->name('nameSearch');
 Route::get('/search/user/{query}', 'UserController@nameListAllResults')->name('nameListAllResults');
@@ -36,6 +38,10 @@ Route::get('/search/user/{query}', 'UserController@nameListAllResults')->name('n
 Route::get('/marketplace', 'MarketController@index')->name('marketPlace.index');
 
 Route::get('/{slug}', 'PostController@show')->name('post.show');
+
+Route::get('/posts/by/{userName}', 'UserController@myPosts')->name('my.posts');
+Route::get('/empty/posts/by/{userName}', 'UserController@myEmptyPosts')->name('my.emptyPosts');
+
 
 Route::group(['middleware' => 'auth'], function () {
     
@@ -52,7 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/edit/post/{id}', 'PostController@edit')->name('editPost');
 	Route::put('/edit/post/{id}/update', 'PostController@update')->name('updatePost');
 
-
+	Route::delete('/{id}/force/delete', 'PostController@edit')->name('deletePost');
 
 	Route::post('/post/upVote', 'PostController@upVotePost')->name('upVotePost');
 	Route::post('/post/downVote', 'PostController@downVotePost')->name('downVotePost');

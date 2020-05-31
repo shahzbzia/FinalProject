@@ -19,10 +19,12 @@
             <h5 class="text-white text-sm">{{ $post->title }}</h5>
             <p class="text-xs font-light text-gray-600">posted by <a href="{{ route('user.profile', $post->user->userName) }}">{{ $post->user->userName }}</a> {{ $post->created_at->diffForHumans() }}</p>
 
-            <div class="text-white">
-                <a class="mr-2 hover:no-underline hover:text-white" href="{{ route('editPost', $post->id) }}">Edit</a>
-                <a class="hover:no-underline hover:text-white" href="">Delete</a>
-            </div>
+            @if ($post->user_id == Auth::user()->id)
+                <div class="text-white">
+                    <a class="mr-2 hover:no-underline hover:text-white" href="{{ route('editPost', $post->id) }}">Edit</a>
+                    <button class="hover:no-underline hover:text-white" onclick="handleDelete({{ $post->id }})">Delete</button>
+                </div>
+            @endif
         </div>
 
 
@@ -38,6 +40,14 @@
         @endif
 
         <div class="block bg-white py-1 rounded-lg border border-black shadow-lg">
+
+            @if ($post->description)
+                <div class="p-3">
+                    <strong>Description:</strong> {{ $post->description }}
+                </div>
+            @endif
+
+
             <div class="flex flex-row justify-between my-1 ml-2 mr-2">
 
                 <div class="flex flex-row">
@@ -154,7 +164,25 @@
         </div>
     </div>
 
-
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
     $(function() {
@@ -274,5 +302,14 @@
             });
         });
     });
+</script>
+
+<script>
+    
+    function handleDelete(id)
+    {
+        console.log('deleting', id);    
+    }
+
 </script>
 @endsection

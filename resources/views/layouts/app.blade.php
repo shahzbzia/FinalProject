@@ -53,6 +53,16 @@
 
             <div class="container mx-auto">
 
+                @auth
+                    @if (Route::currentRouteName() == 'home')
+                        @if (Auth::user()->emptyPosts()->count())
+                            <div role="alert" class="bg-blue-300 text-white p-4 mt-8 font-bold rounded">
+                                <p class="text-blue-800">You have 1 or more unfinished posts, click <a href="{{ route('my.emptyPosts', Auth::user()->userName) }}">here</a> to complete them. Unfifnshed posts are automatically deleted in 24 hours!</p>
+                            </div>
+                        @endif
+                    @endif
+                @endauth
+
                 <x-flashmessages /> {{-- Flash Messages component --}}
 
                 <main class="flex mt-12">

@@ -56,8 +56,12 @@ class User extends Authenticatable
         return $this->role_id;
     }
 
-    public function post(){
-        return $this->hasMany(Post::class);
+    public function posts(){
+        return $this->hasMany(Post::class)->whereNotNull('title')->whereNotNull('slug');
+    }
+
+    public function emptyPosts(){
+        return $this->hasMany(Post::class)->whereNull('title')->whereNull('slug');
     }
 
     public function votes()

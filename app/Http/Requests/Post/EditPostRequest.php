@@ -26,8 +26,8 @@ class EditPostRequest extends FormRequest
         return [
             'title' => 'required|string',
             'description' => 'nullable|string',
-            'royaltyFee' => 'nullable',
-            'dContentVid' => 'nullable|regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'
+            'royaltyFee' => 'nullable|numeric',
+            'dContentVid' => 'nullable|url'
         ];
     }
 }

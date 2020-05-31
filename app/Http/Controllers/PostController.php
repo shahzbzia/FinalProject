@@ -96,7 +96,8 @@ class PostController extends Controller
                 'title' => $request->title,
                 'description' => $request->description,
                 'royaltyFee' => $request->royaltyFee,
-                'dVidContent' => $request->url
+                'dVidContent' => $request->url,
+                'sellable' => null,
             ]);
 
         } else {
@@ -105,7 +106,29 @@ class PostController extends Controller
                 'title' => $request->title,
                 'description' => $request->description,
                 'royaltyFee' => $request->royaltyFee,
+                'sellable' => null,
             ]);     
+        }
+
+        if (request()->has('sellable')) {
+
+            $uuid = Str::uuid()->toString();
+            
+            $post->update([
+                'sellable' => 1,
+                'royaltyFee' => $request->royaltyFee,
+                'download_id' => $uuid,
+            ]);
+
+            if (request()->hasFile('dContent')) {
+                $post->addMediaFromRequest('dContent')->toMediaCollection('downloads');
+            }
+
+            if (request()->has('dContentVid')) {
+                $post->update([
+                    'url' => $request->dContentVid,
+                ]);
+            }
         }
 
         session()->flash('success', 'Post added/updated successfully');
@@ -119,9 +142,16 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+        $post = Post::whereId($id)->firstOrFail();
+
+        $post->forceDelete();
+
+        session()->flash('success', 'Post deleted successfully!');
+
+        return redirect(route('home'));
+
     }
 
     public function imagePost(CreateImagePostRequest $request)
@@ -254,14 +284,12 @@ class PostController extends Controller
 
         $post = Post::whereId($id)->firstOrFail();
 
-        $regex = '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/';
-
         $validator = Validator::make($request->all(), [
             'titleVid' => 'required|string', 
             'descriptionVid'  => 'nullable|string', 
             'sellable' => 'nullable|string',
             'royaltyFeeVid' => 'nullable|numeric',
-            'dContentVid' => 'required|regex:'.$regex,
+            'dContentVid' => 'required|url',
         ]);
 
         if ($validator->fails()) {
