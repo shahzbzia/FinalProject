@@ -122,6 +122,28 @@
             </div>
         @endif
 
+        @if ($post->type == 'image')
+            <div class="mb-4 w-full">
+
+                <div class="flex">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="dContent">
+                        Downloadable Content
+                    </label>
+
+                    <span data-toggle="tooltip" title="This is the place where you can put the downloadable content for the paying customers."><span class="bg-black rounded-full py-0 px-2 ml-2 text-white">?</span></span>
+                </div>
+
+                <input id="dContent" type="file" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('dContent') bg-red-200 @enderror" name="dContent" value="{{ old('dContent') }}" autofocus required>
+
+                @error('dContent')
+                    <span class="text-red-500 text-xs italic" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+
+            </div>
+        @endif
+
         </div>
 
 

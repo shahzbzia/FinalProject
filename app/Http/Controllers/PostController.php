@@ -16,6 +16,7 @@ use Session;
 use DB;
 use Comment;
 use App\Http\Requests\Post\EditPostRequest;
+use Spatie\MediaLibrary\MediaStream;
 
 
 class PostController extends Controller
@@ -216,7 +217,7 @@ class PostController extends Controller
 
         if (request()->hasFile('mainVideo')) {
             $post->addMediaFromRequest('mainVideo')->toMediaCollection('video');
-            $post->addMediaFromUrl(config('app.url') . '/images/placeholder.png')->toMediaCollection('downloads');
+            //$post->addMediaFromUrl(config('app.url') . '/images/placeholder.png')->toMediaCollection('downloads');
         }
 
         $output = array(
@@ -335,7 +336,13 @@ class PostController extends Controller
     {
         $post = Post::where('download_id', $download_id)->firstOrFail();
 
-        return $post->getMedia('downloads')->first();
+        if ($post->type == 'image') {
+            $downloads = $post->getMedia('downloads');
+            return MediaStream::create($post->title . '.zip')->addMedia($downloads);
+        }
+        else{
+            return redirect()->to($post->url);
+        }
     }
 
     public function upVotePost(Request $request)

@@ -58,7 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/edit/post/{id}', 'PostController@edit')->name('editPost');
 	Route::put('/edit/post/{id}/update', 'PostController@update')->name('updatePost');
 
-	Route::delete('/{id}/force/delete', 'PostController@edit')->name('deletePost');
+	Route::delete('/{id}/force/delete', 'PostController@destroy')->name('deletePost');
 
 	Route::post('/post/upVote', 'PostController@upVotePost')->name('upVotePost');
 	Route::post('/post/downVote', 'PostController@downVotePost')->name('downVotePost');

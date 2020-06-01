@@ -129,7 +129,31 @@
                     <div class="flex">
                         <a class="align-middle mx-auto px-4 py-2 mb-4 rounded-lg text-white font-semibold bg-blue-600" href="{{ route('editPost', $post->id) }}">Edit</a>
 
-                        <a class="align-middle mx-auto px-4 py-2 mb-4 rounded-lg text-white font-semibold bg-red-600" href="">Delete</a>
+                        <button class="align-middle mx-auto px-4 py-2 mb-4 rounded-lg text-white font-semibold bg-red-600" onclick="handleDelete({{ $post->id }})">Delete</button>
+                    </div>
+
+                    <div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog" aria-labelledby="deletePostModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <form action="{{ route('deletePost', $post->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="deletePostModalLabel">Delete Post</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                Are you sure you want to delete this post? This action can't be undone!
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                              </div>
+                            </div>
+                        </form>
+                      </div>
                     </div>   
                 @endif
 
@@ -179,6 +203,16 @@
              });  
         });
     });
+
+</script>
+
+<script>
+    
+    function handleDelete(id)
+    {
+        //console.log('deleting', id);
+        $('#deletePostModal').modal('show');   
+    }
 
 </script>
 @endsection

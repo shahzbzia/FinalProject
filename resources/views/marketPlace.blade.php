@@ -28,9 +28,24 @@
                         <source src="{{asset($post->getMedia('video')->first()->getUrl())}}" type="{{ $post->getMedia('video')->first()->mime_type }}">
                     </video>
                 @endif
+
                 <div class="add-to-cart flex items-center justify-between px-4 py-2 bg-black" post-id="{{ $post->id }}">
                     <h1 class="text-gray-200 font-bold text-xl">${{ $post->royaltyFee }}</h1>
-                    <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-gray-200 text-sm text-gray-900 font-semibold rounded">Add to card</button>
+                    
+                    
+                    @auth
+                        @if (\Cart::session(Auth::user()->id)->has($post->id))
+                        
+                            <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-green-400 text-sm text-white font-semibold rounded" disabled>✔ Added to cart</button>
+
+                        @else
+
+                            <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-gray-200 text-sm text-gray-900 font-semibold rounded">Add to cart</button>
+
+                        @endif
+                    @endauth
+
+
                 </div>
             </div>
 

@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="flex justify-center ml-2">
-                        <a href="{{ route('posts.downloadable', $item->post->download_id) }}" class="hover:no-underline">
+                        <a href="{{ route('posts.downloadable', $item->post->download_id) }}" target="_blank" class="hover:no-underline">
                             <div class="flex items-center">
                                 <button type="button" class="font-semibold">Download Media</button>
                             </div>
