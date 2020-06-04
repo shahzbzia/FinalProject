@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'user_id', 'billing_email', 'billing_address', 'billing_name_on_card', 'billing_total', 'stripe_charge_id',
+        'user_id', 'billing_email', 'billing_address', 'billing_name_on_card', 'billing_total', 'stripe_charge_id', 'issue_created_at', 'issue_resolved_at'
     ];
 
     public function user()
@@ -18,5 +18,10 @@ class Order extends Model
     public function posts()
     {
         return $this->belongsToMany('App\Post');
+    }
+
+    public function issues()
+    {
+        return $this->hasMany('App\Issue');
     }
 }

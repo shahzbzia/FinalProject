@@ -61,7 +61,12 @@
               
           <div class="ml-3 text-white font-semibold hidden md:block lg:block xl:block">
             <h5 class="text-base">{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}</h5>
-            <p class="text-xs text-left">{{ $userProfession }}</p>
+            @if (Auth::user()->checkRole() == 2)
+              <p class="uppercase text-xs text-left font-semibold">Admin</p>
+            @else
+              <p class="text-xs text-left">{{ $userProfession }}</p>
+            @endif
+            
           </div>
 
           <button class="ml-4 focus:outline-none hidden md:block lg:block xl:block">

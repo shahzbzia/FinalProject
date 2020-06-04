@@ -33,7 +33,7 @@
                     Subject
                 </label>
 
-                <input id="subject" type="subject" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('subject') bg-red-200 @enderror" name="subject" value="{{ old('subject') }}" required autocomplete="subject" autofocus>
+                <input id="subject" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('subject') bg-red-200 @enderror" name="subject" value="{{ old('subject') }}" required autocomplete="subject" autofocus>
 
                 @error('subject')
                     <span class="text-red-500 text-xs italic" role="alert">

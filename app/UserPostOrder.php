@@ -19,4 +19,9 @@ class UserPostOrder extends Model
 	{
 	    return $this->belongsTo('App\Order', 'order_id');
 	}
+
+	public function issue()
+	{
+		return $this->belongsTo('App\Issue');
+	}
 }

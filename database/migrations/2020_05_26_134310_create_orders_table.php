@@ -25,6 +25,8 @@ class CreateOrdersTable extends Migration
             $table->string('billing_name_on_card')->nullable();
             $table->integer('billing_total');
             $table->string('stripe_charge_id');
+            $table->date('issue_created_at')->nullable();
+            $table->date('issue_resolved_at')->nullable();
             $table->timestamps();
         });
     }

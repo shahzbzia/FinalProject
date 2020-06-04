@@ -33,12 +33,18 @@
 
                         </div>
                     </div>
-                    <div class="flex justify-center ml-2">
-                        <a href="{{ route('posts.downloadable', $item->post->download_id) }}" target="_blank" class="hover:no-underline">
-                            <div class="flex items-center">
+                    <div class="flex justify-center">
+                        <div class="mr-4">
+                            <a href="{{ route('posts.downloadable', $item->post->download_id) }}" target="_blank" class="hover:no-underline hover:text-black">
                                 <button type="button" class="font-semibold">Download Media</button>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
+
+                        <div>
+                            <a href="{{ route('issue.index', [$item->order->id, $item->post->id]) }}">
+                                <button class="font-semibold hover:no-underline" type="button">Open a dispute</button>
+                            </a>
+                        </div>
                     </div>                        
                 </div>
             </a>

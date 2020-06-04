@@ -86,6 +86,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 	Route::get('/my/orders', 'OrderController@index')->name('order.index');
+	Route::get('/my/disputes', 'IssueController@myIssues')->name('my.issues');
+	Route::get('/open/dispute/{orderId}/{postId}', 'IssueController@index')->name('issue.index');
+	Route::post('/open/dispute/{id}/submit', 'IssueController@createIssue')->name('issue.create');
 
 
 	Route::get('/hire/{userName}', 'HireMeController@index')->name('hireMe.index');
@@ -99,5 +102,18 @@ Route::group(['middleware' => 'auth'], function () {
 	//     $users = factory(App\User::class, 3)->make();
 	//     return $users;
 	// });
+
+});
+
+
+Route::group(['prefix' => 'admin' , 'middleware' => ['auth' => 'admin']], function(){
+
+	Route::get('/dashboard', 'AdminController@index')->name('admin.index');
+	Route::resource('themes', 'ThemesController');
+
+	Route::get('/all/disputes', 'IssueController@allIssues')->name('all.issues');
+	Route::get('/disputes/{id}', 'IssueController@issueDetails')->name('issue.details');
+	Route::get('/disputes/{id}/resolved', 'IssueController@resolved')->name('issue.resolved');
+	Route::get('/disputes/{id}/unresolved', 'IssueController@unresolved')->name('issue.unresolved');
 
 });

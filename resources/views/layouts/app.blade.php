@@ -65,11 +65,11 @@
 
                 <x-flashmessages /> {{-- Flash Messages component --}}
 
-                <main class="flex mt-12">
+                <main class="flex-none md:flex mt-12">
 
                     @auth
 
-                        <x-sidebar/> {{-- SidBar Component --}}
+                        <x-sidebar/>
 
                     @endauth
 
