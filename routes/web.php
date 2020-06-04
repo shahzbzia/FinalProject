@@ -116,4 +116,6 @@ Route::group(['prefix' => 'admin' , 'middleware' => ['auth' => 'admin']], functi
 	Route::get('/disputes/{id}/resolved', 'IssueController@resolved')->name('issue.resolved');
 	Route::get('/disputes/{id}/unresolved', 'IssueController@unresolved')->name('issue.unresolved');
 
+	Route::get('/search', 'SearchController@adminSearch')->name('admin.search');
+
 });

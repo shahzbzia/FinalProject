@@ -74,6 +74,12 @@
                     @endauth
 
                     <div class="primary flex-1">
+
+                        @auth
+                            @if (Auth::user()->checkRole() == 2)
+                                <x-adminsearch/>
+                            @endif
+                        @endauth
                         
                         @yield('content')
 
