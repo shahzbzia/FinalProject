@@ -7,6 +7,7 @@ use App\Issue;
 use App\Order;
 use Cartalyst\Stripe\Stripe;
 use Cartalyst\Stripe\Exception\NotFoundException;
+use App\Post;
 
 class SearchController extends Controller
 {
@@ -28,13 +29,45 @@ class SearchController extends Controller
     		 ->orWhere('order_id', 'like', "%$query%")
     		 ->orWhere('charge_id', 'like', "%$query%")
     		 ->orWhere('post_id', 'like', "%$query%")
-    		 ->paginate(5);
+    		 ->get();
 
     	$orders = Order::where('user_id', 'like', "%$query%")
     		 ->orWhere('stripe_charge_id', 'like', "%$query%")
-    		 ->paginate(5);
+    		 ->get();
+
+    	$posts = Post::search($query)->get();
 
 
-    	return view('admin.searchResults')->with('issues', $issues)->with('charge', $charge)->with('orders', $orders);
+    	return view('admin.searchResults')->with('issues', $issues)->with('charge', $charge)->with('orders', $orders)->with('posts', $posts);
+    }
+
+    public function seeAllSearchIssues($query)
+    {
+
+    	$issues = Issue::where('user_id', 'like', "%$query%")
+    		 ->orWhere('order_id', 'like', "%$query%")
+    		 ->orWhere('charge_id', 'like', "%$query%")
+    		 ->orWhere('post_id', 'like', "%$query%")
+    		 ->get();
+
+    	return view('admin.allSearchIssues')->with('issues', $issues);
+    }
+
+    public function seeAllSearchOrders($query)
+    {
+
+    	$orders = Order::where('user_id', 'like', "%$query%")
+    		 ->orWhere('stripe_charge_id', 'like', "%$query%")
+    		 ->get();
+
+    	return view('admin.allSearchOrders')->with('orders', $orders);
+    }
+
+    public function seeAllSearchPosts($query)
+    {
+
+    	$posts = Post::search($query)->get();
+
+    	return view('admin.allSearchPosts')->with('posts', $posts);
     }
 }

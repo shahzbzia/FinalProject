@@ -128,13 +128,13 @@
         
         <div class="mb-4">
 
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="royaltyFee">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="royaltyFeeVid">
                 Royalty Fee
             </label>
 
-            <input id="royaltyFeeVid" type="number" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('royaltyFee') bg-red-200 @enderror" name="royaltyFee" value="{{ old('royaltyFee') }}" required autocomplete="royaltyFee">
+            <input id="royaltyFeeVid" type="number" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('royaltyFeeVid') bg-red-200 @enderror" name="royaltyFeeVid" value="{{ old('royaltyFeeVid') }}" required autocomplete="royaltyFeeVid">
 
-            @error('royaltyFee')
+            @error('royaltyFeeVid')
                 <span class="text-red-500 text-xs italic" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
@@ -176,7 +176,7 @@
 
 </form>
 
-@if ($errors->first('titleVid') || $errors->first('descriptionVid') || $errors->first('royaltyFeeVid') || $errors->first('dContentVid'))
+@if ($errors->first('titleVid') || $errors->first('descriptionVid') || $errors->first('royaltyFeeVidVid') || $errors->first('dContentVid'))
     <script>
         document.getElementById("defaultOpenVideo").click();
         document.getElementById("sellable_vid").click();

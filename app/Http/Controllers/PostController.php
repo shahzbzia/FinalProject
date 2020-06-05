@@ -17,6 +17,8 @@ use DB;
 use Comment;
 use App\Http\Requests\Post\EditPostRequest;
 use Spatie\MediaLibrary\MediaStream;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PostDeleted;
 
 
 class PostController extends Controller
@@ -290,7 +292,7 @@ class PostController extends Controller
             'descriptionVid'  => 'nullable|string', 
             'sellable' => 'nullable|string',
             'royaltyFeeVid' => 'nullable|numeric',
-            'dContentVid' => 'required|url',
+            'dContentVid' => 'nullable|url',
         ]);
 
         if ($validator->fails()) {
@@ -364,6 +366,29 @@ class PostController extends Controller
         $post->checkAndCreatePostDownVoteForUser($user->id);
 
         return response()->json(['votesCount' => $post->getTotalVoteCount()]);
+    }
+
+    public function allPosts(Request $request)
+    {
+        $posts = Post::paginate(10);
+
+        return view('admin.allSearchPosts')->with('posts', $posts);
+    }
+
+    public function deleteByAdmin($id)
+    {
+        $post = Post::whereId($id)->firstOrFail();
+        $postTitle = $post->title;
+        $postMakerName = $post->user->firstName . ' ' . $post->user->lastName;
+        $postMakerEmail = $post->user->email;
+
+        Mail::to($postMakerEmail)->send(new PostDeleted($postMakerName, $postTitle));
+
+        $post->delete();
+
+        session()->flash('success', 'Post softDeleted successfully!.');
+
+        return redirect()->route('all.posts');
     }
 
 }

@@ -16,23 +16,19 @@
                 </li>
 
                 <li class="text-sm pb-4">
-                    <a class="@if (Route::currentRouteName() == 'order.index') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('order.index') }}">Support requests</a>
+                    <a class="@if (Route::currentRouteName() == 'all.orders') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('all.orders') }}">Orders</a>
                 </li>
 
                 <li class="text-sm pb-4">
-                    <a class="@if (Route::currentRouteName() == 'order.index') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('order.index') }}">Orders</a>
+                    <a class="@if (Route::currentRouteName() == 'all.charges') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('all.charges') }}">Charges</a>
                 </li>
 
                 <li class="text-sm pb-4">
-                    <a class="@if (Route::currentRouteName() == 'order.index') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('order.index') }}">Charges</a>
+                    <a class="@if (Route::currentRouteName() == 'all.activities') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('all.activities') }}">Activities</a>
                 </li>
 
                 <li class="text-sm pb-4">
-                    <a class="@if (Route::currentRouteName() == 'order.index') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('order.index') }}">Transaction</a>
-                </li>
-
-                <li class="text-sm pb-4">
-                    <a class="@if (Route::currentRouteName() == 'order.index') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('order.index') }}">Posts</a>
+                    <a class="@if (Route::currentRouteName() == 'all.posts') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('all.posts') }}">Posts</a>
                 </li>
 
                 <li class="text-sm pb-4">
@@ -154,6 +150,11 @@
             <li class="text-sm pb-4">
                 <a class="@if (Route::currentRouteName() == 'user.showUserEditForm') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('user.showUserEditForm') }}">Edit Profile</a>
             </li>
+
+            <li class="text-sm pb-4">
+                <a class="@if (Route::currentRouteName() == 'contactSupport.index') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('contactSupport.index') }}">Contact Support</a>
+            </li>
+
         </ul>
 
 

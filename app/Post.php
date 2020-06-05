@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Auth;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Post extends Model implements HasMedia
 {
@@ -16,6 +17,7 @@ class Post extends Model implements HasMedia
 	use SoftDeletes;
 	use HasMediaTrait;
 	use Sluggable;
+    use SearchableTrait;
 
     public $registerMediaConversionsUsingModelInstance = true;
 
@@ -129,6 +131,26 @@ class Post extends Model implements HasMedia
     {
         return $this->hasMany(Comment::class);
     }
+
+    /**
+     * Searchable rules.
+     *
+     * @var array
+     */
+    protected $searchable = [
+        /**
+         * Columns and their priority in search results.
+         * Columns with higher values are more important.
+         * Columns with equal values have equal importance.
+         *
+         * @var array
+         */
+        'columns' => [
+            'posts.id' => 10,
+            'posts.title' => 10,
+            'posts.description' => 7,
+        ],
+    ];
     
 
 }

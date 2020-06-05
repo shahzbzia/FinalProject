@@ -93,6 +93,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/hire/{userName}', 'HireMeController@index')->name('hireMe.index');
 	Route::post('/hire/{userName}/send/mail', 'HireMeController@sendHireMeEmail')->name('hireMe.sendHireMeEmail');
+	Route::get('/contact/support', 'UserController@contactSupportIndex')->name('contactSupport.index');
+	Route::post('/contact/support/send/mail', 'UserController@contactSupport')->name('contactSupport.sendContactSupportEmail');
 
 
 
@@ -116,6 +118,18 @@ Route::group(['prefix' => 'admin' , 'middleware' => ['auth' => 'admin']], functi
 	Route::get('/disputes/{id}/resolved', 'IssueController@resolved')->name('issue.resolved');
 	Route::get('/disputes/{id}/unresolved', 'IssueController@unresolved')->name('issue.unresolved');
 
+	Route::get('/all/orders', 'OrderController@allOrders')->name('all.orders');
+	Route::get('/all/posts', 'PostController@allPosts')->name('all.posts');
+	Route::get('/delete/post/{id}', 'PostController@deleteByAdmin')->name('post.deleteByAdmin');
+
+	Route::get('/all/charges', 'AdminController@allCharges')->name('all.charges');
+
+	Route::get('/all/activities', 'AdminController@allActivities')->name('all.activities');
+
 	Route::get('/search', 'SearchController@adminSearch')->name('admin.search');
+	Route::get('/search/all/issues/{query}', 'SearchController@seeAllSearchIssues')->name('search.allIssues');
+	Route::get('/search/all/orders/{query}', 'SearchController@seeAllSearchOrders')->name('search.allOrders');
+	Route::get('/search/all/posts/{query}', 'SearchController@seeAllSearchPosts')->name('search.allPosts');
+	
 
 });

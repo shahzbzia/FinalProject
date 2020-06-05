@@ -12,6 +12,9 @@ use App\User;
 use App;
 use DB;
 use App\Post;
+use App\Http\Requests\Support\ContactSupportRequest;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SupportRequest;
 
 class UserController extends Controller
 {
@@ -213,6 +216,30 @@ class UserController extends Controller
         $user = User::where('userName', $userName)->firstOrFail();
 
         return view('followings')->with('user', $user);
+    }
+
+    public function contactSupportIndex()
+    {
+        return view('contactSupport');
+    }
+
+    public function contactSupport(ContactSupportRequest $request)
+    {
+        $admin = User::where('role_id', 2)->firstOrFail();
+
+        $email = $admin['email'];
+
+        $fromEmail = $request->email;
+
+        $subject = $request->subject;
+
+        $question = $request->question;
+
+        Mail::to("shahzebzia2000@hotmail.com")->send(new SupportRequest($fromEmail, $subject, $question));
+
+        session()->flash('success', 'Support contacted successfully, one of our admins will cantact you back soon!');
+
+        return redirect(route('home'));
     }
 
 
