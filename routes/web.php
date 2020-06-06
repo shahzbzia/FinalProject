@@ -126,10 +126,18 @@ Route::group(['prefix' => 'admin' , 'middleware' => ['auth' => 'admin']], functi
 
 	Route::get('/all/activities', 'AdminController@allActivities')->name('all.activities');
 
+	Route::get('/all/users', 'AdminController@allUsers')->name('users.all');
+	Route::get('/user/{userName}/ban', 'AdminController@banUser')->name('users.ban');
+	Route::get('/user/{userName}/unban', 'AdminController@unBanUser')->name('users.unban');
+
 	Route::get('/search', 'SearchController@adminSearch')->name('admin.search');
 	Route::get('/search/all/issues/{query}', 'SearchController@seeAllSearchIssues')->name('search.allIssues');
 	Route::get('/search/all/orders/{query}', 'SearchController@seeAllSearchOrders')->name('search.allOrders');
 	Route::get('/search/all/posts/{query}', 'SearchController@seeAllSearchPosts')->name('search.allPosts');
+	Route::get('/search/all/users/{query}', 'SearchController@seeAllSearchUsers')->name('search.allUsers');
+
+	
+
 	
 
 });

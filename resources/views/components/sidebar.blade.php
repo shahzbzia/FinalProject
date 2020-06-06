@@ -8,7 +8,7 @@
             <ul class="list-none">
 
                 <li class="text-sm pb-4">
-                    <a class="@if (Route::currentRouteName() == 'marketPlace.index') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('marketPlace.index') }}">Manage Users</a>
+                    <a class="@if (Route::currentRouteName() == 'users.all') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('users.all') }}">All Users</a>
                 </li>
 
                 <li class="text-sm pb-4">

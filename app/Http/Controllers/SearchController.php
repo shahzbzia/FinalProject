@@ -8,6 +8,7 @@ use App\Order;
 use Cartalyst\Stripe\Stripe;
 use Cartalyst\Stripe\Exception\NotFoundException;
 use App\Post;
+use App\User;
 
 class SearchController extends Controller
 {
@@ -37,8 +38,9 @@ class SearchController extends Controller
 
     	$posts = Post::search($query)->get();
 
+    	$users = User::withTrashed()->search($query)->get();
 
-    	return view('admin.searchResults')->with('issues', $issues)->with('charge', $charge)->with('orders', $orders)->with('posts', $posts);
+    	return view('admin.searchResults')->with('issues', $issues)->with('charge', $charge)->with('orders', $orders)->with('posts', $posts)->with('users', $users);
     }
 
     public function seeAllSearchIssues($query)
@@ -69,5 +71,13 @@ class SearchController extends Controller
     	$posts = Post::search($query)->get();
 
     	return view('admin.allSearchPosts')->with('posts', $posts);
+    }
+
+    public function seeAllSearchUsers($query)
+    {
+
+    	$users = User::withTrashed()->search($query)->get();
+
+    	return view('admin.allSearchUsers')->with('users', $users);
     }
 }

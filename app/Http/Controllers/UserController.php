@@ -23,7 +23,7 @@ class UserController extends Controller
 
 	public function profile($userName)
     {
-        $user = User::where("userName", $userName)->firstOrFail();
+        $user = User::withTrashed()->where("userName", $userName)->firstOrFail();
         return view('profile')->with('user', $user);
     }
 

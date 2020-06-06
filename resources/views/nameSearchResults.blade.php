@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Search results for <strong>"{{ $query }}"</strong></div>
+                <div class="card-header bg-black text-white">Search results for <strong>"{{ $query }}"</strong></div>
                 @if (!$users->isEmpty())
                     @foreach ($users as $user)
                         @php
@@ -22,16 +22,17 @@
                             }
                         @endphp
                     
-                        <a href="{{ route('user.profile', $user->userName) }}">   
+                        <a href="{{ route('user.profile', $user->userName) }}" class="hover:no-underline hover:text-black">   
                             <div class="card-body">
                                 <div class="flex flex-wrap">
                                     <div class=" flex mx-1 my-1">
                                         <div>
-                                            <img class="rounded-lg antialiased" width="50" src="{{ $userImage }}" alt="">
+                                            <img class="rounded-lg antialiased" width="100" src="{{ $userImage }}" alt="">
                                         </div>
-                                        <div class="ml-2 text-xs">
+                                        <div class="ml-2 text-base">
                                             <p>{{ $user->firstName }} {{ $user->lastName }}</p>
                                             <p>{{ ($user->profession) ? $user->profession : 'Artist' }}</p>
+                                            <span class="font-light text-sm">{{ $user->gender->gender_name }} | {{ ($user->profession) ? $user->profession : 'Artist' }} | Joined {{ $user->created_at->diffForHumans() }}</span>
                                         </div>
                                     </div>
                                 </div>             

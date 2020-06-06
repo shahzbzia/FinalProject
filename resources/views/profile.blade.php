@@ -51,6 +51,14 @@
                 <span class="shadow-lg">Hire Me</span>
             </a>
 
+            {{-- @auth
+                @if (Auth::user()->checkRole() == 2)
+                  <a href="{{ route('hireMe.index', $user->userName) }}" class="hover:no-underline h-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded inline-flex text-xs items-center shadow-lg mr-2">
+                      <span class="shadow-lg">Hire Me</span>
+                  </a>
+                @endif
+            @endauth --}}
+
           @endif
 
         </div>

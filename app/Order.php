@@ -12,12 +12,12 @@ class Order extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsTo('App\User', 'user_id')->withTrashed();
     }
 
     public function posts()
     {
-        return $this->belongsToMany('App\Post');
+        return $this->belongsToMany('App\Post')->withTrashed();
     }
 
     public function issues()

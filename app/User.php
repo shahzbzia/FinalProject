@@ -6,11 +6,15 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Overtrue\LaravelFollow\Followable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use Followable;
+    use SoftDeletes;
+    use SearchableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -57,7 +61,7 @@ class User extends Authenticatable
     }
 
     public function posts(){
-        return $this->hasMany(Post::class)->whereNotNull('title')->whereNotNull('slug');
+        return $this->hasMany(Post::class)->whereNotNull('title')->whereNotNull('slug')->withTrashed();
     }
 
     public function emptyPosts(){
@@ -84,4 +88,21 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Issue');
     }
+
+    protected $searchable = [
+        /**
+         * Columns and their priority in search results.
+         * Columns with higher values are more important.
+         * Columns with equal values have equal importance.
+         *
+         * @var array
+         */
+        'columns' => [
+            'users.id' => 5,
+            'users.userName' => 10,
+            'users.firstName' => 10,
+            'users.lastName' => 10,
+
+        ],
+    ];
 }

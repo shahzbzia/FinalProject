@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container flex flex-wrap flex-1">
-
+<div class="container ">
+    
+    <div class="flex flex-wrap">
     @php
 
         $themeTextHover = (Auth::check()) ? 'text-'.Auth::user()->theme->value.'-700' : 'text-black';
@@ -10,9 +11,9 @@
     @endphp
     
     @foreach ($posts as $post)
-        <a href="{{ route('post.show', $post->slug) }}">
+        <a href="{{ route('post.show', $post->slug) }}" class="">
             
-            <div class="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-3 align-middle @auth mx-3 @else mx-3 mx-auto lg:w-1/4 @endauth">
+            <div class="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-3 align-middle @auth mx-3 @else mx-3 mx-auto lg:w-1/2 @endauth">
                 <div class="px-3 py-2 mt-2 flex justify-between">
                     <h1 class="text-gray-900 font-bold text-base uppercase">{{ $post->title }}</h1>
                     <a href="{{ route('user.profile', $post->user->userName) }}"><p class="font-light text-xs">{{ $post->user->userName }}</p></a>  
@@ -29,20 +30,30 @@
                     </video>
                 @endif
 
-                <div class="add-to-cart flex items-center justify-between px-4 py-2 bg-black" post-id="{{ $post->id }}">
+                <div class="flex items-center justify-between px-4 py-2 bg-black">
                     <h1 class="text-gray-200 font-bold text-xl">${{ $post->royaltyFee }}</h1>
                     
                     
                     @auth
-                        @if (\Cart::session(Auth::user()->id)->has($post->id))
                         
-                            <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-green-400 text-sm text-white font-semibold rounded" disabled>✔ Added to cart</button>
+                        @if (App\Http\Controllers\MarketController::owned(Auth::user()->id, $post->id))
+
+                            <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-black text-sm text-white font-semibold rounded" disabled>OWNED</button>
 
                         @else
 
-                            <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-gray-200 text-sm text-gray-900 font-semibold rounded">Add to cart</button>
+                            @if (\Cart::session(Auth::user()->id)->has($post->id))
+                        
+                                <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-green-400 text-sm text-white font-semibold rounded" disabled>✔ Added to cart</button>
+
+                            @else
+
+                                <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="add-to-cart hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-gray-200 text-sm text-gray-900 font-semibold rounded" post-id="{{ $post->id }}">Add to cart</button>
+
+                            @endif
 
                         @endif
+
                     @endauth
 
 
@@ -51,6 +62,7 @@
 
         </a>
     @endforeach
+    </div>
 
 </div>
 
