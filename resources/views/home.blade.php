@@ -28,14 +28,14 @@
                         @auth
                             <div class="sm:hidden lg:flex flex-col justify-around mr-2">
                                 <div class="hidden lg:flex flex-col">
-                                    <a href="#"><svg id="iconmonstr" class="{{ ($post->checkIfUserHasVoted(1)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} up-vote sm:mr-1 lg:mr-0 fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                                    <a href="#"><svg id="{{ 'up-vote-' . $post->id }}" class="{{ ($post->checkIfUserHasVoted(1)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} up-vote sm:mr-1 lg:mr-0 fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
                                         <path id="arrow-48" class="cls-1" d="M2.975,14l4-.013L11.95,5.946l5.026,8.006,4-.013L11.931-.031Zm8.987-4.029L21.007,23.94,3.007,24Z"/>
                                     </svg>
                                     </a>
 
                                     <p id="{{ $post->id.'vote-counts' }}" class="vote-count text-center text-xs sm:mr-1 lg:mr-0">{{ $post->getTotalVoteCount() }}</p>
 
-                                    <a href="#"><svg id="iconmonstr" class="{{ ($post->checkIfUserHasVoted(0)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} down-vote fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                                    <a href="#"><svg id="{{ 'down-vote-' . $post->id }}" class="{{ ($post->checkIfUserHasVoted(0)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} down-vote fill-current hover:text-{{ Auth::user()->theme->value }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
                                         <path id="arrow-48" d="M20.994,9.971l-4,.013-4.974,8.038L6.994,10.016l-4,.013L12.038,24ZM12.006,14L2.962,0.029l18-.057Z"/>
                                     </svg></a>
                                 </div>
@@ -170,7 +170,7 @@
             $(this).toggleClass("{{ $themeText }}");
             if($(this).hasClass("{{ $themeText }}"))
             {
-                $('.down-vote').removeClass("{{ $themeText }}");
+                $('#down-vote-'+ upPostId).removeClass("{{ $themeText }}");
             }
             $.ajax({
                 method: 'POST',
@@ -190,7 +190,7 @@
             $(this).toggleClass("{{ $themeText }}");
             if($(this).hasClass("{{ $themeText }}"))
             {
-                $('.up-vote').removeClass("{{ $themeText }}");
+                $('#up-vote-'+ downPostId).removeClass("{{ $themeText }}");
             }
             $.ajax({
                 method: 'POST',
