@@ -125,7 +125,7 @@
       <ul class="list-reset">
         <div class="flex justify-end">
           <li>
-            <a href="{{ route('marketPlace.index') }}" class=" @if (Route::currentRouteName() == 'marketPlace.index') active @endif block mt-1 lg:inline-block lg:mt-0 text-white hover:underline hover:text-white mr-10 font-semibold">Market Place</a>
+            <a href="{{ route('marketPlace.index') }}" class=" @if (Route::currentRouteName() == 'marketPlace.index') active @endif hidden md:block mt-1 lg:inline-block lg:mt-0 text-white hover:underline hover:text-white mr-10 font-semibold">Market Place</a>
           </li>
 
           <li>
