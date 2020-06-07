@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Post;
 
 class DeleteIncompletePosts extends Command
 {
@@ -11,14 +12,14 @@ class DeleteIncompletePosts extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'delete:incompletePosts';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Deletes all the posts that have no title or slug.';
 
     /**
      * Create a new command instance.
@@ -37,6 +38,19 @@ class DeleteIncompletePosts extends Command
      */
     public function handle()
     {
-        //
+        $incompletePosts = Post::where('title', null)->where('slug', null)->get();
+
+        if ($incompletePosts->count() > 0) {
+            foreach ($incompletePosts as $post) {
+                $post->forceDelete();
+            }
+
+            $this->info('Incomplete posts deleted successfully!');
+        }
+        else{
+            $this->info('No incomplete posts to delete!');
+        }
+
+        
     }
 }
