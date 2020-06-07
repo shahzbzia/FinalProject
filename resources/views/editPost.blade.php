@@ -111,7 +111,7 @@
                     <span data-toggle="tooltip" title="This is the place where you can put the downloadable content for the paying customers."><span class="bg-black rounded-full py-0 px-2 ml-2 text-white">?</span></span>
                 </div>
 
-                <input id="dContentVid" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('dContentVid') bg-red-200 @enderror" name="dContentVid" value="@if($errors->any()) {{ old('dContentVid') }} @else {{ $post->url }} @endif" autofocus required>
+                <input id="dContentVid" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('dContentVid') bg-red-200 @enderror" name="dContentVid" value="@if($errors->any()) {{ old('dContentVid') }} @else {{ $post->url }} @endif" autofocus>
 
                 @error('dContentVid')
                     <span class="text-red-500 text-xs italic" role="alert">
@@ -133,7 +133,7 @@
                     <span data-toggle="tooltip" title="This is the place where you can put the downloadable content for the paying customers."><span class="bg-black rounded-full py-0 px-2 ml-2 text-white">?</span></span>
                 </div>
 
-                <input id="dContent" type="file" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('dContent') bg-red-200 @enderror" name="dContent" value="{{ old('dContent') }}" autofocus required>
+                <input id="dContent" type="file" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('dContent') bg-red-200 @enderror" name="dContent" value="{{ old('dContent') }}" autofocus>
 
                 @error('dContent')
                     <span class="text-red-500 text-xs italic" role="alert">

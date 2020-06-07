@@ -17,7 +17,7 @@ use App\Mail\HireMeMail;
 use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
-    return redirect()->route('home');
+    return redirect(route('home'));
 });
 
 // Route::get('/email', function (){
