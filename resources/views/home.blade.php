@@ -62,7 +62,7 @@
                             </div>
                         @endif
 
-                        <a class="hover:no-underline" href="{{ (Route::currentRouteName() == 'my.emptyPosts') ? '' : route('post.show', $post->slug) }}">
+                        <a class="hover:no-underline overflow-hidden" href="{{ (Route::currentRouteName() == 'my.emptyPosts') ? '' : route('post.show', $post->slug) }}">
                             <div class="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-3 flex flex-col justify-between leading-normal w-full min-h-64">
                                 <div class="mb-3 ml-2">
                                     <input type="hidden" class="post-id" value="{{ $post->id }}">

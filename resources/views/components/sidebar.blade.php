@@ -3,7 +3,7 @@
     <aside class="w-1/5 mt-3 leading-none hidden md:block lg:block xl:block">
                     
         <section class="mb-8">
-            <a href="{{ route('admin.index') }}" class="hover:no-underline hover:text-black"><h5 class="uppercase mb-4 font-bold">Admin Dashboard</h5></a>
+            <h5 class="uppercase mb-4 font-bold">Admin Dashboard</h5>
 
             <ul class="list-none">
 

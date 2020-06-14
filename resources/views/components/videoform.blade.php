@@ -97,15 +97,15 @@
 
     <div class="mb-4">
 
-        <label class="block text-gray-700 text-sm font-semibold mb-2" for="description">
+        <label class="block text-gray-700 text-sm font-semibold mb-2" for="descriptionVid">
 
             Description
 
         </label>
 
-        <textarea name="description" rows="2" cols="50" id="descriptionVid" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('description') bg-red-200 @enderror" >{{ old('description') }} </textarea>
+        <textarea name="descriptionVid" rows="2" cols="50" id="descriptionVid" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('descriptionVid') bg-red-200 @enderror" >{{ old('descriptionVid') }} </textarea>
 
-        @error('description')
+        @error('descriptionVid')
             <span class="text-red-500 text-xs italic" role="alert">
                 <strong>{{ $message }}</strong>
             </span>
@@ -168,7 +168,7 @@
 
     <div class="flex items-center justify-between">
 
-        <button id="submitVidInfoForm" class="hover:bg-gray-700 bg-black hover:text-gray-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+        <button id="submitVidInfoForm" class="hover:bg-{{ Auth::user()->theme->value }}-700 bg-{{ Auth::user()->theme->value }}-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
             Post
         </button>
 
