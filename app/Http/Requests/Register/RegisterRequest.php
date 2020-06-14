@@ -13,7 +13,7 @@ class RegisterRequest extends FormRequest
         'email' => 'required|string|email|unique:users',
         'password' => 'required|string|min:8|confirmed', 
         'countryCode' => 'required|string', 
-        'number' => 'required|numeric', 
+        'number' => 'required|numeric|unique:users', 
         'image' => 'nullable|image', 
         'coverImage' => 'nullable|image', 
         'theme_id' => 'required', 

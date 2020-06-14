@@ -10,15 +10,18 @@
 @endphp
 
 <nav class="flex items-center justify-between flex-wrap {{ $themeBg }} shadow-xl">
+  
+  @auth
+  <div class="flex items-center flex-shrink-0 text-white ml-3 w-3/12 md:w-2/12 lg:w-1/2">
 
-  <div class="flex items-center flex-shrink-0 text-white ml-6">
-
-    <a class="font-bold text-lg md:text-xl lg:text-2xl xl:text-2xl tracking-tight hover:no-underline hover:text-white my-3" href="{{ route('home') }}">ARTillary</a>
+    <a class="font-bold tracking-tight hover:no-underline hover:text-white lg:w-2/12 lg:mr-72" href="{{ route('home') }}">
+      <img src="/images/artillary-logo-gif.gif" alt="Artillary Logo">
+    </a>
 
   </div>
 
-  @auth
-    <div class="lg:ml-192">
+  
+    <div class="">
       <div class="flex items-center border-b border-b-2 border-white py-2"> 
         <input class="searchInput bg-transparent border-none w-full md:w-11/12 lg:w-11/12 xl:w-11/12 text-white mr-3 py-1 px-2 leading-tight focus:outline-none placeholder-white text-xs" name="nameSearch" id="nameSearch" type="text" placeholder="Search Artists by Name">
       </div>
@@ -122,6 +125,13 @@
     </div>
 
     @else
+    <div class="flex justify-between items-center text-white ml-3 py-2">
+
+      <a class="font-bold w-3/12 md:w-1/6 lg:w-1/12 tracking-tight hover:no-underline hover:text-white lg:mr-192" href="{{ route('home') }}">
+        <img src="/images/artillary-logo-gif.gif" alt="Artillary Logo">
+      </a>
+
+    
       <ul class="list-reset">
         <div class="flex justify-end">
           <li>
@@ -129,14 +139,16 @@
           </li>
 
           <li>
-            <a href="{{ route('login') }}" class=" @if (Route::currentRouteName() == 'login') active @endif block mt-1 lg:inline-block lg:mt-0 text-white hover:underline hover:text-white mr-10 font-semibold">Login</a>
+            <a href="{{ route('login') }}" class=" @if (Route::currentRouteName() == 'login') active @endif block mt-1 lg:inline-block text-white hover:underline hover:text-white mr-10 font-semibold">Login</a>
           </li>
 
           <li>
-            <a href="{{ route('register') }}" class="@if (Route::currentRouteName() == 'register') active @endif block mt-1 lg:inline-block lg:mt-0 text-white hover:underline hover:text-white mr-10 font-semibold">Join the ARTillary</a>
+            <a href="{{ route('register') }}" class="@if (Route::currentRouteName() == 'register') active @endif block mt-1 lg:inline-block text-white hover:underline hover:text-white mr-3 font-semibold">Join the ARTillary</a>
           </li>
         </div>
       </ul>
+
+      </div>
 
     @endauth
 

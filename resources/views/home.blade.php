@@ -77,7 +77,7 @@
                                 <div class="flex justify-start ml-2">
                                     <a href="{{ route('user.profile', $post->user->userName) }}" class="hover:no-underline">
                                         <div class="flex items-center">
-                                            <img class="w-10 h-10 rounded-full mr-2" src="{{ $pathImage }}">
+                                            <img class="w-14 h-10 rounded-full mr-2" src="{{ $pathImage }}">
                                             <div class="text-xs">
                                                 <p class="text-gray-900 font-semibold leading-none">{{ $post->user->userName }}</p>
                                                 <p class="text-gray-600 text-xs">{{ ($post->created_at)->diffForhumans() }}</p>
