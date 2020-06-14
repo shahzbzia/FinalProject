@@ -127,7 +127,7 @@
 
                 @if (Route::currentRouteName() == 'my.emptyPosts')
                     <div class="flex">
-                        <a class="align-middle mx-auto px-4 py-2 mb-4 rounded-lg text-white font-semibold bg-blue-600" href="{{ route('editPost', $post->id) }}">Edit</a>
+                        <a class="align-middle mx-auto px-4 py-2 mb-4 rounded-lg text-white font-semibold bg-blue-600 hover:no-underline" href="{{ route('editPost', $post->id) }}">Edit</a>
 
                         <button class="align-middle mx-auto px-4 py-2 mb-4 rounded-lg text-white font-semibold bg-red-600" onclick="handleDelete({{ $post->id }})">Delete</button>
                     </div>
