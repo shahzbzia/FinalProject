@@ -8,22 +8,20 @@
         @if ($item->post->deleted_at == null)
         <div class="w-full md:w-4/5 align-middle mx-auto mb-4" >
             <div class="max-w-sm w-full md:max-w-full lg:flex">
-
-
-                @if ($item->post->deleted_at == null)
-                    @if ($item->post->getMedia('images')->first())
-                        <div class="h-48 lg:h-48 lg:w-72 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style="background-image: url('{{ $item->post->getMedia('images')->first()->getUrl('watermarked') }}')">
-                        </div>
-                    @endif
-
-                     @if ($item->post->getMedia('video')->first())
-                        <div class="sm:h-32 md:h-48 lg:h-auto lg:w-72 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden">
-                            <video controls controlsList="nodownload">
-                                <source src="{{asset($item->post->getMedia('video')->first()->getUrl())}}" type="{{ $item->post->getMedia('video')->first()->mime_type }}">
-                            </video>
-                        </div>
-                    @endif
+                
+                @if ($item->post->getMedia('images')->first())
+                    <div class="h-48 lg:h-48 lg:w-72 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style="background-image: url('{{ $item->post->getMedia('images')->first()->getUrl('watermarked') }}')">
+                    </div>
                 @endif
+
+                 @if ($item->post->getMedia('video')->first())
+                    <div class="sm:h-32 md:h-48 lg:h-auto lg:w-72 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden">
+                        <video controls controlsList="nodownload">
+                            <source src="{{asset($item->post->getMedia('video')->first()->getUrl())}}" type="{{ $item->post->getMedia('video')->first()->mime_type }}">
+                        </video>
+                    </div>
+                @endif
+                
 
                 {{-- {{ $item->post->id }} --}}
 

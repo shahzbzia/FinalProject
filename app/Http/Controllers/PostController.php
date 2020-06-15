@@ -149,7 +149,13 @@ class PostController extends Controller
     {
         $post = Post::whereId($id)->firstOrFail();
 
-        $post->forceDelete();
+        if (!$post->checkIfSold()) {
+            $post->delete();        
+        }else{
+            $post->update([
+                'archived' => 1,
+            ]);
+        }
 
         session()->flash('success', 'Post deleted successfully!');
 

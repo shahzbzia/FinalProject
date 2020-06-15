@@ -11,6 +11,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Auth;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use Spatie\Image\Manipulations;
+use App\UserPostOrder;
 
 class Post extends Model implements HasMedia
 {
@@ -23,7 +24,7 @@ class Post extends Model implements HasMedia
     public $registerMediaConversionsUsingModelInstance = true;
 
     protected $fillable = [
-        'title', 'slug', 'type', 'description', 'status', 'user_id', 'mainImage', 'subImages', 'url', 'sellable', 'royaltyFee', 'price', 'dContent', 'updated_by', 'download_id',
+        'title', 'slug', 'type', 'description', 'status', 'user_id', 'mainImage', 'subImages', 'url', 'sellable', 'royaltyFee', 'price', 'dContent', 'updated_by', 'download_id', 'archived',
     ];
 
     public function sluggable()
@@ -155,6 +156,19 @@ class Post extends Model implements HasMedia
             'posts.description' => 7,
         ],
     ];
+
+    public function checkIfSold(): bool
+    {
+        
+        $post = UserPostOrder::where('post_id', $this->id)->count();
+
+        if ($post > 0) {
+            return true;
+        }
+
+        return false;
+
+    }
     
 
 }

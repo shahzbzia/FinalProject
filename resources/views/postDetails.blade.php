@@ -23,7 +23,9 @@
                 @if ($post->user_id == Auth::user()->id)
                     <div class="text-white">
                         <a class="mr-2 hover:no-underline hover:text-white" href="{{ route('editPost', $post->id) }}">Edit</a>
-                        <button class="hover:no-underline hover:text-white" onclick="handleDelete({{ $post->id }})">Delete</button>
+                        @if (null === $post->archived)
+                            <button class="hover:no-underline hover:text-white" onclick="handleDelete({{ $post->id }})">Delete</button>
+                        @endif
                     </div>
                 @endif
             @endauth

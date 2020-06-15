@@ -7,7 +7,7 @@
 					<div class="h-100 w-full flex justify-center bg-teal-lightest font-sans">
 						<div class="bg-white rounded shadow p-6 m-4 w-full lg:w-full">
 					        <div class="mb-4 flex">
-								<h1 class="text-black font-semibold text-lg">{{ $order->id }}</h1>
+								<h1 class="text-black font-semibold text-lg">Order Id : {{ $order->id }}</h1>
 					        </div>
 					        <div>
 					        	<div class="flex mb-1 items-center">
