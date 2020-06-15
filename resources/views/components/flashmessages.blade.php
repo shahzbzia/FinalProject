@@ -9,13 +9,13 @@
 @endif
 
 @if(session()->has('success'))
-    <div role="alert" class="bg-green-400 text-white p-4 mt-8 font-bold rounded">
-        <p class="text-green-800">{{session()->get('success')}}</p>
+    <div role="alert" class="bg-green-200 text-white p-4 mt-8 font-bold rounded">
+        <p class="text-green-600">{{session()->get('success')}}</p>
     </div>
 @endif
 
 @if(session()->has('fail'))
-    <div role="alert" class="bg-red-300 text-white p-4 mt-8 font-bold rounded">
+    <div role="alert" class="bg-red-200 text-white p-4 mt-8 font-bold rounded">
         <p class="text-red-800">{{session()->get('fail')}}</p>
     </div>
 @endif

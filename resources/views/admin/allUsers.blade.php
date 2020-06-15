@@ -12,8 +12,8 @@
 	    </li>
 	    <li class="flex-1 mt-1">
 	    	<button class="user-tab-links px-32 md:px-32 lg:px-40 xl:px-40 text-center block border border-black rounded py-2 focus:outline-none bg-{{ Auth::user()->theme->value }}-500 text-black" onclick="openUser(event, 'banned')"> 
-		  	<p>Banned Users</p>
-	  </button>
+		  		<p>Banned Users</p>
+	  		</button>
 	    </li>
 
 	</ul>

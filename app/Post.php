@@ -10,6 +10,7 @@ use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Auth;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use Spatie\Image\Manipulations;
 
 class Post extends Model implements HasMedia
 {
@@ -112,8 +113,11 @@ class Post extends Model implements HasMedia
     {
         // Watermark conversion
         $this->addMediaConversion('watermarked')
-            ->watermark(public_path('/images/watermark.png'))
-            ->watermarkOpacity(50)
+            ->watermark(public_path('/images/artillary-watermark.png'))
+            ->watermarkOpacity(20)
+            ->watermarkPosition(Manipulations::POSITION_BOTTOM)
+            ->watermarkHeight(50, Manipulations::UNIT_PERCENT)
+            ->watermarkWidth(100, Manipulations::UNIT_PERCENT)
             ->nonQueued()
             ->performOnCollections('images', 'others');
     }

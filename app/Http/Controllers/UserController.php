@@ -15,6 +15,8 @@ use App\Post;
 use App\Http\Requests\Support\ContactSupportRequest;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SupportRequest;
+use App\Http\Requests\Checkout\CheckoutFormRequest;
+use Cartalyst\Stripe\Stripe;
 
 class UserController extends Controller
 {
@@ -242,11 +244,88 @@ class UserController extends Controller
         return redirect(route('home'));
     }
 
-    public function checkStripeCustomer(){
+    public static function checkStripeCustomerId(){
         
-        
+        $user = Auth::user();
+        $posts = Post::where('user_id', $user->id)->whereNotNull('sellable')->count();
+
+        //dd($posts);
+        if (!$user->recipientId && $posts > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function createCardPage(){
+        $user = Auth::user();
+
+        return view('creditCardForm')->with('user', $user);
+    }
+
+    public function storeCard(CheckoutFormRequest $request)
+    {   
+        $user = Auth::user();
+        $stripe = Stripe::make('sk_test_rhSHXuAwqoAgZldNpSQpAH9X00DVM6dfVO');
+        $customer = $stripe->customers()->create([
+            'email' => $request->billing_email,
+            'name' => $request->name_on_card,
+            'address' => [
+                'line1' => $request->billing_address,
+            ],
+            'metadata' => [
+                'iban' => $request->iban,
+                'bic' => $request->bic,
+            ],
+        ]);
+
+        $user->update([
+            'recipientId' => $customer['id'],
+        ]);
+
+        //$card = $stripe->cards()->create($customer['id'], $request->stripeToken);
+
+        session()->flash('success', 'Thankyou. Your bank account was added successfully!');
+
+        return redirect(route('home'));
 
     }
+
+    public function updateCardPage()
+    {
+
+        $user = Auth::user();
+        $stripe = Stripe::make('sk_test_rhSHXuAwqoAgZldNpSQpAH9X00DVM6dfVO');
+
+        $customer = $stripe->customers()->find($user->recipientId);
+
+        return view('creditCardForm')->with('customer', $customer);
+
+    }
+
+    public function updateCard(CheckoutFormRequest $request)
+    {
+
+        $user = Auth::user();
+        $stripe = Stripe::make('sk_test_rhSHXuAwqoAgZldNpSQpAH9X00DVM6dfVO');
+
+        $customer = $stripe->customers()->update($user->recipientId, [
+            'email' => $request->billing_email,
+            'name' => $request->name_on_card,
+            'address' => [
+                'line1' => $request->billing_address,
+            ],
+            'metadata' => [
+                'iban' => $request->iban,
+                'bic' => $request->bic,
+            ],
+        ]);
+
+        session()->flash('success', 'Thankyou. Your bank account was added successfully!');
+
+        return redirect(route('home'));
+    }
+
 
 
 }

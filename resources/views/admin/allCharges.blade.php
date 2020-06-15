@@ -18,9 +18,9 @@
 				            <div class="flex mb-1 items-center">
 				                <p class="w-full text-grey-darkest"><strong>Email: </strong>{{ $charge['receipt_email'] }}</p>
 				            </div>
-				            <div class="flex mb-1 items-center">
+				            {{-- <div class="flex mb-1 items-center">
 				                <p class="w-full text-grey-darkest"><strong>Contents: </strong>{{ $charge['metadata']['contents'] }}</p>
-				            </div>
+				            </div> --}}
 				            <div class="flex mb-1 items-center">
 				                <p class="w-full text-grey-darkest"><strong>Amount: </strong>{{ ($charge['amount'])/100 }} {{ $charge['currency'] }}</p>
 				            </div>

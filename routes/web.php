@@ -96,8 +96,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/contact/support', 'UserController@contactSupportIndex')->name('contactSupport.index');
 	Route::post('/contact/support/send/mail', 'UserController@contactSupport')->name('contactSupport.sendContactSupportEmail');
 
+	//Route::get('/test/test', 'UserController@checkStripeCustomerId')->name('testCustomerId');
 
-
+	Route::get('/add/bank/details', 'UserController@createCardPage')->name('card.create');
+	Route::post('/add/bank/details/save', 'UserController@storeCard')->name('card.store');
+	Route::get('/update/bank/details', 'UserController@updateCardPage')->name('card.update');
+	Route::put('/update/bank/details/save', 'UserController@updateCard')->name('card.saveUpdate');
 
 
 	// Route::get('make/users', function () {

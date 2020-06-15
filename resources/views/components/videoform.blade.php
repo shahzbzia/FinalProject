@@ -128,9 +128,13 @@
         
         <div class="mb-4">
 
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="royaltyFeeVid">
-                Royalty Fee
-            </label>
+            <div class="flex">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="royaltyFeeVid">
+                    Royalty Fee
+                </label>
+
+                <span data-toggle="tooltip" title="The amount of the one time fee that the customers need to pay in order to use it in their own projects."><span class="bg-black rounded-full py-0 px-2 ml-2 text-white">?</span></span>
+            </div>
 
             <input id="royaltyFeeVid" type="number" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('royaltyFeeVid') bg-red-200 @enderror" name="royaltyFeeVid" value="{{ old('royaltyFeeVid') }}" required autocomplete="royaltyFeeVid">
 
@@ -149,7 +153,7 @@
                     Link to downloadable content
                 </label>
 
-                <span data-toggle="tooltip" title="This is the place where you can put the downloadable content for the paying customers."><span class="bg-black rounded-full py-0 px-2 ml-2 text-white">?</span></span>
+                <span data-toggle="tooltip" title="Give the link to the downloadable video. (Dropbox or google drive preferably)"><span class="bg-black rounded-full py-0 px-2 ml-2 text-white">?</span></span>
             </div>
 
             <input id="dContentVid" type="text" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('dContentVid') bg-red-200 @enderror" name="dContentVid" value="{{ old('dContentVid') }}" autofocus>

@@ -88,9 +88,17 @@
             <hr>
           </div>
 
-          <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('user.showUserEditForm') }}">All posts</a>
+          <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('createPost') }}">Create a post</a>
+
+          <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('my.posts', Auth::user()->userName) }}">My Posts</a>
+
+          <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('my.emptyPosts', Auth::user()->userName) }}">Unfinished Posts</a>
 
           <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('marketPlace.index') }}">Market Place</a>
+
+          <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('order.index') }}">My Orders</a>
+
+          <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('my.issues') }}">My Disputes</a>
 
           <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('cart.index') }}"><p>
 
@@ -110,6 +118,10 @@
           </div>
 
           <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('user.showUserEditForm') }}">Edit Profile</a>
+
+          <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ (Auth::user()->recipientId) ? route('card.update') : route('card.create') }}">Add/Update <br> Bank Details</a>
+
+          <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('contactSupport.index') }}">Contact Support</a>
 
           <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline" href="{{ route('logout') }}"
              onclick="event.preventDefault();

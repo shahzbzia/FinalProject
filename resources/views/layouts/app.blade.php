@@ -56,11 +56,20 @@
                 @auth
                     @if (Route::currentRouteName() == 'home')
                         @if (Auth::user()->emptyPosts()->count())
-                            <div role="alert" class="bg-blue-300 text-white p-4 mt-8 font-bold rounded">
-                                <p class="text-blue-800">You have 1 or more unfinished posts, click <a href="{{ route('my.emptyPosts', Auth::user()->userName) }}">here</a> to complete them. Unfifnshed posts are automatically deleted in 24 hours!</p>
+                            <div role="alert" class="bg-blue-300 text-white px-4 py-3 mt-4 font-bold rounded">
+                                <p class="text-blue-800">You have 1 or more unfinished posts, click <a class="underline" href="{{ route('my.emptyPosts', Auth::user()->userName) }}">here</a> to complete them. Unfinished posts are automatically deleted in 24 hours!</p>
                             </div>
                         @endif
                     @endif
+                    
+                    @if (Route::currentRouteName() == 'home')
+                        @if (App\Http\Controllers\UserController::checkStripeCustomerId())
+                            <div role="alert" class="bg-yellow-400 text-white px-4 py-3 mt-4 font-bold rounded">
+                                <p class="text-red-600">You haven't provided us with your bank details yet. Click <a class="underline" href="{{ route('card.create') }}">here</a> to fillout the form and complete your signup process.</p>
+                            </div>
+                        @endif
+                    @endif
+
                 @endauth
 
                 <x-flashmessages /> {{-- Flash Messages component --}}
