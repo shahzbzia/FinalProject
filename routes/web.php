@@ -38,9 +38,12 @@ Route::get('/search/user/{query}', 'UserController@nameListAllResults')->name('n
 Route::get('/marketplace', 'MarketController@index')->name('marketPlace.index');
 
 Route::get('/{slug}', 'PostController@show')->name('post.show');
+Route::get('/search/post/{query}', 'PostController@postSearchAllResults')->name('postSearchAllResults');
 
 Route::get('/posts/by/{userName}', 'UserController@myPosts')->name('my.posts');
 Route::get('/empty/posts/by/{userName}', 'UserController@myEmptyPosts')->name('my.emptyPosts');
+
+Route::post('/search/post', 'PostController@postSearch')->name('postSearch');
 
 
 Route::group(['middleware' => 'auth'], function () {

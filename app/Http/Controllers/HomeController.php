@@ -23,12 +23,25 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        $posts = Post::whereNotNull('title')->whereNotNull('slug')->whereNull('archived')->get()->reverse();
+        //$users = User::all();
+        // $posts = Post::whereNotNull('title')->whereNotNull('slug')->whereNull('archived')->get()->reverse();
 
-        return view('home')->with('users', $users)->with('posts', $posts);
+        // return view('home')
+        //     //->with('users', $users)
+        //     ->with('posts', $posts);
+
+        $posts = Post::whereNotNull('title')->whereNotNull('slug')->whereNull('archived')->orderBy('created_at', 'desc')->paginate(5);
+
+        if ($request->ajax()) {
+
+            return view('lazyLoadedPosts')->with('posts', $posts);
+
+        }
+
+
+        return view('home');
     }
 
     public function createPost()

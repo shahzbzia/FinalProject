@@ -53,6 +53,8 @@
 
             <div class="container mx-auto">
 
+                <x-flashmessages /> {{-- Flash Messages component --}}
+
                 @auth
                     @if (Route::currentRouteName() == 'home')
                         @if (Auth::user()->emptyPosts()->count())
@@ -72,7 +74,11 @@
 
                 @endauth
 
-                <x-flashmessages /> {{-- Flash Messages component --}}
+                @auth
+                    @if (Auth::user()->checkRole()==1 && Route::currentRouteName() == 'home')
+                        <x-postsearch/>
+                    @endif
+                @endauth
 
                 <main class="flex-none md:flex mt-12">
 

@@ -397,4 +397,41 @@ class PostController extends Controller
         return redirect()->route('all.posts');
     }
 
+    public function postSearch(Request $request)
+    {
+
+        if($request->get('query')){
+
+            $query = $request->get('query');
+
+            $data = Post::search($query)->paginate(5);
+
+            $output = '<ul>';
+
+            foreach ($data as $row) {
+
+                $output .= '';
+                $output .= '<li> <a class="block px-4 py-2 text-gray-800 hover:bg-'. Auth::user()->theme->value.'-500 hover:no-underline hover:text-white text-sm" href="'.route('post.show', $row->slug).'"> <div class="flex justify-start"> <p>'. $row->title .' </p> </div> </a></li>';
+            }
+
+            $output .= '</ul>';
+
+            $output .= '<a href="'.route('postSearchAllResults', $query).'" class="block px-4 py-2 text-blue-800 font-semibold hover:underline">See all results for "'.$query.'"</a>';
+            //$requestQuery = $query;
+            echo $output;
+
+        }
+
+    }
+
+    public function postSearchAllResults($query)
+    {
+
+        $posts = Post::search($query)->get();
+
+        return view('home')
+            ->with('posts', $posts)
+            ->with('query', $query);
+    }
+
 }
