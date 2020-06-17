@@ -264,40 +264,38 @@
   
   </div>
 
-  <div class="modal fade" id="giftAmmoModal" tabindex="-1" role="dialog" aria-labelledby="giftAmmoModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <form action="{{ route('gift.ammo', [Auth::user()->userName, $user->userName]) }}" method="POST">
-          @csrf
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="giftAmmoModalLabel">Buy Ammo</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+  @auth
+    <div class="modal fade" id="giftAmmoModal" tabindex="-1" role="dialog" aria-labelledby="giftAmmoModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <form action="{{ route('gift.ammo', [Auth::user()->userName, $user->userName]) }}" method="POST">
+            @csrf
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="giftAmmoModalLabel">Buy Ammo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                
+                <form>
+                    <div class="form-group">
+                        <label for="ammo" class="col-form-label">Ammount of ARTillary credits you want to gift {{ $user->username }}?</label>
+                        <input type="number" class="form-control" id="ammo" name="ammo" required>
+                    </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success">Gift</button>
+              </div>
             </div>
-            <div class="modal-body">
-              
-              <form>
-                  <div class="form-group">
-                      <label for="ammo" class="col-form-label">Ammount of ARTillary credits you want to gift {{ $user->username }}?</label>
-                      <input type="number" class="form-control" id="ammo" name="ammo" required>
-                  </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button type="submit" class="btn btn-success">Gift</button>
-            </div>
-          </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
+  @endauth
 
 </div>
-
-    
-
-
       
 
 <script>
@@ -360,11 +358,13 @@
 
 </script>
 
-<script>
-  function handleGiftAmmo()
-  {
-      //console.log('deleting', id);
-      $('#giftAmmoModal').modal('show');   
-  }
-</script>
+@auth
+  <script>
+    function handleGiftAmmo()
+    {
+        //console.log('deleting', id);
+        $('#giftAmmoModal').modal('show');   
+    }
+  </script>
+@endauth
 @endsection
