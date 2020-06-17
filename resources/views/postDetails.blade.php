@@ -72,57 +72,62 @@
 
             <div class="flex flex-row justify-between my-1 ml-2 mr-2">
 
-                <div class="flex flex-row">
-                    <a href="#"><svg id="iconmonstr" class=" @auth {{ ($post->checkIfUserHasVoted(1)) ? $themeText: '' }} @endauth up-vote mr-1 fill-current hover:text-{{ $themeTextHover }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
-                        <path id="arrow-48" class="cls-1" d="M2.975,14l4-.013L11.95,5.946l5.026,8.006,4-.013L11.931-.031Zm8.987-4.029L21.007,23.94,3.007,24Z"/>
-                    </svg>
-                    </a>
-
-                    <p id="{{ $post->id.'vote-counts-small' }}" class="vote-count text-sm mr-1">{{ $post->getTotalVoteCount() }}</p>
-
-                    <a href="#"><svg id="iconmonstr" class=" @auth {{ ($post->checkIfUserHasVoted(0)) ? $themeText : '' }} @endauth down-vote fill-current hover:text-{{ $themeTextHover }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
-                        <path id="arrow-48" d="M20.994,9.971l-4,.013-4.974,8.038L6.994,10.016l-4,.013L12.038,24ZM12.006,14L2.962,0.029l18-.057Z"/>
-                    </svg></a>
-                </div>
-
-                <div class="flex flex-row">
-                    <a class="mr-2" href=""><svg class="fill-current hover:text-{{ $themeTextHover }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 1v16.981h4v5.019l7-5.019h13v-16.981h-24zm13 12h-8v-1h8v1zm6-3h-14v-1h14v1zm0-3h-14v-1h14v1z"/></svg></a>
-
-                    <p class="text-sm">{{ $post->comments()->count() }}</p>
-                </div>
-
                 @auth
-                        
-                        @if ($post->sellable)
 
-                <div>
+                    <div class="flex flex-row">
+                        <a href="#"><svg id="iconmonstr" class=" @auth {{ ($post->checkIfUserHasVoted(1)) ? $themeText: '' }} @endauth up-vote mr-1 fill-current hover:text-{{ $themeTextHover }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                            <path id="arrow-48" class="cls-1" d="M2.975,14l4-.013L11.95,5.946l5.026,8.006,4-.013L11.931-.031Zm8.987-4.029L21.007,23.94,3.007,24Z"/>
+                        </svg>
+                        </a>
+
+                        <p id="{{ $post->id.'vote-counts-small' }}" class="vote-count text-sm mr-1">{{ $post->getTotalVoteCount() }}</p>
+
+                        <a href="#"><svg id="iconmonstr" class=" @auth {{ ($post->checkIfUserHasVoted(0)) ? $themeText : '' }} @endauth down-vote fill-current hover:text-{{ $themeTextHover }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                            <path id="arrow-48" d="M20.994,9.971l-4,.013-4.974,8.038L6.994,10.016l-4,.013L12.038,24ZM12.006,14L2.962,0.029l18-.057Z"/>
+                        </svg></a>
+                    </div>
+
+                    <div class="flex flex-row">
+                        <a class="mr-2" href=""><svg class="fill-current hover:text-{{ $themeTextHover }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 1v16.981h4v5.019l7-5.019h13v-16.981h-24zm13 12h-8v-1h8v1zm6-3h-14v-1h14v1zm0-3h-14v-1h14v1z"/></svg></a>
+
+                        <p class="text-sm">{{ $post->comments()->count() }}</p>
+                    </div>
+
+                @endauth
+
+                
+                @auth
                     
-                            @if (App\Http\Controllers\MarketController::owned(Auth::user()->id, $post->id))
+                    @if ($post->sellable)
 
-                                <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-black text-sm text-white font-semibold rounded" disabled>OWNED</button>
-
-                            @elseif($post->user_id == Auth::user()->id)
-
-                                <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-black text-sm text-white font-semibold rounded" disabled>Posted by you</button>
-
-                            @else
-
-                                @if (\Cart::session(Auth::user()->id)->has($post->id))
+                        <div>
                             
-                                    <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-green-400 text-sm text-white font-semibold rounded" disabled>✔ Added to cart</button>
+                                    @if (App\Http\Controllers\MarketController::owned(Auth::user()->id, $post->id))
 
-                                @else
+                                        <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-black text-sm text-white font-semibold rounded" disabled>OWNED</button>
 
-                                    <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="add-to-cart hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-gray-200 text-sm text-gray-900 font-semibold rounded" post-id="{{ $post->id }}">Add to cart</button>
+                                    @elseif($post->user_id == Auth::user()->id)
 
-                                @endif
+                                        <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-black text-sm text-white font-semibold rounded" disabled>Posted by you</button>
 
-                            @endif
-                        
-                </div>
-                @endif
+                                    @else
 
-                    @endauth
+                                        @if (\Cart::session(Auth::user()->id)->has($post->id))
+                                    
+                                            <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-green-400 text-sm text-white font-semibold rounded" disabled>✔ Added to cart</button>
+
+                                        @else
+
+                                            <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="add-to-cart hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-gray-200 text-sm text-gray-900 font-semibold rounded" post-id="{{ $post->id }}">Add to cart</button>
+
+                                        @endif
+
+                                    @endif
+                                
+                        </div>
+                    @endif
+
+                @endauth
             </div>
         </div>
 
