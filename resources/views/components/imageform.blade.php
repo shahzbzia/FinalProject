@@ -4,9 +4,13 @@
 
     <div class="mb-4">
 
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
-            Title
-        </label>
+        <div class="flex justify-between">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
+                Title
+            </label>
+
+            <button type="button" id="image-demo-button">DEMO QUICK FILL</button>
+        </div>
 
         <input id="title" type="text" class="title shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('title') bg-red-200 @enderror" name="title" value="{{ old('title') }}" required autocomplete="email" autofocus>
 
@@ -188,4 +192,12 @@
       $temp.remove();
     }
 
+</script>
+
+<script>
+    $("#image-demo-button").on("click", function(){
+        $("#title").val("Mockups with device");
+        $("#description").val("Amazing mock-up with all the devices included. You can choose what devices you want and set the other devices to invisible and you can also use what ever picture you want.");
+        $("#royaltyFee").val("45");
+    });
 </script>

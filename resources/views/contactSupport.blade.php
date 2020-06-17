@@ -5,7 +5,11 @@
 
     <div class="align-middle mx-auto mt-12 w-full lg:w-3/5 xl:w-3/5">
 
-        <h2 class="text-2xl text-{{ Auth::user()->theme->value }}-500 font-bold tracking-widest uppercase font-mono mb-2 ml-4">Contact Support</h2>
+        <div class="flex justify-between">
+            <h2 class="text-2xl text-{{ Auth::user()->theme->value }}-500 font-bold tracking-widest uppercase font-mono mb-2 ml-4">Contact Support</h2>
+
+            <button id="support-quick-fill" type="button">DEMO QUICK FILL</button>
+        </div>
 
         <form class="bg-white shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4" method="POST" action="{{ route('contactSupport.sendContactSupportEmail') }}">
 
@@ -74,4 +78,11 @@
     </div>
 
 </div>
+
+<script>
+    $("#support-quick-fill").on("click", function(){
+        $("#subject").val("I have a small question");
+        $("#question").val("Where can I read the terms and service or the community guide lines?")
+    });
+</script>
 @endsection

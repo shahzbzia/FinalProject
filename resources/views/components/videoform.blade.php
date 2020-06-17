@@ -55,9 +55,13 @@
 
     <div class="mb-4">
 
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="titleVid">
-            Title
-        </label>
+        <div class="flex justify-between">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="titleVid">
+                Title
+            </label>
+
+            <button id="video-demo-button" type="button">DEMO QUICK FILL</button>
+        </div>
 
         <input id="titleVid" type="text" class="titleVid shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('titleVid') bg-red-200 @enderror" name="titleVid" value="{{ old('titleVid') }}" required autocomplete="titleVid" autofocus>
 
@@ -279,4 +283,14 @@
           }
         });
 
+</script>
+
+<script>
+    $("#video-demo-button").on("click", function(){
+        //console.log(number, number2);
+        $("#titleVid").val("Crazy light effect");
+        $("#descriptionVid").val("Crazy light effects made with Adobe after effects It has alpha channel built that can be turned on. Anytime.");
+        $("#royaltyFeeVid").val("100");
+        $("#dContentVid").val("https://www.dropbox.com/home/videos?preview=Light+-+3446.mp4");
+    });
 </script>

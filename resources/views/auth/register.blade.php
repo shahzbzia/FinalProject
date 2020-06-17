@@ -5,7 +5,11 @@
 
     <div class="align-middle mx-auto mt-4 @guest w-full lg:w-3/5 xl:w-3/5 @else w-full lg:w-4/5 xl:w-4/5 @endif">
 
-        <h2 class="text-2xl @auth text-{{$user->theme->value}}-500 @else text-black @endauth font-bold tracking-widest uppercase font-mono mb-2 ml-4">{{ isset($user) ? 'Edit Profile' : 'Join the ARTillary' }}</h2>
+        <div class="flex justify-between">
+            <h2 class="text-2xl @auth text-{{$user->theme->value}}-500 @else text-black @endauth font-bold tracking-widest uppercase font-mono mb-2 ml-4">{{ isset($user) ? 'Edit Profile' : 'Join the ARTillary' }}</h2>
+
+            <button id="register-demo-button" type="button">DEMO QUICK FILL</button>
+        </div>
 
         <form class="bg-white shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4" method="POST" action="{{ isset($user) ? route('user.update', Auth::user()->id) : route('register') }}" enctype="multipart/form-data">
 
@@ -434,4 +438,25 @@
     </div>
 
 </div>
+
+<script>
+    var registerNumber = 10000 + Math.floor(Math.random() * 90000);
+    var registerNumber2 = 1 + Math.floor(Math.random() * 9);
+    $("#register-demo-button").on("click", function(){
+        //console.log(number, number2);
+        $("#firstName").val("John");
+        $("#lastName").val("Doe");
+        $("#userName").val("jondoe" + registerNumber);
+        $("#email").val("Johndoe" + registerNumber + "@hotmail.com");
+        $("#countryCode").val("+32");
+        $("#number").val("486" + registerNumber2 + registerNumber );
+        $("#birthDate").val("1990-01-02");
+        $("#profession").val("Programmer");
+        $("#aboutMe").val("John Doe and Jane Doe are multiple-use names that are used when the true name of a person is unknown or is being intentionally concealed. In the context of law enforcement in the United States, such names are often used to refer to a corpse whose identity is unknown or unconfirmed");
+        $("#address").val("Ijsvogelstraat 83, 2170, Merksem");
+        $("#password").val("test1234");
+        $("#password-confirm").val("test1234");
+
+    });
+</script>
 @endsection
