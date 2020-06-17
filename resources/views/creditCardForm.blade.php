@@ -11,6 +11,10 @@
 
             @csrf
 
+            @if(isset($customer))
+                @method('PUT')
+            @endif
+
             <h5 class="text-base font-bold">Customer Details</h5>
 
             <hr class="mt-2 mb-3">
