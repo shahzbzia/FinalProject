@@ -51,21 +51,23 @@
                 </div>
             @endif
 
-            @if (Auth::user()->checkRole() == 2 || $post->user_id == Auth::user()->id)
-                @if ($post->sellable)
-                    <a href="{{ route('posts.downloadable', $post->download_id) }}" target="_blank" class="hover:no-underline hover:text-black px-3 font-semibold">
-                        Download link: <button type="button" class="">Download Media</button>
-                    </a>
+            @auth
+                @if (Auth::user()->checkRole() == 2 || $post->user_id == Auth::user()->id)
+                    @if ($post->sellable)
+                        <a href="{{ route('posts.downloadable', $post->download_id) }}" target="_blank" class="hover:no-underline hover:text-black px-3 font-semibold">
+                            Download link: <button type="button" class="">Download Media</button>
+                        </a>
+                    @endif
                 @endif
-            @endif
 
-            @if (Auth::user()->checkRole() == 2 || $post->user_id == Auth::user()->id)
-                @if ($post->getMedia('images')->first())
-                    <a href="{{ $post->getMedia('images')->first()->getUrl() }}" target="_blank" class="hover:no-underline hover:text-black px-3 font-semibold">
-                        See original: <button type="button" class="">Image without watermark</button>
-                    </a>
+                @if (Auth::user()->checkRole() == 2 || $post->user_id == Auth::user()->id)
+                    @if ($post->getMedia('images')->first())
+                        <a href="{{ $post->getMedia('images')->first()->getUrl() }}" target="_blank" class="hover:no-underline hover:text-black px-3 font-semibold">
+                            See original: <button type="button" class="">Image without watermark</button>
+                        </a>
+                    @endif
                 @endif
-            @endif
+            @endauth
 
 
             <div class="flex flex-row justify-between my-1 ml-2 mr-2">
