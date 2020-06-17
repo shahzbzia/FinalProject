@@ -117,14 +117,14 @@
                         <div class="flex lg:hidden flex-row justify-between my-1 ml-2 mr-2">
 
                             <div class="flex lg:hide flex-row">
-                                <a href="#"><svg id="{{ 'up-vote-small-' . $post->id }}" class="{{ ($post->checkIfUserHasVoted(1)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} up-vote mr-1 fill-current hover:{{ $themeTextHover }}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                                <a href="#"><svg id="{{ 'up-vote-small' . $post->id }}" class="{{ ($post->checkIfUserHasVoted(1)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} up-vote mr-1 fill-current hover:{{ $themeTextHover }}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
                                     <path id="arrow-48" class="cls-1" d="M2.975,14l4-.013L11.95,5.946l5.026,8.006,4-.013L11.931-.031Zm8.987-4.029L21.007,23.94,3.007,24Z"/>
                                 </svg>
                                 </a>
 
                                 <p id="{{ $post->id.'vote-counts-small' }}" class="vote-count text-sm mr-1">{{ $post->getTotalVoteCount() }}</p>
 
-                                <a href="#"><svg id="{{ 'down-vote-small-' . $post->id }}" class="{{ ($post->checkIfUserHasVoted(0)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} down-vote fill-current hover:{{ $themeTextHover }}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                                <a href="#"><svg id="iconmonstr" class="{{ ($post->checkIfUserHasVoted(0)) ? 'text-' . Auth::user()->theme->value . '-500' : '' }} down-vote fill-current hover:{{ $themeTextHover }}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
                                     <path id="arrow-48" d="M20.994,9.971l-4,.013-4.974,8.038L6.994,10.016l-4,.013L12.038,24ZM12.006,14L2.962,0.029l18-.057Z"/>
                                 </svg></a>
                             </div>
@@ -182,7 +182,6 @@
             event.preventDefault();
             var _token = '{{ Session::token() }}';
             var upPostId = $(this).attr("post-id");
-            //console.log('up');
             
             $(this).toggleClass("{{ $themeText }}");
             if($(this).hasClass("{{ $themeText }}"))
@@ -197,14 +196,13 @@
              .done(function(data){
                 $('#' + upPostId + 'vote-counts').text(data.votesCount);
                 $('#' + upPostId + 'vote-counts-small').text(data.votesCount);
-             });
+             });  
         });
 
         $('.down-vote').on('click', function(event) {
             event.preventDefault();
             var _token = '{{ Session::token() }}';
             var downPostId = $(this).attr("post-id");
-            //console.log('down');
             $(this).toggleClass("{{ $themeText }}");
             if($(this).hasClass("{{ $themeText }}"))
             {
