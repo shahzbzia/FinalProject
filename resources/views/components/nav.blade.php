@@ -43,6 +43,22 @@
     @endphp
 
     <div class="flex">
+
+      <div class="align-middle my-auto hidden md:block">
+        <a class="hover:no-underline" href="">
+          <p class="uppercase font-semibold text-white border border-white p-2 px-4">
+
+            AMMO
+
+          <div class="flex flex-row-reverse w-full">
+              <div slot="icon" class="relative">
+                  <div class="cart-total-products absolute text-xs rounded-full -mt-10 ml px-1 font-bold top-0 right-0 text-white">{{ Auth::user()->ammo }}</div>
+              </div>
+          </div>
+
+        </p></a>
+      </div>
+
       <div class="align-middle my-auto mx-6 hidden md:block">
         <a class="hover:no-underline" href="{{ route('cart.index') }}">
           <p class="uppercase font-semibold text-white border border-white p-2 px-4">
@@ -120,6 +136,8 @@
           <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('user.showUserEditForm') }}">Edit Profile</a>
 
           <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ (Auth::user()->recipientId) ? route('card.update') : route('card.create') }}">Add/Update <br> Bank Details</a>
+
+          {{-- <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="">Buy Ammo <br> <span class="text-xs font-thin">(Experimental)</span></a> --}}
 
           <a class="block px-4 py-2 text-gray-800 hover:{{ $themeBgHover }} hover:text-white hover:no-underline md:hidden lg:hidden xl:hidden" href="{{ route('contactSupport.index') }}">Contact Support</a>
 

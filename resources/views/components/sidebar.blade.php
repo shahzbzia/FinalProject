@@ -31,6 +31,11 @@
                     <a class="@if (Route::currentRouteName() == 'all.posts') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('all.posts') }}">Posts</a>
                 </li>
 
+
+                <li class="text-sm pb-4">
+                    <a class="text-black hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="">Manage shop <br> <span class="text-xs font-light">(Coming Soon)</span></a>
+                </li>
+
                 <li class="text-sm pb-4">
                     <a class="@if (Route::currentRouteName() == 'themes.index') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('themes.index') }}">Manage themes</a>
                 </li>
@@ -85,6 +90,10 @@
 
                 <li class="border text-sm p-3">
                     <a class="@if (Route::currentRouteName() == 'all.posts') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="{{ route('all.posts') }}">Posts</a>
+                </li>
+
+                <li class="border text-sm p-3">
+                    <a class="@if (Route::currentRouteName() == 'themes.index') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" href="">Manage shop <br> <span class="text-xs font-light">(Coming Soon)</span></a>
                 </li>
 
                 <li class="border text-sm p-3">
@@ -160,6 +169,11 @@
             </li>
 
             <li class="text-sm pb-4">
+                <a class="hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" 
+                href="#" onclick="buyAmmo()">Buy Ammo <br> <span class="text-xs font-thin">(Experimental)</span></a>
+            </li>
+
+            <li class="text-sm pb-4">
                 <a class="@if (Route::currentRouteName() == 'card.update' || Route::currentRouteName() == 'card.create') text-{{Auth::user()->theme->value}}-500 font-bold @else text-black @endif hover:no-underline hover:text-{{Auth::user()->theme->value}}-500" 
                 href="{{ (Auth::user()->recipientId) ? route('card.update') : route('card.create') }}">Add/Update <br> Bank Details</a>
             </li>
@@ -174,6 +188,43 @@
     </section>
 
 </aside>
+
+<div class="modal fade" id="buyAmmoModal" tabindex="-1" role="dialog" aria-labelledby="buyAmmoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form action="{{ route('buy.ammo', Auth::user()->id) }}" method="POST">
+        @csrf
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="buyAmmoModalLabel">Buy Ammo</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            
+            <form>
+                <div class="form-group">
+                    <label for="ammo" class="col-form-label">Ammount of ARTillary credits you want to buy?</label>
+                    <input type="number" class="form-control" id="ammo" name="ammo" required>
+                </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success">Buy</button>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+
+<script>
+    function buyAmmo()
+    {
+        //console.log('deleting', id);
+        $('#buyAmmoModal').modal('show');
+    }
+</script>
 
 @endif
 

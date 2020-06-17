@@ -106,6 +106,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/update/bank/details', 'UserController@updateCardPage')->name('card.update');
 	Route::put('/update/bank/details/save', 'UserController@updateCard')->name('card.saveUpdate');
 
+	Route::post('/buy/ammo/{id}', 'UserController@buyAmmo')->name('buy.ammo');
+	Route::post('/gift/ammo/{userName}/{otherUserName}', 'UserController@giftAmmo')->name('gift.ammo');
+
 
 	// Route::get('make/users', function () {
 	//     $users = factory(App\User::class, 3)->make();
@@ -117,7 +120,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['prefix' => 'admin' , 'middleware' => ['auth' => 'admin']], function(){
 
-	Route::get('/dashboard', 'AdminController@index')->name('admin.index');
+	//Route::get('/dashboard', 'AdminController@index')->name('admin.index');
 	Route::resource('themes', 'ThemesController');
 
 	Route::get('/all/disputes', 'IssueController@allIssues')->name('all.issues');

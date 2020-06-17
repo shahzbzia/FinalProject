@@ -8,10 +8,19 @@ use App\UserPostOrder;
 
 class MarketController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-    	$posts = Post::where('sellable', 1)->get();
-    	return view('marketPlace')->with('posts', $posts);
+    	$posts = Post::where('sellable', 1)->paginate(5);
+
+        if ($request->ajax()) {
+
+            return view('lazyLoadedMarketPlace')->with('posts', $posts);
+
+        }
+
+        return view('marketPlace');
+
+    	//return view('marketPlace')->with('posts', $posts);
     }
 
     public static function owned($userId, $postId): bool

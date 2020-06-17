@@ -326,6 +326,64 @@ class UserController extends Controller
         return redirect(route('home'));
     }
 
+    public function buyAmmo(Request $request, $id)
+    {
+
+        //dd($id, $request->ammo);
+
+        $ammo = $request->ammo;
+
+        if ($ammo > 0) {
+            $user = User::whereId($id)->increment('ammo', $ammo);
+
+            session()->flash('success', 'Thankyou. '.$ammo. ' ARTillary credits purchased successfully.');
+
+            return redirect()->back();
+        }
+
+        session()->flash('fail', 'You cant buy 0 ammo!');
+
+        return redirect()->back();
+
+    }
+
+    public function giftAmmo(Request $request, $userName, $otherUserName)
+    {
+
+        //dd($userName, $request->ammo, $otherUserName);
+
+        $ammo = $request->ammo;
+
+        $loggedInUser = User::where('userName', $userName)->firstOrFail();
+
+        $otherUser = User::where('userName', $otherUserName)->firstOrFail();
+
+        if ($ammo == 0) {
+
+            session()->flash('fail', 'You cant gift 0 ammo to someone!' );
+
+            return redirect()->back();
+
+        }
+
+        if ($loggedInUser->ammo < $ammo) {
+            
+            session()->flash('fail', 'Insufficent ARTillary credits to make this transaction.');
+
+            return redirect()->back();
+
+        }
+
+        $loggedInUser->decrement('ammo', $ammo);
+
+        $otherUser->increment('ammo', $ammo);
+
+        session()->flash('success', $ammo. ' ARTillary credits were gifted to ' . $otherUser->userName);
+
+        return redirect()->back();
+
+    }
+
 
 
 }

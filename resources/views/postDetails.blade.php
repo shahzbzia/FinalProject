@@ -51,18 +51,34 @@
                 </div>
             @endif
 
+            @if (Auth::user()->checkRole() == 2 || $post->user_id == Auth::user()->id)
+                @if ($post->sellable)
+                    <a href="{{ route('posts.downloadable', $post->download_id) }}" target="_blank" class="hover:no-underline hover:text-black px-3 font-semibold">
+                        Download link: <button type="button" class="">Download Media</button>
+                    </a>
+                @endif
+            @endif
+
+            @if (Auth::user()->checkRole() == 2 || $post->user_id == Auth::user()->id)
+                @if ($post->getMedia('images')->first())
+                    <a href="{{ $post->getMedia('images')->first()->getUrl() }}" target="_blank" class="hover:no-underline hover:text-black px-3 font-semibold">
+                        See original: <button type="button" class="">Image without watermark</button>
+                    </a>
+                @endif
+            @endif
+
 
             <div class="flex flex-row justify-between my-1 ml-2 mr-2">
 
                 <div class="flex flex-row">
-                    <a href="#"><svg id="iconmonstr" class=" @auth {{ ($post->checkIfUserHasVoted(1)) ? 'text-' . $themeText . '-500' : '' }} @endauth up-vote mr-1 fill-current hover:text-{{ $themeTextHover }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                    <a href="#"><svg id="iconmonstr" class=" @auth {{ ($post->checkIfUserHasVoted(1)) ? $themeText: '' }} @endauth up-vote mr-1 fill-current hover:text-{{ $themeTextHover }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
                         <path id="arrow-48" class="cls-1" d="M2.975,14l4-.013L11.95,5.946l5.026,8.006,4-.013L11.931-.031Zm8.987-4.029L21.007,23.94,3.007,24Z"/>
                     </svg>
                     </a>
 
                     <p id="{{ $post->id.'vote-counts-small' }}" class="vote-count text-sm mr-1">{{ $post->getTotalVoteCount() }}</p>
 
-                    <a href="#"><svg id="iconmonstr" class=" @auth {{ ($post->checkIfUserHasVoted(0)) ? 'text-' . $themeText . '-500' : '' }} @endauth down-vote fill-current hover:text-{{ $themeTextHover }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
+                    <a href="#"><svg id="iconmonstr" class=" @auth {{ ($post->checkIfUserHasVoted(0)) ? $themeText : '' }} @endauth down-vote fill-current hover:text-{{ $themeTextHover }}-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" post-id="{{ $post->id }}">
                         <path id="arrow-48" d="M20.994,9.971l-4,.013-4.974,8.038L6.994,10.016l-4,.013L12.038,24ZM12.006,14L2.962,0.029l18-.057Z"/>
                     </svg></a>
                 </div>
@@ -72,6 +88,39 @@
 
                     <p class="text-sm">{{ $post->comments()->count() }}</p>
                 </div>
+
+                @auth
+                        
+                        @if ($post->sellable)
+
+                <div>
+                    
+                            @if (App\Http\Controllers\MarketController::owned(Auth::user()->id, $post->id))
+
+                                <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-black text-sm text-white font-semibold rounded" disabled>OWNED</button>
+
+                            @elseif($post->user_id == Auth::user()->id)
+
+                                <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-black text-sm text-white font-semibold rounded" disabled>Posted by you</button>
+
+                            @else
+
+                                @if (\Cart::session(Auth::user()->id)->has($post->id))
+                            
+                                    <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-green-400 text-sm text-white font-semibold rounded" disabled>✔ Added to cart</button>
+
+                                @else
+
+                                    <button type="button" id="{{ $post->id.'add-to-cart-button' }}" class="add-to-cart hover:no-underline hover:text-{{ $themeTextHover }}-500 px-3 py-1 bg-gray-200 text-sm text-gray-900 font-semibold rounded" post-id="{{ $post->id }}">Add to cart</button>
+
+                                @endif
+
+                            @endif
+                        
+                </div>
+                @endif
+
+                    @endauth
             </div>
         </div>
 
@@ -199,10 +248,10 @@
             var _token = '{{ Session::token() }}';
             var upPostId = $(this).attr("post-id");
             
-            $(this).toggleClass("text-{{ $themeText }}-500");
-            if($(this).hasClass("text-{{ $themeText }}-500"))
+            $(this).toggleClass("{{ $themeText }}");
+            if($(this).hasClass("{{ $themeText }}"))
             {
-                $('.down-vote').removeClass("text-{{ $themeText }}-500");
+                $('.down-vote').removeClass("{{ $themeText }}");
             }
             $.ajax({
                 method: 'POST',
@@ -219,10 +268,10 @@
             event.preventDefault();
             var _token = '{{ Session::token() }}';
             var downPostId = $(this).attr("post-id");
-            $(this).toggleClass("text-{{ $themeTextHover }}-500");
-            if($(this).hasClass("text-{{ $themeTextHover }}-500"))
+            $(this).toggleClass("{{ $themeText }}");
+            if($(this).hasClass("{{ $themeText }}"))
             {
-                $('.up-vote').removeClass("text-{{ $themeTextHover }}-500");
+                $('.up-vote').removeClass("{{ $themeText }}");
             }
             $.ajax({
                 method: 'POST',
@@ -320,5 +369,31 @@
         $('#deletePostModal').modal('show');   
     }
 
+</script>
+
+<script>
+    //add post to the cart
+    $('.add-to-cart').on('click', function() {
+        var postId = $(this).attr('post-id');
+        //console.log(postId);
+        var _token = '{{ Session::token() }}';
+        $.ajax({
+            type: "POST",
+            url: '{{ route('cart.add') }}',
+            data: {postId:postId, _token:_token},
+            success: function(data) {
+                if (data.success) 
+                {
+                    $('#' + postId + 'add-to-cart-button').text('✔ Added to cart');
+                    $('#' + postId + 'add-to-cart-button').addClass('bg-green-400');
+                    $('#' + postId + 'add-to-cart-button').addClass('text-white');
+                    $('#' + postId + 'add-to-cart-button').attr('disabled', true);
+                    $('.cart-total-products').text(data.numOfItems);
+
+                }
+            }
+        });
+    });
+    
 </script>
 @endsection
