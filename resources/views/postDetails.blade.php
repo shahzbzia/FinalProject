@@ -95,7 +95,7 @@
 
                 @endauth
 
-                
+
                 @auth
                     
                     @if ($post->sellable)
@@ -146,7 +146,7 @@
 
 	        		<p>commenting as <a href="{{ route('user.profile', $post->user->userName) }}">{{ $post->user->userName }}</a></p>
 
-		        	<textarea name="comment" rows="5" cols="50" id="comment-textarea" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('comment') bg-red-200 @enderror" >Share your thoughts!</textarea>
+		        	<textarea name="comment" rows="5" cols="50" id="comment-textarea" class="shadow-md appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('comment') bg-red-200 @enderror" placeholder="Share your thoughts!"></textarea>
 
 		        	<div class="flex justify-end">
                         <button class="p-2 bg-blue-500 hover:bg-blue-700 rounded-lg text-xs text-white items-end" type="submit">Comment</button>

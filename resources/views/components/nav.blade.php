@@ -52,7 +52,7 @@
 
           <div class="flex flex-row-reverse w-full">
               <div slot="icon" class="relative">
-                  <div class="cart-total-products absolute text-xs rounded-full -mt-10 ml px-1 font-bold top-0 right-0 text-white">{{ Auth::user()->ammo }}</div>
+                  <div class="absolute text-xs rounded-full -mt-10 ml px-1 font-bold top-0 right-0 text-white">{{ Auth::user()->ammo }}</div>
               </div>
           </div>
 
