@@ -47,7 +47,7 @@ class IssueController extends Controller
 
     	$issue = Issue::whereId($id)->firstOrFail();
 
-    	return view('admin.issues.IssueDetails')->with('issue', $issue);
+    	return view('admin.issues.issueDetails')->with('issue', $issue);
     }
 
     public function createIssue(CreateIssueRequest $request)
