@@ -3,9 +3,14 @@
 @section('content')
 <div class="container">
 
-    <div class="align-middle mx-auto mt-12 w-full lg:w-3/5 xl:w-3/5">
+    <div class="align-middle mx-auto mt-12 w-full lg:w-3/5 xl:w-3/5"> 
 
-        <h2 class="text-2xl text-black font-bold tracking-widest uppercase font-mono mb-2 ml-4">Login</h2>
+        <div class="flex justify-between">
+            <h2 class="text-2xl text-black font-bold tracking-widest uppercase font-mono mb-2 ml-4">Login</h2>
+
+            <p>FILL IN DEMO CREDENTIALS <button type="button" class="text-red-600 font-semibold" id="login-admin-demo-button"> ADMIN </button> / <button type="button" id="login-user-demo-button" class="text-green-400 font-semibold"> USER </button></p>
+
+        </div>
 
         <form class="bg-white shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4" method="POST" action="{{ route('login') }}">
 
@@ -61,4 +66,18 @@
     </div>
 
 </div>
+
+<script>
+
+    $("#login-admin-demo-button").on("click", function(){
+        $("#email").val("shahzebzia2000@hotmail.com");
+        $("#password").val("test1234");
+    });
+
+    $("#login-user-demo-button").on("click", function(){
+        $("#email").val("Johndoe15636@hotmail.com");
+        $("#password").val("test1234");
+    });
+
+</script>
 @endsection
